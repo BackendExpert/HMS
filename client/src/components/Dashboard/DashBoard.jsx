@@ -28,7 +28,7 @@ const Dashbaord = () => {
             <div className='w-full bg-gray-200 min-h-screen'>
                 <div className="xl:flex">
                     <div
-                        className={`shadow-[5px_0_15px_-5px_rgba(0,0,0,0.1)] p-4 xl:block fixed top-0 left-0 h-full bg-white shadow-custom z-50 xl:w-[19%] w-[75%] overflow-y-auto transform duration-500 scrollbar-thin ${openside ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
+                        className={`shadow-[5px_0_15px_-5px_rgba(0,0,0,0.1)] p-0 xl:block fixed top-0 left-0 h-full bg-white shadow-custom z-50 xl:w-[19%] w-[75%] overflow-y-auto transform duration-500 scrollbar-thin ${openside ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
                             }`}
                     >
                         <DashSide />
@@ -45,14 +45,14 @@ const Dashbaord = () => {
                         )}
                     </button>
 
-                    <div className="xl:ml-[20%] w-full">
+                    <div className="xl:ml-[19%] w-full">
                         <div className="xl:-ml-4 ">
                             <DashNav />
                         </div>
-                        <div className="xl:ml-0 ml-4">
+                        <div className="xl:ml-4 ml-6 py-4">
                             <Outlet />
                         </div>
-                        <div className="xl:ml-0 ml-4">
+                        <div className="xl:ml-0">
                             <DashFooter />
                         </div>
                     </div>

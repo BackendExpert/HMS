@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import Signup from "./pages/Auth/Signup";
 import Signin from "./pages/Auth/Signin";
 import Dashbaord from "./components/Dashboard/Dashboard";
+import Home from "./pages/Dashboard/Home";
 
 
 export default function App() {
@@ -17,7 +18,7 @@ export default function App() {
         <Route path="/SignIn" element={<Signin /> } />
         <Route path="/Test" element={<HomePage /> } />
         <Route path="/Dashboard/" element={<Dashbaord /> } >
-          
+          <Route path="Home" element={<Home /> } />
         </Route>
       
       </Routes>

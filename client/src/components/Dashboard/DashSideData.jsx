@@ -1,9 +1,9 @@
 import { MdBedroomParent, MdDashboard, MdAdminPanelSettings } from "react-icons/md";
-import { FaSchool, FaUsers, FaGear } from "react-icons/fa6";
+import { FaSchool, FaUserGraduate , FaGear } from "react-icons/fa6";
 import { FaUserCog, FaUsers } from "react-icons/fa";
 
 
-const data = [
+const dashsidedata = [
     {
         id: 1,
         name: 'Dashboard',
@@ -26,7 +26,7 @@ const data = [
         id: 4,
         name: 'Students',
         link: '#',
-        icon: FaUsers
+        icon: FaUserGraduate
     },
     {
         id: 5,
@@ -53,3 +53,5 @@ const data = [
         icon: FaGear
     },
 ]
+
+export { dashsidedata }
