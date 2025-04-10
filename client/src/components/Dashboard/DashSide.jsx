@@ -24,7 +24,7 @@ const DashSide = () => {
         {/* Header */}
         <div className="text-center mb-8">
             <h1 className="text-xl font-extrabold text-gradient bg-clip-text bg-gradient-to-r from-teal-400 to-pink-500">
-                HMS | UOP
+                HMS 
             </h1>
         </div>
 
