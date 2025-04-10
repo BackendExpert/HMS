@@ -43,7 +43,7 @@ const Signin = () => {
                 <div className="w-full"></div>
                 <div className="w-full bg-white p-8 rounded-md shadow-xl">
                     <div className="">
-                        <h1 className="text-center font-semibold uppercase text-xl text-gray-500">Registation</h1>
+                        <h1 className="text-center font-semibold uppercase text-xl text-gray-500">Login</h1>
 
                         <div className="mt-4">
                             <form onSubmit={headleSubmit} method="post">
