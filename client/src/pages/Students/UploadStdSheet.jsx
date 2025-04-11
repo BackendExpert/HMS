@@ -35,16 +35,18 @@ const UploadStdSheet = () => {
                         'Authorization': `Bearer ${token}`,
                     },
                 }
-            );
-
-            if (res.data.Status === 'Success') {
-                alert('Student Data Uploaded Successfully');
-            } else {
-                alert(res.data.Error);
-            }
+            )
+            .then(res => {
+                console.log('Response:', res);
+                if(res.data.Status === "Success"){
+                    alert("Uploaded Success")
+                }
+                else{
+                    alert(res.data.Error)
+                }
+            })
         } catch (err) {
             console.error(err);
-            alert('Something went wrong during upload.');
         }
     };
 
