@@ -103,7 +103,7 @@ const AuthController = {
             const reusltnewAct = await newAct.save()
 
             if (reusltnewAct) {
-                const token = jwt.sign({ id: checkuser._id, role: checkuser.role }, process.env.JWT_SECRET);
+                const token = jwt.sign({ id: checkuser._id, role: checkuser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
                 return res.json({ Status: "Success", Result: checkuser, Token: token })
             }
             else {
