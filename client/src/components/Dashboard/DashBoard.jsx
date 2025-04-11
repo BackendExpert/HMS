@@ -35,13 +35,13 @@ const Dashbaord = () => {
                     </div>
 
                     <button
-                        className="xl:hidden fixed top-6 right-2 z-50 bg-orange-500 p-3 rounded font-semibold"
+                        className="xl:hidden fixed top-6 left-1 z-50 bg-orange-500 p-1 rounded font-semibold"
                         onClick={headlemenuopen}
                     >
                         {openside ? (
-                            <MdOutlineClose className="fill-white h-8 w-auto" />
+                            <MdOutlineClose className="fill-white h-4 w-auto" />
                         ) : (
-                            <TiThMenu className="fill-white h-8 w-auto" />
+                            <TiThMenu className="fill-white h-4 w-auto" />
                         )}
                     </button>
 
