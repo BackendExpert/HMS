@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DefultInput from '../../components/Forms/DefultInput'
 import DefultButton from '../../components/Buttons/DefultButton'
-import secureLocalStorage from 'react-secure-storage'
+
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -29,7 +29,7 @@ const Signup = () => {
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert("Registation Success")
-                        navigate('/')
+                        navigate('/SignIn')
                     }
                     else {
                         alert(res.data.Error)
