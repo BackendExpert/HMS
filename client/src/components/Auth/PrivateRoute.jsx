@@ -10,7 +10,7 @@ const PrivateRoute = ({ element }) => {
       return element;
     } else {
       // Force page reload for /
-      window.location.href = "/SignIn";
+      window.location.href = "/";
       return null; // Prevent rendering anything else
     }
 };

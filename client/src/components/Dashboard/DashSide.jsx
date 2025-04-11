@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { dashsidedata } from './DashSideData';
 import { Link } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage'
 
 const DashSide = () => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const username = secureLocalStorage.getItem('loginU')
+  const role = secureLocalStorage.getItem('loginR')
 
   useEffect(() => {
     const savedMenu = localStorage.getItem('dashmenuID');
@@ -34,8 +37,8 @@ const DashSide = () => {
           className="h-14 w-14 rounded-full border-4 border-white"
         />
         <div className="ml-4">
-          <h1 className="text-lg font-medium">s956465465</h1>
-          <p className="text-sm text-gray-400 uppercase">Admin</p>
+          <h1 className="text-lg font-medium uppercase">{username}</h1>
+          <p className="text-sm text-gray-400 uppercase">{role}</p>
         </div>
       </div>
 

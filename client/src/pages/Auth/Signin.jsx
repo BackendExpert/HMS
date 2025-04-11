@@ -89,9 +89,9 @@ const Signin = () => {
                             <div className="">
                                 <a href="" className='text-blue-600 font-semibold'>Forget Password ?</a>
                             </div>
-                            <div className="">
+                            {/* <div className="">
                                 Don't have Account ? <a href="/" className='text-blue-600 font-semibold'>Create Account</a>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

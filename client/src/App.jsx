@@ -16,8 +16,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<PageNotFound /> } />
-        <Route path="/" element={<Signup /> } />
-        <Route path="/SignIn" element={<Signin /> } />
+        <Route path="/" element={<Signin /> } />
         <Route path="/Test" element={<HomePage /> } />
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />

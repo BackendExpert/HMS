@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaUserCog } from 'react-icons/fa'
 import { FaGear, FaPowerOff } from 'react-icons/fa6'
+import secureLocalStorage from 'react-secure-storage'
 
 const DashNav = () => {
     const [menu, setmenu] = useState(false)
     const menuRef = useRef()
+
+    const username = secureLocalStorage.getItem('loginU')
+    const role = secureLocalStorage.getItem('loginR')
 
     const toggleMenu = () => {
         setmenu(!menu)
@@ -44,7 +48,7 @@ const DashNav = () => {
                 <h1 className="pl-8">Dashboard</h1>
                 <div className="pr-8 flex cursor-pointer" onClick={toggleMenu}>
                     <img src="https://avatars.githubusercontent.com/u/138636749?s=48&v=4" alt="" className='h-6 w-auto rounded-full' />
-                    <h1 className="text-sm pl-2">s956465465</h1>
+                    <h1 className="text-sm pl-2 uppercase">{username}</h1>
                 </div>
             </div>
 
@@ -59,8 +63,8 @@ const DashNav = () => {
                         alt="profile"
                         className="h-20 w-20 mx-auto rounded-full shadow-md border-2 border-gray-200"
                     />
-                    <h1 className="pt-3 text-lg font-bold text-gray-800">s956465465</h1>
-                    <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Admin</p>
+                    <h1 className="pt-3 text-lg font-bold text-gray-800">{username}</h1>
+                    <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{role}</p>
                 </div>
 
                 <div className="mt-5 border-t pt-4">
