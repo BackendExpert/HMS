@@ -44,6 +44,17 @@ const StudentController = {
         catch(err){
             console.log(err)
         }
+    },
+
+    getallStudents: async(req, res) => {
+        try{
+            const getallstd = await Student.find()
+
+            return res.json({ Result: getallstd})
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 
