@@ -49,7 +49,7 @@ const Dashbaord = () => {
                         <div className="xl:-ml-4 ">
                             <DashNav />
                         </div>
-                        <div className="xl:ml-4 ml-6 py-4">
+                        <div className="xl:ml-4 ml-6 py-4 mr-4">
                             <Outlet />
                         </div>
                         <div className="xl:ml-0">
