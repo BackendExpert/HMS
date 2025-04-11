@@ -25,7 +25,7 @@ const dashsidedata = [
     {
         id: 4,
         name: 'Students',
-        link: '#',
+        link: '/Dashboard/Students',
         icon: FaUserGraduate
     },
     {
