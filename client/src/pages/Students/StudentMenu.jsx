@@ -30,7 +30,7 @@ const stdmenu = [
         id: 4,
         name: 'Add Students',
         value: '+',
-        clickvalue: 'addstd',
+        clickvalue: 'createstd',
         icon: AlertCircle, 
         color: 'bg-gradient-to-r from-purple-500 to-pink-500',
     }

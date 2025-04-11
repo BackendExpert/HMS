@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { stdmenu } from './StudentMenu';
 import StudentTable from './StudentTable';
+import CreateStds from './CreateStds';
 
 const Students = () => {
     const totalStudents = stdmenu.find((item) => item.id === 1)?.value || 0;
@@ -11,6 +12,12 @@ const Students = () => {
         if (!totalStudents) return '0%';
         return `${((count / totalStudents) * 100).toFixed(1)}%`;
     };
+
+    const [valueclick, setvalueclick] = useState('allstd')
+
+    const headleClick = (value) => {
+        setvalueclick(value)
+    }
 
     return (
         <div className="">
@@ -39,6 +46,7 @@ const Students = () => {
                         <div
                             key={data.id}
                             className={`rounded-2xl p-5 text-white shadow-lg transform transition-all hover:scale-105 hover:shadow-xl ${data.color}`}
+                            onClick={() => headleClick(data.clickvalue)}
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <Icon className="w-10 h-10 opacity-90" />
@@ -52,8 +60,40 @@ const Students = () => {
             </div>
 
             <div className="mt-4">
-                <StudentTable />
+                {
+                    (() => {
+                        if (valueclick === "allstd") {
+                            return (
+                                <div className="mt-4">
+                                    <StudentTable />
+                                </div>
+                            )
+                        }
+                        if (valueclick === "eligible") {
+                            return (
+                                <div className="mt-4">
+                                    eligible
+                                </div>
+                            )
+                        }
+                        if (valueclick === "noteligible") {
+                            return (
+                                <div className="mt-4">
+                                    noteligible
+                                </div>
+                            )
+                        }
+                        if (valueclick === "createstd") {
+                            return (
+                                <div className="mt-4">
+                                    <CreateStds />
+                                </div>
+                            )
+                        }
+                    })()
+                }
             </div>
+
         </div>
     );
 };
