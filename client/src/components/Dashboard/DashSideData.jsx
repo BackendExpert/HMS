@@ -7,7 +7,7 @@ const dashsidedata = [
     {
         id: 1,
         name: 'Dashboard',
-        link: '#',
+        link: '/Dashboard/Home',
         icon: MdDashboard
     },
     {
