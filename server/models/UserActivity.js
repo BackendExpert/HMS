@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserActivitySchema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     activity: { type: String, required: true },
 }, {timestamps: true});
 
