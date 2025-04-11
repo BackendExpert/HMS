@@ -8,6 +8,11 @@ const DashNav = () => {
     const toggleMenu = () => {
         setmenu(!menu)
     }
+
+    const headleLogout = () => {
+        localStorage.clear()
+        window.location.reload()
+    }
     return (
         <div className='bg-white py-5'>
             <div className="flex justify-between">
@@ -49,13 +54,13 @@ const DashNav = () => {
                         <span className="text-sm font-medium">Settings</span>
                     </a>
 
-                    <a
-                        href="#"
-                        className="flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition mt-2"
+                    <div
+                        onClick={headleLogout}
+                        className="cursor-pointer flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition mt-2"
                     >
                         <FaPowerOff className="text-xl fill-red-500" />
                         <span className="text-sm font-medium text-red-500">Logout</span>
-                    </a>
+                    </div>
                 </div>
             </div>
 
