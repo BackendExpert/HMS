@@ -5,6 +5,7 @@ import Signup from "./pages/Auth/Signup";
 import Signin from "./pages/Auth/Signin";
 import Dashbaord from "./components/Dashboard/Dashboard";
 import Home from "./pages/Dashboard/Home";
+import PrivateRoute from "./components/Auth/PrivateRoute";
 
 
 export default function App() {
@@ -17,8 +18,8 @@ export default function App() {
         <Route path="/" element={<Signup /> } />
         <Route path="/SignIn" element={<Signin /> } />
         <Route path="/Test" element={<HomePage /> } />
-        <Route path="/Dashboard/" element={<Dashbaord /> } >
-          <Route path="Home" element={<Home /> } />
+        <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
+          <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
         </Route>
       
       </Routes>
