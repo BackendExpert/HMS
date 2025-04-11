@@ -1,5 +1,6 @@
 import React from 'react';
 import { stdmenu } from './StudentMenu';
+import StudentTable from './StudentTable';
 
 const Students = () => {
     const totalStudents = stdmenu.find((item) => item.id === 1)?.value || 0;
@@ -12,7 +13,7 @@ const Students = () => {
     };
 
     return (
-        <div className="p-6">
+        <div className="">
             <div className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
                 {stdmenu.map((data) => {
                     const Icon = data.icon;
@@ -48,6 +49,10 @@ const Students = () => {
                         </div>
                     );
                 })}
+            </div>
+
+            <div className="mt-4">
+                <StudentTable />
             </div>
         </div>
     );
