@@ -18,36 +18,42 @@ const dashsidedata = [
     },
     {
         id: 3,
+        name: 'My Hostel',
+        link: '#',
+        icon: FaSchool
+    },
+    {
+        id: 4,
         name: 'Rooms',
         link: '#',
         icon: MdBedroomParent
     },
     {
-        id: 4,
+        id: 5,
         name: 'Students',
         link: '/Dashboard/Students',
         icon: FaUserGraduate
     },
     {
-        id: 5,
+        id: 6,
         name: 'Warden',
         link: '#',
         icon: MdAdminPanelSettings
     },
     {
-        id: 6,
+        id: 7,
         name: 'Profile',
         link: '#',
         icon: FaUserCog,
     },
     {
-        id: 7,
+        id: 8,
         name: 'Users',
         link: '#',
         icon: FaUsers
     },
     {
-        id: 8,
+        id: 9,
         name: 'Settings',
         link: '#',
         icon: FaGear
