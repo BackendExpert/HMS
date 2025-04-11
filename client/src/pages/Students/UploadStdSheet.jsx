@@ -40,6 +40,7 @@ const UploadStdSheet = () => {
                 console.log('Response:', res);
                 if(res.data.Status === "Success"){
                     alert("Uploaded Success")
+                    window.location.reload()
                 }
                 else{
                     alert(res.data.Error)
