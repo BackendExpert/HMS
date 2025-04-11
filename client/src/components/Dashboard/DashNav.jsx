@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaUserCog } from 'react-icons/fa'
 import { FaGear, FaPowerOff } from 'react-icons/fa6'
 
 const DashNav = () => {
     const [menu, setmenu] = useState(false)
+    const menuRef = useRef()
 
     const toggleMenu = () => {
         setmenu(!menu)
@@ -13,6 +14,30 @@ const DashNav = () => {
         localStorage.clear()
         window.location.reload()
     }
+
+    // Close on outside click and Escape key
+    useEffect(() => {
+        const handler = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setmenu(false)
+            }
+        }
+
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                setmenu(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handler)
+        document.addEventListener('keydown', handleEscape)
+
+        return () => {
+            document.removeEventListener('mousedown', handler)
+            document.removeEventListener('keydown', handleEscape)
+        }
+    }, [])
+
     return (
         <div className='bg-white py-5'>
             <div className="flex justify-between">
@@ -24,8 +49,9 @@ const DashNav = () => {
             </div>
 
             <div
-                className={`absolute bg-white right-4 top-20 w-72 rounded-2xl shadow-2xl py-6 px-5 transition-all duration-300 transform 
-    ${menu ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+                ref={menuRef}
+                className={`absolute bg-white right-4 top-20 w-72 rounded-2xl shadow-2xl py-6 px-5 transition-all duration-300 transform z-20
+                ${menu ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
             >
                 <div className="text-center">
                     <img
