@@ -8,6 +8,7 @@ const CreateHostel = () => {
         hostalName: '',
         hostelLocation: '',
         hostelType: '',
+        roomCapacity: '',
     })
 
     const handleInputChange = (e) => {
@@ -60,6 +61,18 @@ const CreateHostel = () => {
                             value={createhostel.hostelLocation}
                             required
                             placeholder={"Hostel Location (Add Google Map Link)"}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="my-2">
+                        <DefultInput
+                            type={'number'}
+                            label={'Room Capacity'}
+                            name={'roomCapacity'}
+                            value={createhostel.roomCapacity}
+                            required
+                            placeholder={"Room Capacity of Hostel"}
                             onChange={handleInputChange}
                         />
                     </div>
