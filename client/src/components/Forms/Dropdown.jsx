@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dropdown = ({ label, name, value, onChange, required = false, options = [] }) => {
+const Dropdown = ({ label, name, onChange, required = false, options = [] }) => {
     return (
         <div className="mb-6">
             {label && (
@@ -11,7 +11,6 @@ const Dropdown = ({ label, name, value, onChange, required = false, options = []
             <select
                 id={name}
                 name={name}
-                value={value}
                 onChange={onChange}
                 required={required}
                 className="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-500 transition duration-200 text-gray-800"

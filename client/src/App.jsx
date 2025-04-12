@@ -7,6 +7,7 @@ import Dashbaord from "./components/Dashboard/Dashboard";
 import Home from "./pages/Dashboard/Home";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import Students from "./pages/Students/Students";
+import Hostels from "./pages/Hostels/Hostels";
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
+          <Route path="Hostels" element={<PrivateRoute element={<Hostels /> } /> } />
         </Route>
       
       </Routes>
