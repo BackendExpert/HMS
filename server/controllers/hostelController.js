@@ -1,6 +1,17 @@
 const Hostel = require("../models/Hostel");
+const User = require("../models/User");
 
 const HostelController = {
+    getWarden: async(req, res) => {
+        try{
+            const Wardenget = await User.find({ role: 'warden' })
+            return res.json({ Result: Wardenget })
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
     createHostel: async(req, res) => {
         try{
             const {
@@ -15,7 +26,7 @@ const HostelController = {
             if(checkhostel){
                 return res.json({ Error: "Hostel Already Exists"})
             }
-            
+
             const newhostel = new Hostel({
                 name: hostalName,
                 location: hostelLocation,
