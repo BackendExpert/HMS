@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { hosteldata } from './HostelData'
+import CreateHostel from './CreateHostel'
+import FemaleHostels from './FemaleHostels'
+import MaleHostels from './MaleHostels'
+import AllHostels from './AllHostels'
 
 
 const Hostels = () => {
-    const [valueclick, setvalueclick] = useState('allstd')
+    const [valueclick, setvalueclick] = useState('allhostel')
 
     const headleClick = (value) => {
         setvalueclick(value)
@@ -28,6 +32,41 @@ const Hostels = () => {
                             </div>
                         )
                     })
+                }
+            </div>
+
+            <div className="mt-4">
+                {
+                    (() => {
+                        if(valueclick === 'allhostel'){
+                            return (
+                                <div className="">
+                                    <AllHostels />
+                                </div>
+                            )
+                        }
+                        if(valueclick === 'maleh'){
+                            return (
+                                <div className="">
+                                    <MaleHostels />
+                                </div>
+                            )
+                        }
+                        if(valueclick === 'femaleh'){
+                            return (
+                                <div className="">
+                                    <FemaleHostels />
+                                </div>
+                            )
+                        }
+                        if(valueclick === 'createhostel'){
+                            return (
+                                <div className="">
+                                    <CreateHostel />
+                                </div>
+                            )
+                        }
+                    })()
                 }
             </div>
         </div>
