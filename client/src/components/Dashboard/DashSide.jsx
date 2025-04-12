@@ -43,61 +43,31 @@ const DashSide = () => {
             </div>
 
             {/* Menu Items */}
-            <div className="space-y-4"> {/* Adjusted gap here */}
-                {dashsidedata.map((data, index) => {
-                    if(role === "admin"){
-                        if(data.id !== 3){
-                            return (
-                                <Link to={data.link} key={index} className="block"> {/* 'block' helps ensure spacing applies cleanly */}
-                                    <div
-                                        className={`flex items-center space-x-4 p-3 rounded-xl cursor-pointer transition-all duration-300 
-                                        ${activeMenu === data.id ? 'bg-gray-600' : 'hover:bg-gray-700'}`}
-                                        onClick={() => handleMenuClick(data.id)}
-                                    >
-                                        <data.icon className="h-6 w-6 text-gray-300" />
-                                        <h1 className="text-lg font-medium text-white">{data.name}</h1>
-                                    </div>
-                                </Link>
-                            )
+            <div className="space-y-4">
+                {dashsidedata
+                    .filter((data) => {
+                        if (role === "admin" || role === "director") {
+                            return data.id !== 3;
                         }
-                    }
-
-                    if(role === "director"){
-                        if(data.id !== 3){
-                            return (
-                                <Link to={data.link} key={index} className="block"> {/* 'block' helps ensure spacing applies cleanly */}
-                                    <div
-                                        className={`flex items-center space-x-4 p-3 rounded-xl cursor-pointer transition-all duration-300 
-                                        ${activeMenu === data.id ? 'bg-gray-600' : 'hover:bg-gray-700'}`}
-                                        onClick={() => handleMenuClick(data.id)}
-                                    >
-                                        <data.icon className="h-6 w-6 text-gray-300" />
-                                        <h1 className="text-lg font-medium text-white">{data.name}</h1>
-                                    </div>
-                                </Link>
-                            )
+                        if (role === "warden") {
+                            return ![2, 6, 8].includes(data.id);
                         }
-                    }
-                    
-                    if(role === "warden"){
-                        if(data.id === 2 || data.id === 6 || data.id === 8){
-                            return (
-                                <Link to={data.link} key={index} className="block"> {/* 'block' helps ensure spacing applies cleanly */}
-                                    <div
-                                        className={`flex items-center space-x-4 p-3 rounded-xl cursor-pointer transition-all duration-300 
-                                        ${activeMenu === data.id ? 'bg-gray-600' : 'hover:bg-gray-700'}`}
-                                        onClick={() => handleMenuClick(data.id)}
-                                    >
-                                        <data.icon className="h-6 w-6 text-gray-300" />
-                                        <h1 className="text-lg font-medium text-white">{data.name}</h1>
-                                    </div>
-                                </Link>
-                            )
-                        }
-                    }
-
-                })}
+                        return false;
+                    })
+                    .map((data, index) => (
+                        <Link to={data.link} key={index} className="block">
+                            <div
+                                className={`flex items-center space-x-4 p-3 rounded-xl cursor-pointer transition-all duration-300 
+                                ${activeMenu === data.id ? 'bg-gray-600' : 'hover:bg-gray-700'}`}
+                                onClick={() => handleMenuClick(data.id)}
+                            >
+                                <data.icon className="h-6 w-6 text-gray-300" />
+                                <h1 className="text-lg font-medium text-white">{data.name}</h1>
+                            </div>
+                        </Link>
+                    ))}
             </div>
+
 
         </div>
     );
