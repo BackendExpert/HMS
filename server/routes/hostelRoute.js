@@ -1,9 +1,11 @@
 const express = require('express');
 const { accessMiddleware } = require('../middleware/AccessMiddleware');
 const HostelController = require('../controllers/hostelController');
+const { authMiddleware } = require('../middleware/AuthMiddleware');
+
 
 const router = express.Router();
 
-router.get('/getwardens', accessMiddleware, accessMiddleware(['admin', 'director']), HostelController.getWarden)
+router.get('/getwardens', authMiddleware, accessMiddleware(['admin', 'director']), HostelController.getWarden)
 
 module.exports = router;
