@@ -15,8 +15,13 @@ const HostelController = {
             if(checkhostel){
                 return res.json({ Error: "Hostel Already Exists"})
             }
-
             
+            const newhostel = new Hostel({
+                name: hostalName,
+                location: hostelLocation,
+                room_capacity: roomCapacity,
+                gender: hostelType
+            })
         }
         catch(err){
             console.log(err)

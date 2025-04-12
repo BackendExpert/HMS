@@ -83,8 +83,8 @@ const CreateHostel = () => {
                             name="hostelType"
                             required
                             options={[
-                                { value: "maleHostel", label: "Male Hostel" },
-                                { value: "femaleHostel", label: "Female Hostel" },
+                                { value: "Male", label: "Male Hostel" },
+                                { value: "Female", label: "Female Hostel" },
                             ]}
                         />
                     </div>
