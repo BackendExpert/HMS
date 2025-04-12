@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage'
 
 const DashSide = () => {
-    const [activeMenu, setActiveMenu] = useState(null);
+    const [activeMenu, setActiveMenu] = useState(1);
     const username = secureLocalStorage.getItem('loginU')
     const role = secureLocalStorage.getItem('loginR')
 
