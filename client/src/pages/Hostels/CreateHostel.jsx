@@ -1,13 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DefultInput from '../../components/Forms/DefultInput';
 import Dropdown from '../../components/Forms/Dropdown';
 import DefultButton from '../../components/Buttons/DefultButton';
+import axios from 'axios'
 
 const CreateHostel = () => {
+    const [getwarden, setgetwarden] = useState([])
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/hostel/getwardens', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then(res => setgetwarden(res.data.Result))
+        .catch(err => console.log(err))
+    })
+    
     const [createhostel, setcreatehostel] = useState({
         hostalName: '',
         hostelLocation: '',
         hostelType: '',
+        hostelwarden: '',
         roomCapacity: '',
     })
 
