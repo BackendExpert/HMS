@@ -79,6 +79,16 @@ const HostelController = {
         catch(err){
             console.log(err)
         }
+    },
+
+    getallhostel: async(req, res) => {
+        try{
+            const gethsotels = await Hostel.find()
+            return res.json({ Result: gethsotels})
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 

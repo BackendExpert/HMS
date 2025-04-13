@@ -8,5 +8,6 @@ const router = express.Router();
 
 router.get('/getwardens', authMiddleware, accessMiddleware(['admin', 'director']), HostelController.getWarden)
 router.post('/createhostel', authMiddleware, accessMiddleware(['admin', 'director']), HostelController.createHostel)
+router.get('/hostels', authMiddleware, accessMiddleware(['admin', 'director']), HostelController.getallhostel)
 
 module.exports = router;
