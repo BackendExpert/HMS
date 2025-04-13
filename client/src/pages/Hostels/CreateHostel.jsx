@@ -1,13 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DefultInput from '../../components/Forms/DefultInput';
 import Dropdown from '../../components/Forms/Dropdown';
 import DefultButton from '../../components/Buttons/DefultButton';
+import axios from 'axios'
 
 const CreateHostel = () => {
+    const token = localStorage.getItem('login');
+    const [getwarden, setgetwarden] = useState([])
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/hostel/getwardens', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then(res => setgetwarden(res.data.Result))
+        .catch(err => console.log(err))
+    })
+
     const [createhostel, setcreatehostel] = useState({
         hostalName: '',
         hostelLocation: '',
         hostelType: '',
+        hostelwarden: '',
         roomCapacity: '',
     })
 
@@ -22,7 +37,11 @@ const CreateHostel = () => {
     const headleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/hostel/createhostel', createhostel)
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/hostel/createhostel', createhostel, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert("Hostel Created Success")
@@ -79,12 +98,28 @@ const CreateHostel = () => {
 
                     <div className="my-2">
                         <Dropdown
+                            label="Hostel Warden"
+                            name="hostelwarden"
+                            required
+                            onChange={handleInputChange}
+                            options={
+                                getwarden.map((hwarden, index) => ({
+                                    value: hwarden.email,
+                                    label: hwarden.username + ' - ' + hwarden.email
+                                }))
+                            }
+                        />
+                    </div>
+
+                    <div className="my-2">
+                        <Dropdown
                             label="Hostel Type"
                             name="hostelType"
                             required
+                            onChange={handleInputChange}
                             options={[
-                                { value: "maleHostel", label: "Male Hostel" },
-                                { value: "femaleHostel", label: "Female Hostel" },
+                                { value: "Male", label: "Male Hostel" },
+                                { value: "Female", label: "Female Hostel" },
                             ]}
                         />
                     </div>

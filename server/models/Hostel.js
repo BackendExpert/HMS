@@ -27,10 +27,6 @@ const hostelSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Room'
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+}, {timestamps: true });
 
 module.exports = mongoose.model('Hostel', hostelSchema);
