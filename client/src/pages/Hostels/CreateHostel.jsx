@@ -37,7 +37,11 @@ const CreateHostel = () => {
     const headleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/hostel/createhostel', createhostel)
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/hostel/createhostel', createhostel, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert("Hostel Created Success")
@@ -97,6 +101,7 @@ const CreateHostel = () => {
                             label="Hostel Warden"
                             name="hostelwarden"
                             required
+                            onChange={handleInputChange}
                             options={
                                 getwarden.map((hwarden, index) => ({
                                     value: hwarden.email,
@@ -111,6 +116,7 @@ const CreateHostel = () => {
                             label="Hostel Type"
                             name="hostelType"
                             required
+                            onChange={handleInputChange}
                             options={[
                                 { value: "Male", label: "Male Hostel" },
                                 { value: "Female", label: "Female Hostel" },

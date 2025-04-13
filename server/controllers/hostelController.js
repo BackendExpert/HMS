@@ -18,21 +18,12 @@ const HostelController = {
                 hostalName,
                 hostelLocation,
                 hostelType,
+                hostelwarden,
                 roomCapacity
             } = req.body
 
-            const checkhostel = await Hostel.findOne({ name: hostalName })
+            console.log(req.body)
 
-            if(checkhostel){
-                return res.json({ Error: "Hostel Already Exists"})
-            }
-
-            const newhostel = new Hostel({
-                name: hostalName,
-                location: hostelLocation,
-                room_capacity: roomCapacity,
-                gender: hostelType
-            })
         }
         catch(err){
             console.log(err)
