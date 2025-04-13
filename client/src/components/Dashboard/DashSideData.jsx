@@ -25,7 +25,7 @@ const dashsidedata = [
     {
         id: 4,
         name: 'Rooms',
-        link: '#',
+        link: '/Dashboard/Rooms',
         icon: MdBedroomParent
     },
     {
