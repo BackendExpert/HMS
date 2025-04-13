@@ -5,8 +5,15 @@ const Warden = require("../models/Warden");
 const HostelController = {
     getWarden: async(req, res) => {
         try{
-            const Wardenget = await User.find({ role: 'warden' })
-            return res.json({ Result: Wardenget })
+            const wardens = await Warden.find({}, 'email');
+            const wardenEmails = wardens.map(w => w.email);
+    
+            const usersNotInWardenModel = await User.find({
+                role: 'warden',
+                email: { $nin: wardenEmails }
+            });
+    
+            return res.json({ Result: usersNotInWardenModel })
         }
         catch(err){
             console.log(err)
@@ -23,7 +30,7 @@ const HostelController = {
                 roomCapacity
             } = req.body
 
-            console.log(req.body)
+            // console.log(req.body)
 
             const checkhostel = await Hostel.findOne({ name: hostalName })
 
