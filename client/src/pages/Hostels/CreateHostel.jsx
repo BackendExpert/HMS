@@ -5,6 +5,7 @@ import DefultButton from '../../components/Buttons/DefultButton';
 import axios from 'axios'
 
 const CreateHostel = () => {
+    const token = localStorage.getItem('login');
     const [getwarden, setgetwarden] = useState([])
 
     useEffect(() => {
@@ -16,7 +17,7 @@ const CreateHostel = () => {
         .then(res => setgetwarden(res.data.Result))
         .catch(err => console.log(err))
     })
-    
+
     const [createhostel, setcreatehostel] = useState({
         hostalName: '',
         hostelLocation: '',
@@ -88,6 +89,20 @@ const CreateHostel = () => {
                             required
                             placeholder={"Room Capacity of Hostel"}
                             onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="my-2">
+                        <Dropdown
+                            label="Hostel Warden"
+                            name="hostelwarden"
+                            required
+                            options={
+                                getwarden.map((hwarden, index) => ({
+                                    value: hwarden.email,
+                                    label: hwarden.username + ' - ' + hwarden.email
+                                }))
+                            }
                         />
                     </div>
 
