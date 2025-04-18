@@ -73,9 +73,20 @@ const HostelController = {
                 const resultassignWarden = await WardenAssign.save()
 
                 if (resultassignWarden) {
-                    const roomCapacitySet = new Room({
-                        
-                    })
+                    const roomtosave = []
+                    
+                    for (let i; i <= roomCapacity; i++){
+                        const newRoom = new Room({
+                            roomNumber: `${hostelID}/${i}`,
+                            hostel: hostelID,
+                            gender: hostelType,
+                        })
+                        roomtosave.push(newRoom.save())
+                    }
+
+                    await Promise.all(roomtosave)
+
+                    return res.json({ Status: "Success" })
                 }
                 else {
                     return res.json({ Error: "Internal Server Error whilte Assign Warden" })
