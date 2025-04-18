@@ -8,6 +8,7 @@ import Home from "./pages/Dashboard/Home";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import Students from "./pages/Students/Students";
 import Hostels from "./pages/Hostels/Hostels";
+import Rooms from "./pages/Room/Rooms";
 
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
           <Route path="Hostels" element={<PrivateRoute element={<Hostels /> } /> } />
+          <Route path="Rooms" element={<PrivateRoute element={<Rooms /> } /> } />
         </Route>
       
       </Routes>
