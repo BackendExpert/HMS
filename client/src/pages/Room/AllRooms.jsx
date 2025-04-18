@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
-
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const AllRooms = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const roomsPerPage = 10;
+    const [roomData, setRoomData] = useState([]);
 
-    const rooms = [
-        {
-            roomNumber: 'A101',
-            hostel: 'Block A',
-            studentsCount: 3,
-            gender: 'Male',
-        },
-    ];
+    // Fetch token
+    const token = localStorage.getItem('login');
 
-    const filteredRooms = rooms.filter(room =>
-        room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        room.hostel.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        room.gender.toLowerCase().includes(searchTerm.toLowerCase())
+    // Fetch rooms
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/room/allrooms`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(res => setRoomData(res.data.Result || []))
+        .catch(err => console.error('Error fetching rooms:', err));
+    }, []);
+
+    // Filter rooms
+    const filteredRooms = roomData.filter(room =>
+        room?.roomNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        room?.hostel?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        room?.gender?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Pagination
     const indexOfLastRoom = currentPage * roomsPerPage;
     const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
     const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
@@ -58,10 +66,10 @@ const AllRooms = () => {
                     <tbody>
                         {currentRooms.length > 0 ? currentRooms.map((room, i) => (
                             <tr key={i} className="border-t hover:bg-gray-50">
-                                <td className="px-4 py-2">{room.roomNumber}</td>
-                                <td className="px-4 py-2">{room.hostel}</td>
-                                <td className="px-4 py-2">{room.studentsCount}</td>
-                                <td className="px-4 py-2">{room.gender}</td>
+                                <td className="px-4 py-2">{room?.roomNumber}</td>
+                                <td className="px-4 py-2">{room?.hostel}</td>
+                                <td className="px-4 py-2">{room?.currentOccupants}</td>
+                                <td className="px-4 py-2">{room?.gender}</td>
                                 <td className="px-4 py-2">
                                     <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">
                                         View
@@ -93,6 +101,6 @@ const AllRooms = () => {
             )}
         </div>
     );
-}
+};
 
-export default AllRooms
+export default AllRooms;

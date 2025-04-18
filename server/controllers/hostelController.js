@@ -1,4 +1,5 @@
 const Hostel = require("../models/Hostel");
+const Room = require("../models/Room");
 const User = require("../models/User");
 const Warden = require("../models/Warden");
 
@@ -24,6 +25,7 @@ const HostelController = {
         try {
             const {
                 hostalName,
+                hostelID,
                 hostelLocation,
                 hostelType,
                 hostelwarden,
@@ -32,7 +34,12 @@ const HostelController = {
 
             // console.log(req.body)
 
-            const checkhostel = await Hostel.findOne({ name: hostalName })
+            const checkhostel = await Hostel.findOne({
+                $or: [
+                    { name: hostalName },
+                    { hostelID: hostelID },
+                ]
+            })
 
             if (checkhostel) {
                 return res.json({ Error: "The Hostal Already Exists" })
@@ -42,6 +49,7 @@ const HostelController = {
 
             const newhostel = new Hostel({
                 name: hostalName,
+                hostelID: hostelID,
                 location: hostelLocation,
                 gender: hostelType,
                 room_capacity: roomCapacity,
@@ -65,7 +73,25 @@ const HostelController = {
                 const resultassignWarden = await WardenAssign.save()
 
                 if (resultassignWarden) {
-                    return res.json({ Status: "Success" })
+                    const roomtosave = []
+                    
+                    for (let i = 1; i <= roomCapacity; i++){
+                        const newRoom = new Room({
+                            roomNumber: `${hostelID}/${i}`,
+                            hostel: resultnewhost._id,
+                            gender: hostelType,
+                        })
+                        roomtosave.push(newRoom.save())
+                    }
+
+                    const resultrooma = await Promise.all(roomtosave)
+                    
+                    if(resultrooma){
+                        return res.json({ Status: "Success" })
+                    }
+                    else{
+                        return res.json({ Error: "Internal Server Error Whilte assiging room"})
+                    }
                 }
                 else {
                     return res.json({ Error: "Internal Server Error whilte Assign Warden" })

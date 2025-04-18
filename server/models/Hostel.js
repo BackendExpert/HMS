@@ -4,6 +4,12 @@ const hostelSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true
+    },
+    hostelID: {
+        type: String,
+        required: true,
+        unique: true
     },
     location: {
         type: String,

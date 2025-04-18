@@ -11,6 +11,7 @@ const ConnectDB = require('./config/DB')
 const authRoute = require('./routes/authRoute')
 const studentRoute = require('./routes/studentRoute')
 const hostelRoute = require('./routes/hostelRoute')
+const roomRoute = require('./routes/roomRoute')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,6 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', authRoute)
 app.use('/student', studentRoute)
 app.use('/hostel', hostelRoute)
+app.use('/room', roomRoute)
 
 app.get('/', (req, res) => {
     res.send(`Server running on port ${PORT}`);
