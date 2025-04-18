@@ -12,6 +12,7 @@ const StudentController = {
 
             let insertedStudents = [];
             let skippedStudents = [];
+
             for (const student of studentsFromExcel) {
                 const existingStudent = await Student.findOne({
                     $or: [
