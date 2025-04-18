@@ -24,6 +24,7 @@ const HostelController = {
         try {
             const {
                 hostalName,
+                hostelID,
                 hostelLocation,
                 hostelType,
                 hostelwarden,
@@ -32,7 +33,12 @@ const HostelController = {
 
             // console.log(req.body)
 
-            const checkhostel = await Hostel.findOne({ name: hostalName })
+            const checkhostel = await Hostel.findOne({
+                $or: [
+                    { name: hostalName },
+                    { hostelID: hostelID },
+                ]
+            })
 
             if (checkhostel) {
                 return res.json({ Error: "The Hostal Already Exists" })
