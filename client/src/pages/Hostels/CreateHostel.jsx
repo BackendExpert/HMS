@@ -20,6 +20,7 @@ const CreateHostel = () => {
 
     const [createhostel, setcreatehostel] = useState({
         hostalName: '',
+        hostelID: '',
         hostelLocation: '',
         hostelType: '',
         hostelwarden: '',
@@ -68,6 +69,18 @@ const CreateHostel = () => {
                             value={createhostel.hostalName}
                             required
                             placeholder={"Hostel Name"}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="my-2">
+                        <DefultInput
+                            type={'text'}
+                            label={'Hostel ID'}
+                            name={'hostelID'}
+                            value={createhostel.hostelID}
+                            required
+                            placeholder={"Hostel ID"}
                             onChange={handleInputChange}
                         />
                     </div>
