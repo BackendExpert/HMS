@@ -8,11 +8,11 @@ const AllRooms = () => {
     const [roomData, setRoomData] = useState([]);
 
     // Fetch token
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('login');
 
     // Fetch rooms
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_APP_API}/rooms/allrooms`, {
+        axios.get(`${import.meta.env.VITE_APP_API}/room/allrooms`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -68,7 +68,7 @@ const AllRooms = () => {
                             <tr key={i} className="border-t hover:bg-gray-50">
                                 <td className="px-4 py-2">{room?.roomNumber}</td>
                                 <td className="px-4 py-2">{room?.hostel}</td>
-                                <td className="px-4 py-2">{room?.studentsCount}</td>
+                                <td className="px-4 py-2">{room?.currentOccupants}</td>
                                 <td className="px-4 py-2">{room?.gender}</td>
                                 <td className="px-4 py-2">
                                     <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">

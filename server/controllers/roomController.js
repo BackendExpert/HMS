@@ -1,3 +1,5 @@
+const Room = require('../models/Room')
+
 const RoomController = {
     getallrooms: async(req, res) => {
         try{
