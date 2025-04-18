@@ -11,22 +11,6 @@ const RoomData = ({ btnclickvalue }) => {
             clickvalue: 'allrooms',
             style: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600',
         },
-        {
-            id: 2,
-            name: 'Assigned Rooms',
-            value: 500,
-            icon: MdBedroomParent,
-            clickvalue: 'assigned',
-            style: 'bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-600',
-        },
-        {
-            id: 3,
-            name: 'Not Assigned Rooms',
-            value: 500,
-            icon: MdBedroomParent,
-            clickvalue: 'notassigned',
-            style: 'bg-gradient-to-r from-green-400 to-emerald-600',
-        },
     ]
 
     const headleClick = (value) => {
