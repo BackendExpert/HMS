@@ -1,8 +1,11 @@
 import React from 'react'
+import RoomData from './RoomData'
 
 const AdminDirRooms = () => {
   return (
-    <div>AdminDirRooms</div>
+    <div>
+        <RoomData />
+    </div>
   )
 }
 
