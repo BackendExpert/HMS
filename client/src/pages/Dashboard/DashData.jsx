@@ -1,12 +1,36 @@
-import React from 'react';
 import { FaBed, FaMale, FaFemale } from 'react-icons/fa';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const DashData = () => {
+    const token = localStorage.getItem('login');
+    const [roomData, setRoomData] = useState([]);
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/room/allrooms`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => setRoomData(res.data.Result || []))
+            .catch(err => console.error('Error fetching rooms:', err));
+    }, []);
+
+    const [gethostels, setgethostels] = useState([])
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/hostel/hostels', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => setgethostels(res.data.Result))
+            .catch(err => console.log(err))
+    }, [])
     const data = [
         {
             id: 1,
             name: 'Hostels',
-            value: '5',
+            value: gethostels.length,
             icon: <FaBed />,
             color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600', // Gradient color
         },
@@ -27,7 +51,7 @@ const DashData = () => {
         {
             id: 4,
             name: 'Rooms',
-            value: '120',
+            value: roomData.length,
             icon: <FaBed />,
             color: 'bg-gradient-to-r from-green-400 via-teal-500 to-green-600',
         },
