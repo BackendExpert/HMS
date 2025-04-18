@@ -1,4 +1,5 @@
 const Hostel = require("../models/Hostel");
+const Room = require("../models/Room");
 const User = require("../models/User");
 const Warden = require("../models/Warden");
 
@@ -48,6 +49,7 @@ const HostelController = {
 
             const newhostel = new Hostel({
                 name: hostalName,
+                hostelID: hostelID,
                 location: hostelLocation,
                 gender: hostelType,
                 room_capacity: roomCapacity,
@@ -71,7 +73,9 @@ const HostelController = {
                 const resultassignWarden = await WardenAssign.save()
 
                 if (resultassignWarden) {
-                    return res.json({ Status: "Success" })
+                    const roomCapacitySet = new Room({
+                        
+                    })
                 }
                 else {
                     return res.json({ Error: "Internal Server Error whilte Assign Warden" })
