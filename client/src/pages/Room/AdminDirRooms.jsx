@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import RoomData from './RoomData'
-import CreateRooms from './CreateRooms'
+import AllRooms from './AllRooms'
 
 const AdminDirRooms = () => {
     const [selectedrooms, setselectedrooms] = useState('allrooms')
@@ -15,7 +15,7 @@ const AdminDirRooms = () => {
                 (() => {
                     if(selectedrooms === 'allrooms'){
                         return (
-                            <h1 className="">All Rooms</h1>
+                            <AllRooms />
                         )
                     }
                     else if(selectedrooms === 'assigned'){
@@ -30,7 +30,7 @@ const AdminDirRooms = () => {
                     }
                     else if(selectedrooms === 'addnew'){
                         return (
-                            <CreateRooms />
+                            <h1 className="">notassigned</h1>
                         )
                     }
                 })()

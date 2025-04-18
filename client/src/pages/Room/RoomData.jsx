@@ -27,14 +27,6 @@ const RoomData = ({ btnclickvalue }) => {
             clickvalue: 'notassigned',
             style: 'bg-gradient-to-r from-green-400 to-emerald-600',
         },
-        {
-            id: 4,
-            name: 'Add New Rooms',
-            value: '+',
-            icon: MdBedroomParent,
-            clickvalue: 'addnew',
-            style: 'bg-gradient-to-r from-pink-400 via-red-500 to-pink-600',
-        },
     ]
 
     const headleClick = (value) => {
@@ -43,7 +35,7 @@ const RoomData = ({ btnclickvalue }) => {
 
     return (
         <div>
-            <div className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
+            <div className="grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
                 {
                     roomdata.map((data, index) => {
                         const Icon = data.icon;
