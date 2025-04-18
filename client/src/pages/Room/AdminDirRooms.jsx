@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import RoomData from './RoomData'
 
 const AdminDirRooms = () => {
-  return (
-    <div>
-        <RoomData />
-    </div>
-  )
+    const [selectedrooms, setselectedrooms] = useState('allrooms')
+
+    const handleRoomClick = (value) => {
+        setselectedrooms(value)
+    }
+    return (
+        <div>
+            <RoomData btnclickvalue={handleRoomClick} />
+            <div className="mt-4">Selected: {selectedrooms}</div>
+        </div>
+    )
 }
 
 export default AdminDirRooms

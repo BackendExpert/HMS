@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdBedroomParent } from "react-icons/md";
 
-const RoomData = () => {
+const RoomData = ({ btnclickvalue }) => {
     const roomdata = [
         {
             id: 1,
@@ -36,6 +36,11 @@ const RoomData = () => {
             style: 'bg-gradient-to-r from-pink-400 via-red-500 to-pink-600',
         },
     ]
+
+    const headleClick = (value) => {
+        btnclickvalue(value)
+    }
+
     return (
         <div>
             <div className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
