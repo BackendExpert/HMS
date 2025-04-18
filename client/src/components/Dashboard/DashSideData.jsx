@@ -36,24 +36,18 @@ const dashsidedata = [
     },
     {
         id: 6,
-        name: 'Warden',
-        link: '#',
-        icon: MdAdminPanelSettings
-    },
-    {
-        id: 7,
         name: 'Profile',
         link: '#',
         icon: FaUserCog,
     },
     {
-        id: 8,
+        id: 7,
         name: 'Users',
         link: '#',
         icon: FaUsers
     },
     {
-        id: 9,
+        id: 8,
         name: 'Settings',
         link: '#',
         icon: FaGear
