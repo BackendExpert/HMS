@@ -1,12 +1,27 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { MdBedroomParent } from "react-icons/md";
 
+
 const RoomData = ({ btnclickvalue }) => {
+    const [roomData, setRoomData] = useState([]);
+
+    const token = localStorage.getItem('login');
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/room/allrooms`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => setRoomData(res.data.Result || []))
+            .catch(err => console.error('Error fetching rooms:', err));
+    }, []);
     const roomdata = [
         {
             id: 1,
             name: 'All Rooms',
-            value: 500,
+            value: roomData.length,
             icon: MdBedroomParent,
             clickvalue: 'allrooms',
             style: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600',
