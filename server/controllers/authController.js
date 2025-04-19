@@ -5,6 +5,7 @@ const UserActivity = require('../models/UserActivity');
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const { signin } = require('mern-mvc-gen')
+const crypto = require('crypto');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -162,6 +163,106 @@ const AuthController = {
         }
         catch (err) {
             console.log(err)
+        }
+    },
+
+    createnewuser: async(req, res) => {
+        try{
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+            const userrole = req.user.user.role;
+
+            if(userrole !== "director"){
+                return res.json({ Error: "Cannot Access"})
+            }
+
+            const {
+                indexNo,
+                username,
+                email,
+                role,
+            } = req.body
+
+            const checkuser = await User.findOne({
+                $or: [
+                    { indexNo: indexNo },
+                    { username: username },
+                    { email: email },
+                ]
+            })
+
+            if(checkuser){
+                return res.json({ Error: "This User is Already in Database"})
+            }
+
+            const rawCode = crypto.randomBytes(9).toString('base64').replace(/[^a-zA-Z0-9]/g, '').slice(0, 12);
+            const codeHash = await bcrypt.hash(rawCode, 10);
+
+            const newuser = new User({
+                indexNo: indexNo,
+                username: username,
+                password: codeHash,
+                email: email,
+                role: role,
+            })
+
+            const resultnewuser = await newuser.save()
+
+            if(resultnewuser){
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Your Access Code',
+                    text: `Hello ${username},\n\nYour access code is: ${rawCode}\n\nPlease use this code to complete your registration.\n\n⚠️ After your first login, please change your password immediately for security reasons.\n\nThank you.`
+                };
+        
+                const mailsent = await transporter.sendMail(mailOptions);
+
+                if(mailsent){
+                    return res.json({ Status: "Success"})
+                }
+                else{
+                    return res.json({ Error: "Internal Server Error while Sending emails"})
+                }                
+            }
+            else{
+                return res.json({ Error: "Internal Server Error while creating new user"})
+            }
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
+    getallusers: async(req, res) => {
+        try{
+            const allusers = await User.find()
+            return res.json({ Result: allusers })
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
+    toggleUserstatus: async(req, res) => {
+        try {
+            const { id } = req.params;
+            const { isActive } = req.body;
+    
+            const updatedUser = await User.findByIdAndUpdate(
+                id,
+                { isActive },
+                { new: true }
+            );
+    
+            if (!updatedUser) return res.status(404).json({ Error: 'User not found' });
+    
+            res.json({ Status: "Success" });
+
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ Error: 'Server error' });
         }
     }
 };
