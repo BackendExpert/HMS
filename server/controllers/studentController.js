@@ -4,6 +4,9 @@ const XLSX = require('xlsx');
 const path = require('path');
 const { model } = require('mongoose');
 const RoomAllocation = require('../models/RoomAllocation');
+const jwt = require('jsonwebtoken');
+const Warden = require('../models/Warden');
+const User = require('../models/User');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
@@ -59,7 +62,7 @@ const StudentController = {
             let skippedStudents = [];
 
             // Directly call OpenCage API for University of Peradeniya's address
-            const universityAddress = "University of Peradeniya, Peradeniya, Kandy, Sri Lanka"; 
+            const universityAddress = "University of Peradeniya, Peradeniya, Kandy, Sri Lanka";
             const apiKey = process.env.OPENCAGE_API_KEY;  // Ensure you have your OpenCage API key in environment variables
 
             const universityCoords = await geocodeWithOpenCage(universityAddress);
@@ -128,14 +131,14 @@ const StudentController = {
         }
     },
 
-    getstdbyID: async(req, res) => {
-        try{
+    getstdbyID: async (req, res) => {
+        try {
             const stdID = req.params.id
 
             const student = await Student.findById(stdID)
 
-            if(!student){
-                return res.json({ Error: "Student Not Found..."})
+            if (!student) {
+                return res.json({ Error: "Student Not Found..." })
             }
 
             const stdroomwithhostel = await RoomAllocation.findOne({ studentId: stdID })
@@ -147,11 +150,57 @@ const StudentController = {
                         model: 'Hostel'
                     }
                 })
-            
+
             return res.json({ Stundet: student, roomhostel: stdroomwithhostel })
 
         }
-        catch(err){
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    getvardenstd: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+            const email = req.user.user.email;
+
+            const varden = await User.findOne({ email: email })
+
+            if(!varden){
+                return res.json({ Error: "NO warden Found..."})
+            }
+
+            const wardenData = await Warden.findOne({ email: email })
+            .populate({
+                path: 'hostelID',
+                model: 'Hostel',
+                populate: {
+                    path: 'rooms',
+                    model: 'Room'
+                }
+            });
+
+            if (!wardenData || !wardenData.hostelID) {
+                return res.json({ error: "Warden has no hostel assigned." });
+            }
+
+            const hostelRooms = wardenData.hostelID.rooms.map(room => room._id);
+
+            const allocations = await RoomAllocation.find({
+                roomId: { $in: hostelRooms },
+                isActive: true
+            }).populate({
+                path: 'studentId',
+                model: 'Student'
+            });
+
+            const students = allocations.map(allocation => allocation.studentId);
+
+            res.json({ Result: students });                
+        }
+        catch (err) {
             console.log(err)
         }
     }
