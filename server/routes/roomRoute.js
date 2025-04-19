@@ -9,5 +9,6 @@ router.get('/allrooms', authMiddleware, accessMiddleware(['admin', 'director']),
 router.post('/roomallocation', authMiddleware, accessMiddleware(['admin', 'director']), RoomController.roomAllocationStd)
 router.get('/roomallocationData', authMiddleware, accessMiddleware(['admin', 'director']), RoomController.roomAllcationData)
 router.get('/viewRoom/:id', authMiddleware, accessMiddleware(['admin', 'director']), RoomController.ViewRoom)
+router.get('/vardenrooms', authMiddleware, accessMiddleware(['admin', 'director', 'warden']), RoomController.wardenroom)
 
 module.exports = router;
