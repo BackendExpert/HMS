@@ -31,7 +31,7 @@ const dashsidedata = [
     {
         id: 6,
         name: 'Profile',
-        link: '#',
+        link: '/Dashboard/Profile',
         icon: FaUserCog,
     },
     {
