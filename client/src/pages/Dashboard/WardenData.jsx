@@ -8,7 +8,7 @@ const WardenData = () => {
             name: 'Rooms',
             value: 0,
             icon: <FaBed />,
-            color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600', // Gradient color
+            color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600', 
         },
         {
             id: 2,
