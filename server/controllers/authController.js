@@ -163,6 +163,15 @@ const AuthController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    createnewuser: async(req, res) => {
+        try{
+
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 
