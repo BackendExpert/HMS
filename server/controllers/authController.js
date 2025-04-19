@@ -114,6 +114,55 @@ const AuthController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    updatepassviadash: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+            const email = req.user.user.email;
+
+            const checkuser = await User.findOne({ email: email })
+
+            if(!checkuser){
+                return res.json({ Error: "User Not Found..."})
+            }
+
+            const {
+                oldPass,
+                newpass,
+            } = req.body
+
+            if (newpass.length < 6) {
+                return res.json({ Error: "Password must be at least 6 characters" });
+            }
+            
+            if(oldPass === newpass){
+                return res.json({ Error: 'Passwords are same...'})
+            }
+
+
+            const isMatch = await bcrypt.compare(oldPass, checkuser.password);
+            if (!isMatch) {
+                return res.status(400).json({ Error: "Old password is incorrect" });
+            }      
+
+            const hashnewpass = await bcrypt.hash(newpass, 10);
+            checkuser.password = hashnewpass;
+            const resultsave = await checkuser.save();
+
+            if(resultsave){
+                return res.json({ Status: "Success"})
+            }
+            else{
+                return res.json({ Error: 'Internal Server Error While Updating password'})
+            }            
+
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 };
 
