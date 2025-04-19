@@ -202,8 +202,9 @@ const AuthController = {
             const newuser = new User({
                 indexNo: indexNo,
                 username: username,
+                password: codeHash,
                 email: email,
-                role: role
+                role: role,
             })
 
             const resultnewuser = await newuser.save()
