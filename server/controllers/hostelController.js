@@ -114,6 +114,27 @@ const HostelController = {
         catch (err) {
             console.log(err)
         }
+    },
+    
+    ViewHostel: async(req, res) => {
+        try{
+            const hostelID = req.params.id
+
+            const findHostel = await Hostel.findById(hostelID)
+                .populate({
+                    path: 'warden',
+                    model: 'User'
+                })
+
+            if(!findHostel){
+                return res.json({ Error: 'No Hostels Found...'})
+            }
+
+            return res.json({ Result: findHostel })
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 

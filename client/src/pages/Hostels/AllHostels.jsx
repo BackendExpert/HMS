@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const AllHostels = () => {
     const token = localStorage.getItem('login');
@@ -39,7 +40,9 @@ const AllHostels = () => {
                                     {data.warden?.email || 'No warden assigned'}
                                 </td>
                                 <td className="border px-4 py-2">
-                                    <button className="text-blue-500 hover:underline">View</button>
+                                    <Link to={'/Dashboard/ViewHostel/'+ data._id}>
+                                        <button className="text-blue-500 hover:underline">View</button>                                    
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

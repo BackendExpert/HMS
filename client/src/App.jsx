@@ -10,6 +10,8 @@ import Students from "./pages/Students/Students";
 import Hostels from "./pages/Hostels/Hostels";
 import Rooms from "./pages/Room/Rooms";
 import StudentView from "./pages/Students/StudentView";
+import ViewHostel from "./pages/Hostels/ViewHostel";
+import ViewRoom from "./pages/Room/ViewRoom";
 
 
 export default function App() {
@@ -27,6 +29,8 @@ export default function App() {
           <Route path="Hostels" element={<PrivateRoute element={<Hostels /> } /> } />
           <Route path="Rooms" element={<PrivateRoute element={<Rooms /> } /> } />
           <Route path="StudentView/:id" element={<PrivateRoute element={<StudentView /> } /> } />
+          <Route path="ViewHostel/:id" element={<PrivateRoute element={<ViewHostel /> } /> } />
+          <Route path="ViewRoom/:id" element={<PrivateRoute element={<ViewRoom /> } /> } />
         </Route>
       
       </Routes>

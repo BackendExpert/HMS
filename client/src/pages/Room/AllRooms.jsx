@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const AllRooms = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,8 +18,8 @@ const AllRooms = () => {
                 Authorization: `Bearer ${token}`,
             },
         })
-        .then(res => setRoomData(res.data.Result || []))
-        .catch(err => console.error('Error fetching rooms:', err));
+            .then(res => setRoomData(res.data.Result || []))
+            .catch(err => console.error('Error fetching rooms:', err));
     }, []);
 
     // Filter rooms
@@ -65,15 +66,18 @@ const AllRooms = () => {
                     </thead>
                     <tbody>
                         {currentRooms.length > 0 ? currentRooms.map((room, i) => (
-                            <tr key={i} className="border-t hover:bg-gray-50">
+                            <tr key={i} className="border-t hover:bg-gray-50 h-12">
                                 <td className="px-4 py-2">{room?.roomNumber}</td>
                                 <td className="px-4 py-2">{room?.hostel}</td>
                                 <td className="px-4 py-2">{room?.currentOccupants}</td>
                                 <td className="px-4 py-2">{room?.gender}</td>
                                 <td className="px-4 py-2">
-                                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">
-                                        View
-                                    </button>
+                                    <Link to={'/Dashboard/ViewRoom/' + room._id}>
+                                        <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">
+                                            View
+                                        </button>
+                                    </Link>
+
                                 </td>
                             </tr>
                         )) : (
