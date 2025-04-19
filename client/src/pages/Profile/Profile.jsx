@@ -34,6 +34,7 @@ const Profile = () => {
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert("Password Updated Success")
+                        localStorage.clear()
                         window.location.reload()
                     }
                     else {

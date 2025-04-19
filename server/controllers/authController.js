@@ -145,7 +145,7 @@ const AuthController = {
 
             const isMatch = await bcrypt.compare(oldPass, checkuser.password);
             if (!isMatch) {
-                return res.status(400).json({ Error: "Old password is incorrect" });
+                return res.json({ Error: "Old password is incorrect" });
             }      
 
             const hashnewpass = await bcrypt.hash(newpass, 10);
