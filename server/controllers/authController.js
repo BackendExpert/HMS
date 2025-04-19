@@ -233,6 +233,16 @@ const AuthController = {
         catch(err){
             console.log(err)
         }
+    },
+
+    getallusers: async(req, res) => {
+        try{
+            const allusers = await User.find()
+            return res.json({ Result: allusers })
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 
