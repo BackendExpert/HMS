@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const EligibleHostel = () => {
     const [students, setStudents] = useState([]);
@@ -105,7 +106,7 @@ const EligibleHostel = () => {
                 <table className="min-w-full text-sm text-left">
                     <thead className="bg-gray-100">
                         <tr>
-                            {["Enrolment No", "NIC", "First Name", "Gender", "Email", "Hostel", "Room", "Status", "Action"].map((heading, i) => (
+                            {["Enrolment No", "NIC", "First Name", "Gender", "Email", "Hostel", "Room", "Status"].map((heading, i) => (
                                 <th key={i} className="border px-4 py-2 font-semibold">{heading}</th>
                             ))}
                         </tr>
@@ -122,9 +123,6 @@ const EligibleHostel = () => {
                                 <td className="border px-4 py-2">{allocation.roomId?.roomNumber}</td>
                                 <td className="border px-4 py-2 text-center">
                                     <span className="bg-green-500 text-white py-1 px-2 rounded">Allocated</span>
-                                </td>
-                                <td className="border px-4 py-2">
-                                    <button className="text-blue-500 hover:underline">View</button>
                                 </td>
                             </tr>
                         ))}

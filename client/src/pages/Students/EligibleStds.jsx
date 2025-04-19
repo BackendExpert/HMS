@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const EligibleStds = () => {
     const [getallstudent, setgetallstudent] = useState([]);
@@ -87,7 +88,9 @@ const EligibleStds = () => {
                                             }
                                         </td>
                                         <td className="border px-4 py-2">
-                                            <button className="text-blue-500 hover:underline">View</button>
+                                            <Link to={`/Dashboard/StudentView/${data._id}`}>
+                                                <button className="text-blue-500 hover:underline">View</button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 )
