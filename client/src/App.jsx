@@ -13,6 +13,7 @@ import StudentView from "./pages/Students/StudentView";
 import ViewHostel from "./pages/Hostels/ViewHostel";
 import ViewRoom from "./pages/Room/ViewRoom";
 import Profile from "./pages/Profile/Profile";
+import Users from "./pages/Users/Users";
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="ViewHostel/:id" element={<PrivateRoute element={<ViewHostel /> } /> } />
           <Route path="ViewRoom/:id" element={<PrivateRoute element={<ViewRoom /> } /> } />
           <Route path="Profile" element={<PrivateRoute element={<Profile /> } /> } /> 
+          <Route path="Users" element={<PrivateRoute element={<Users /> } /> } /> 
         </Route>
       
       </Routes>
