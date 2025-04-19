@@ -28,7 +28,7 @@ const WardenData = () => {
                     >
                         <div className="flex items-center justify-between mb-4">
                             <div className="w-12 h-12 rounded-full bg-white text-gray-800 flex items-center justify-center">
-                            <FaMale />
+                                <FaMale />
                             </div>
                             <span className="text-3xl font-bold">40</span>
                         </div>
