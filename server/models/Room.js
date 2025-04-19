@@ -19,13 +19,17 @@ const RoomSchema = new mongoose.Schema({
         type: Number,
         default: 4,
     },
+    students: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student'
+    }],
     gender: {
         type: String,
         enum: ['Male', 'Female'],
         required: true,
     },
     status: {
-        type: String,   
+        type: String,
         enum: ['Availabe', 'Repair', 'Full'],
         default: 'Availabe'
     }

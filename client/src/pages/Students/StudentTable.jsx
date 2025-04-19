@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const StudentTable = () => {
     const [getallstudent, setgetallstudent] = useState([]);
@@ -15,11 +16,11 @@ const StudentTable = () => {
                 'Authorization': `Bearer ${token}`,
             },
         })
-        .then(res => {
-            setgetallstudent(res.data.Result);
-            setFilteredStudents(res.data.Result);
-        })
-        .catch(err => console.log(err));
+            .then(res => {
+                setgetallstudent(res.data.Result);
+                setFilteredStudents(res.data.Result);
+            })
+            .catch(err => console.log(err));
     }, []);
 
     useEffect(() => {
@@ -79,13 +80,15 @@ const StudentTable = () => {
                                 <td>
                                     {
                                         data.eligible === true ?
-                                        <div className="text-center bg-green-500 text-white py-1 px-2 rounded">Eligible</div>
-                                        :
-                                        <div className="text-center bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
+                                            <div className="text-center bg-green-500 text-white py-1 px-2 rounded">Eligible</div>
+                                            :
+                                            <div className="text-center bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
                                     }
                                 </td>
                                 <td className="border px-4 py-2">
-                                    <button className="text-blue-500 hover:underline">View</button>
+                                    <Link to={`/Dashboard/StudentView/${data._id}`}>
+                                        <button className="text-blue-500 hover:underline">View</button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

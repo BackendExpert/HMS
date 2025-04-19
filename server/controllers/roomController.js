@@ -16,49 +16,50 @@ const RoomController = {
 
     roomAllocationStd: async (req, res) => {
         try {
-            const eligiblestds = await Student.find({ eligible: true })
-
+            const eligiblestds = await Student.find({ eligible: true });
+    
             if (!eligiblestds || eligiblestds.length === 0) {
                 return res.json({ error: "No eligible students found" });
-
             }
+    
             const availableRooms = await Room.find({ status: 'Availabe' });
-
+    
             const genderGroupedRooms = {
                 Male: availableRooms.filter(room => room.gender === 'Male'),
                 Female: availableRooms.filter(room => room.gender === 'Female')
             };
-
+    
             for (const student of eligiblestds) {
                 const studentGender = student.gender;
-
+    
                 const room = genderGroupedRooms[studentGender].find(r => r.currentOccupants < r.capacity);
-
+    
                 if (room) {
-
+                    // Create RoomAllocation
                     await RoomAllocation.create({
                         studentId: student._id,
                         roomId: room._id
                     });
-
-
+    
+                    // Update room info
                     room.currentOccupants += 1;
-
+                    room.students.push(student._id); // Push student to room
+    
                     if (room.currentOccupants >= room.capacity) {
                         room.status = 'Full';
                     }
-
+    
                     await room.save();
                 }
             }
-
+    
             res.json({ Status: "Success" });
-
+    
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
         }
-        catch (err) {
-            console.log(err)
-        }
-    },
+    },    
 
     roomAllcationData: async (req, res) => {
         try {

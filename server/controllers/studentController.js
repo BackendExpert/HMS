@@ -1,6 +1,9 @@
 const axios = require('axios');
 const Student = require("../models/Student");
 const XLSX = require('xlsx');
+const path = require('path');
+const { model } = require('mongoose');
+const RoomAllocation = require('../models/RoomAllocation');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
@@ -122,6 +125,34 @@ const StudentController = {
         } catch (err) {
             console.log(err);
             return res.json({ Error: "Failed to fetch students" });
+        }
+    },
+
+    getstdbyID: async(req, res) => {
+        try{
+            const stdID = req.params.id
+
+            const student = await Student.findById(stdID)
+
+            if(!student){
+                return res.json({ Error: "Student Not Found..."})
+            }
+
+            const stdroomwithhostel = await RoomAllocation.findOne({ studentId: stdID })
+                .populate({
+                    path: 'roomId',
+                    model: 'Room',
+                    populate: {
+                        path: 'hostel',
+                        model: 'Hostel'
+                    }
+                })
+            
+            return res.json({ Stundet: student, roomhostel: stdroomwithhostel })
+
+        }
+        catch(err){
+            console.log(err)
         }
     }
 };
