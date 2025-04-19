@@ -50,7 +50,7 @@ const DashSide = () => {
                             return data.id !== 3;
                         }
                         if (role === "warden") {
-                            return ![2, 6, 8].includes(data.id);
+                            return ![2, 7].includes(data.id);
                         }
                         return false;
                     })
