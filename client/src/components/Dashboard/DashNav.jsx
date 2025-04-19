@@ -69,7 +69,7 @@ const DashNav = () => {
 
                 <div className="mt-5 border-t pt-4">
                     <a
-                        href="#"
+                        href="/Dashboard/Profile"
                         className="flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition"
                     >
                         <FaUserCog className="text-xl" />
