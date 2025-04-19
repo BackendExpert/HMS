@@ -13,6 +13,7 @@ const AddUser = () => {
     const token = localStorage.getItem('login');
 
     const [newuserdata, setnewuserdata] = useState({
+        indexNo: '',
         username: '',
         email: '',
         role: '',
@@ -57,6 +58,17 @@ const AddUser = () => {
 
                     <div className="mt-4">
                         <form onSubmit={headleCreateUser} method="post">
+                            <div>
+                                <DefultInput
+                                    label={"Enter Index No"}
+                                    type={'text'}
+                                    name={'indexNo'}
+                                    value={newuserdata.indexNo}
+                                    onChange={handleInputChange}
+                                    placeholder={"Index No"}
+                                    required
+                                />
+                            </div>
                             <div>
                                 <DefultInput
                                     label={"Enter Username"}
