@@ -4,7 +4,8 @@ const XLSX = require('xlsx');
 const path = require('path');
 const { model } = require('mongoose');
 const RoomAllocation = require('../models/RoomAllocation');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const Warden = require('../models/Warden');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
@@ -162,10 +163,41 @@ const StudentController = {
             const token = req.header('Authorization');
             const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
             req.user = decoded;
-            const email = req.user.email;
+            const email = req.user.user.email;
 
-            console.log(email)
+            const varden = await User.findOne({ email: email })
 
+            if(!varden){
+                return res.json({ Error: "NO warden Found..."})
+            }
+
+            const wardenData = await Warden.findOne({ email: email })
+            .populate({
+                path: 'hostelID',
+                model: 'Hostel',
+                populate: {
+                    path: 'rooms',
+                    model: 'Room'
+                }
+            });
+
+            if (!wardenData || !wardenData.hostelID) {
+                return res.json({ error: "Warden has no hostel assigned." });
+            }
+
+            const hostelRooms = wardenData.hostelID.rooms.map(room => room._id);
+
+            const allocations = await RoomAllocation.find({
+                roomId: { $in: hostelRooms },
+                isActive: true
+            }).populate({
+                path: 'studentId',
+                model: 'Student'
+            });
+
+            const students = allocations.map(allocation => allocation.studentId);
+
+            res.json({ Result: students });                
         }
         catch (err) {
             console.log(err)
