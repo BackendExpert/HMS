@@ -54,6 +54,14 @@ const StudentData = ({ btnclickvalue }) => {
             clickvalue: 'createstd',
             icon: AlertCircle,
             color: 'bg-gradient-to-r from-purple-500 to-pink-500',
+        },
+        {
+            id: 5,
+            name: 'Eligible with Hostel Assign',
+            value: '+',
+            clickvalue: 'eligiblehostel',
+            icon: Users,
+            color: 'bg-gradient-to-r from-yellow-500 to-orange-500',
         }
     ];
 

@@ -4,6 +4,7 @@ import CreateStds from './CreateStds';
 import StudentData from './StudentData';
 import EligibleStds from './EligibleStds';
 import NotEligibleStds from './NotEligibleStds';
+import EligibleHostel from './EligibleHostel';
 
 const AuthStd = () => {
 
@@ -45,6 +46,13 @@ const AuthStd = () => {
                             return (
                                 <div className="mt-4">
                                     <CreateStds />
+                                </div>
+                            )
+                        }
+                        if (valueclick === "eligiblehostel"){
+                            return (
+                                <div className="">
+                                    <EligibleHostel />
                                 </div>
                             )
                         }
