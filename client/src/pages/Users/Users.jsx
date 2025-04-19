@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import secureLocalStorage from 'react-secure-storage'
-import axios from 'axios'
-import DefultInput from '../../components/Forms/DefultInput'
-import DefultButton from '../../components/Buttons/DefultButton'
+
 import { FaUserPlus, FaUsers } from 'react-icons/fa6'
+import AllUsers from './AllUsers'
+import AddUser from './AddUser'
 
 const Users = () => {
     const username = secureLocalStorage.getItem('loginU')
@@ -43,19 +43,40 @@ const Users = () => {
                 {
                     usersdata.map((data, index) => {
                         const Icon = data.icon;
-                        return (
-                            <div
-                                key={data.id}
-                                className={`rounded-2xl p-5 text-white shadow-lg transform transition-all hover:scale-105 hover:shadow-xl ${data.style}`}
-                                onClick={() => headleClick(data.clickvalue)}
-                            >
-                                <div className="flex items-center justify-between mb-3">
-                                    <Icon className="w-10 h-10 opacity-90" />
-                                    <span className="text-3xl font-bold">{data.value}</span>
+
+                        if(role !== "director"){
+                            if(data.id !== 2 ){
+                                return (
+                                    <div
+                                        key={data.id}
+                                        className={`rounded-2xl p-5 text-white shadow-lg transform transition-all hover:scale-105 hover:shadow-xl ${data.style}`}
+                                        onClick={() => headleClick(data.clickvalue)}
+                                    >
+                                        <div className="flex items-center justify-between mb-3">
+                                            <Icon className="w-10 h-10 opacity-90" />
+                                            <span className="text-3xl font-bold">{data.value}</span>
+                                        </div>
+                                        <h2 className="text-lg font-semibold tracking-wide">{data.name}</h2>
+                                    </div>
+                                )
+                            }
+                        }
+                        else{
+                            return (
+                                <div
+                                    key={data.id}
+                                    className={`rounded-2xl p-5 text-white shadow-lg transform transition-all hover:scale-105 hover:shadow-xl ${data.style}`}
+                                    onClick={() => headleClick(data.clickvalue)}
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <Icon className="w-10 h-10 opacity-90" />
+                                        <span className="text-3xl font-bold">{data.value}</span>
+                                    </div>
+                                    <h2 className="text-lg font-semibold tracking-wide">{data.name}</h2>
                                 </div>
-                                <h2 className="text-lg font-semibold tracking-wide">{data.name}</h2>
-                            </div>
-                        )
+                            )
+                        }
+
                     })
                 }
             </div>
@@ -65,13 +86,15 @@ const Users = () => {
                     (() => {
                         if(vlauec === "allusers"){
                             return (
-                                <div className="">askdjalksd</div>
+                                <AllUsers />
                             )
                         }
                         else if(vlauec === "adduser"){
-                            return (
-                                <div className="">sdasdas</div>
-                            )
+                            if(role === "director"){
+                                return (
+                                    <AddUser />
+                                )
+                            }
                         }
                     })()
                 }
