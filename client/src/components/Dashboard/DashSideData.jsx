@@ -17,12 +17,6 @@ const dashsidedata = [
         icon: FaSchool
     },
     {
-        id: 3,
-        name: 'My Hostel',
-        link: '#',
-        icon: FaSchool
-    },
-    {
         id: 4,
         name: 'Rooms',
         link: '/Dashboard/Rooms',
