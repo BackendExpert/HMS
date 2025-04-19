@@ -2,6 +2,7 @@ import React from 'react'
 import secureLocalStorage from 'react-secure-storage'
 import AdminDashboard from './AdminDashboard';
 import DirDashbaord from './DirDashbaord';
+import WardenDashboard from './WardenDashboard';
 
 const Home = () => {
     const token = localStorage.getItem('login');
@@ -19,6 +20,11 @@ const Home = () => {
                 else if(role === "director"){
                     return (
                         <DirDashbaord />
+                    )
+                }
+                else if(role === "warden"){
+                    return (
+                        <WardenDashboard />
                     )
                 }
             })()
