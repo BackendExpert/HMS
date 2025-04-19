@@ -57,7 +57,7 @@ const StudentTable = () => {
                         <tr>
                             {[
                                 "Enrolment No", "NIC", "First Name", "Gender",
-                                "Email", "Phone No 1", "Intake", "Date of Enrolment", "Action"
+                                "Email", "Phone No 1", "Intake", "Date of Enrolment", "Eligible", "Action"
                             ].map((heading, i) => (
                                 <th key={i} className="border px-4 py-2 h-12 font-semibold">
                                     {heading}
@@ -76,6 +76,14 @@ const StudentTable = () => {
                                 <td className="border px-4 py-2">{data.phone1}</td>
                                 <td className="border px-4 py-2">{data.intake}</td>
                                 <td className="border px-4 py-2">{data.dateOfEnrolment}</td>
+                                <td>
+                                    {
+                                        data.eligible === true ?
+                                        <div className="text-center bg-green-500 text-white py-1 px-2 rounded">Eligible</div>
+                                        :
+                                        <div className="text-center bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
+                                    }
+                                </td>
                                 <td className="border px-4 py-2">
                                     <button className="text-blue-500 hover:underline">View</button>
                                 </td>
