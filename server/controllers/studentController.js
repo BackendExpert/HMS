@@ -6,6 +6,7 @@ const { model } = require('mongoose');
 const RoomAllocation = require('../models/RoomAllocation');
 const jwt = require('jsonwebtoken');
 const Warden = require('../models/Warden');
+const User = require('../models/User');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
