@@ -19,7 +19,9 @@ const StudentSchema = new mongoose.Schema({
     intake: { type: String },
     dateOfEnrolment: { type: Date },
     address1: { type: String },
-    address2: { type: String }
+    address2: { type: String },
+    distance: { type: Number },
+    eligible: { type: Boolean, default: false}
 }, { timestamps: true });
 
 const Student = mongoose.model('Student', StudentSchema);

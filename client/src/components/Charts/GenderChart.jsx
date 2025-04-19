@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -6,17 +6,38 @@ import {
     Tooltip,
     Legend
 } from "chart.js";
+import axios from 'axios'
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const GenderChart = () => {
+    const token = localStorage.getItem('login');
+    const [getallstudent, setgetallstudent] = useState([]);
+
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/student/allstudents`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => {
+                setgetallstudent(res.data.Result);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const malestds = getallstudent.filter(std => std.gender === "Male").length;
+    const femalestds = getallstudent.filter(std => std.gender === "Female").length;
+
+
     const data = {
         labels: ["Male", "Female"],
         datasets: [
             {
                 label: "Students",
-                data: [90, 120],
+                data: [malestds, femalestds],
                 backgroundColor: ["#36A2EB", "#FF6384"],
                 borderColor: ["#fff", "#fff", "#fff"],
                 borderWidth: 2,

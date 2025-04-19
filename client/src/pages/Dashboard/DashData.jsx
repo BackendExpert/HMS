@@ -26,6 +26,25 @@ const DashData = () => {
             .then(res => setgethostels(res.data.Result))
             .catch(err => console.log(err))
     }, [])
+
+    const [getallstudent, setgetallstudent] = useState([]);
+
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/student/allstudents`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => {
+                setgetallstudent(res.data.Result);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const malestds = getallstudent.filter(std => std.gender === "Male").length;
+    const femalestds = getallstudent.filter(std => std.gender === "Female").length;
+
     const data = [
         {
             id: 1,
@@ -37,14 +56,14 @@ const DashData = () => {
         {
             id: 2,
             name: 'Male Students',
-            value: '50',
+            value: malestds,
             icon: <FaMale />,
             color: 'bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-600',
         },
         {
             id: 3,
             name: 'Female Students',
-            value: '50',
+            value: femalestds,
             icon: <FaFemale />,
             color: 'bg-gradient-to-r from-pink-400 via-red-500 to-pink-600',
         },
