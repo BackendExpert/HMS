@@ -243,6 +243,27 @@ const AuthController = {
         catch(err){
             console.log(err)
         }
+    },
+
+    toggleUserstatus: async(req, res) => {
+        try {
+            const { id } = req.params;
+            const { isActive } = req.body;
+    
+            const updatedUser = await User.findByIdAndUpdate(
+                id,
+                { isActive },
+                { new: true }
+            );
+    
+            if (!updatedUser) return res.status(404).json({ Error: 'User not found' });
+    
+            res.json({ Status: "Success" });
+
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ Error: 'Server error' });
+        }
     }
 };
 
