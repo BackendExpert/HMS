@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import secureLocalStorage from 'react-secure-storage'
-import { Users, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Users } from 'lucide-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
 
 const WardenStd = () => {
     const username = secureLocalStorage.getItem('loginU')
     const role = secureLocalStorage.getItem('loginR')
     const token = localStorage.getItem('login');
 
-    const [getvardenstd, setgetvardenstd] = useState([])
+    const [getvardenstd, setgetvardenstd] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 10;
 
     useEffect(() => {
         axios.get(import.meta.env.VITE_APP_API + '/student/vardenstd', {
@@ -20,8 +21,18 @@ const WardenStd = () => {
         })
             .then(res => setgetvardenstd(res.data.Result))
             .catch(err => console.log(err))
-    }, [])
+    }, [token]);
 
+    const filteredStudents = getvardenstd.filter((student) =>
+        student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.enrolmentNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.nic.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredStudents.length / recordsPerPage);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = filteredStudents.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const stdmenu = [
         {
@@ -32,9 +43,17 @@ const WardenStd = () => {
             color: 'bg-gradient-to-r from-blue-500 to-indigo-500',
         },
     ];
+
+    const handlePageChange = (pageNum) => {
+        if (pageNum > 0 && pageNum <= totalPages) {
+            setCurrentPage(pageNum);
+        }
+    };
+
     return (
         <div>
-            <div className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
+            {/* Dashboard Card */}
+            <div className="grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 mb-6">
                 {stdmenu.map((data) => {
                     const Icon = data.icon;
                     return (
@@ -52,7 +71,20 @@ const WardenStd = () => {
                 })}
             </div>
 
-            <div className="bg-white p-4 mt-4">
+            {/* Search Input */}
+            <input
+                type="text"
+                placeholder="Search by Name, NIC or Enrolment No"
+                className="w-full p-2 mb-4 border rounded shadow"
+                value={searchTerm}
+                onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1); // reset to page 1 on search
+                }}
+            />
+
+            {/* Table */}
+            <div className="bg-white p-4 overflow-x-auto">
                 <table className="min-w-full text-sm text-left">
                     <thead className="bg-gray-100">
                         <tr>
@@ -67,7 +99,7 @@ const WardenStd = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {getvardenstd.map((data, index) => (
+                        {currentRecords.map((data, index) => (
                             <tr className="even:bg-gray-50 h-16" key={index}>
                                 <td className="border px-4 py-2">{data.enrolmentNo}</td>
                                 <td className="border px-4 py-2">{data.nic}</td>
@@ -76,24 +108,47 @@ const WardenStd = () => {
                                 <td className="border px-4 py-2">{data.email}</td>
                                 <td className="border px-4 py-2">{data.phone1}</td>
                                 <td className="border px-4 py-2">{data.intake}</td>
-                                <td className="border px-4 py-2">{data.dateOfEnrolment}</td>
-                                <td>
+                                <td className="border px-4 py-2">{new Date(data.dateOfEnrolment).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2 text-center">
                                     {
-                                        data.eligible === true ?
-                                            <div className="text-center bg-green-500 text-white py-1 px-2 rounded">Eligible</div>
-                                            :
-                                            <div className="text-center bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
+                                        data.eligible ?
+                                            <div className="bg-green-500 text-white py-1 px-2 rounded">Eligible</div> :
+                                            <div className="bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
                                     }
                                 </td>
-                                {/* <td className="border px-4 py-2">
-                                    <Link to={`/Dashboard/StudentView/${data._id}`}>
-                                        <button className="text-blue-500 hover:underline">View</button>
-                                    </Link>
-                                </td> */}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+
+                {/* Pagination */}
+                <div className="flex justify-center items-center gap-2 mt-4">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                    >
+                        Prev
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            onClick={() => handlePageChange(i + 1)}
+                            className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-500 text-white' : ''}`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
     )
