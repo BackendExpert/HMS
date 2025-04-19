@@ -46,12 +46,6 @@ const dashsidedata = [
         link: '#',
         icon: FaUsers
     },
-    {
-        id: 8,
-        name: 'Settings',
-        link: '#',
-        icon: FaGear
-    },
 ]
 
 export { dashsidedata }

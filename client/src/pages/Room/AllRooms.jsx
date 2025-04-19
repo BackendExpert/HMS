@@ -66,7 +66,7 @@ const AllRooms = () => {
                     </thead>
                     <tbody>
                         {currentRooms.length > 0 ? currentRooms.map((room, i) => (
-                            <tr key={i} className="border-t hover:bg-gray-50">
+                            <tr key={i} className="border-t hover:bg-gray-50 h-12">
                                 <td className="px-4 py-2">{room?.roomNumber}</td>
                                 <td className="px-4 py-2">{room?.hostel}</td>
                                 <td className="px-4 py-2">{room?.currentOccupants}</td>
