@@ -19,6 +19,9 @@ const StudentData = ({ btnclickvalue }) => {
             })
             .catch(err => console.log(err));
     }, []);
+
+    const eligibleCount = getallstudent.filter(std => std.eligible === true).length;
+    const notEligibleCount = getallstudent.filter(std => std.eligible === false).length;
     const stdmenu = [
         {
             id: 1,
@@ -31,7 +34,7 @@ const StudentData = ({ btnclickvalue }) => {
         {
             id: 2,
             name: 'Eligible Students',
-            value: 320,
+            value: eligibleCount,
             clickvalue: 'eligible',
             icon: CheckCircle,
             color: 'bg-gradient-to-r from-green-400 to-emerald-600',
@@ -39,7 +42,7 @@ const StudentData = ({ btnclickvalue }) => {
         {
             id: 3,
             name: 'Not Eligible Students',
-            value: 150,
+            value: notEligibleCount,
             clickvalue: 'noteligible',
             icon: XCircle,
             color: 'bg-gradient-to-r from-red-400 to-rose-600',

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import StudentTable from './StudentTable';
 import CreateStds from './CreateStds';
 import StudentData from './StudentData';
+import EligibleStds from './EligibleStds';
+import NotEligibleStds from './NotEligibleStds';
 
 const AuthStd = () => {
 
@@ -28,14 +30,14 @@ const AuthStd = () => {
                         if (valueclick === "eligible") {
                             return (
                                 <div className="mt-4">
-                                    eligible
+                                    <EligibleStds />
                                 </div>
                             )
                         }
                         if (valueclick === "noteligible") {
                             return (
                                 <div className="mt-4">
-                                    noteligible
+                                    <NotEligibleStds />
                                 </div>
                             )
                         }
