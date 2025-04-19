@@ -49,6 +49,37 @@ const WardenRooms = () => {
                     );
                 })}
             </div>
+
+            <div className="bg-white p-4">
+                <table className="min-w-full text-sm text-left">
+                    <thead className="bg-gray-100">
+                        <tr>
+                            {["Room Number", "Hostel", "Students Count", "Room Gender", "Action"].map((heading, i) => (
+                                <th key={i} className="border px-4 py-2 h-12 font-semibold whitespace-nowrap">
+                                    {heading}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {vardenrooms.map((data, index) => (
+                            <tr className="even:bg-gray-50 h-16" key={index}>
+                                <td className="border px-4 py-2">{data.roomNumber}</td>
+                                <td className="border px-4 py-2">{data.hostel?.name}</td>
+                                <td className="border px-4 py-2">{data.currentOccupants} / {data.capacity} {data.status}</td>
+                                <td className="border px-4 py-2">{data.gender}</td>
+                                <td className="border px-4 py-2 text-center">
+                                    {
+                                        data.eligible ?
+                                            <div className="bg-green-500 text-white py-1 px-2 rounded">Eligible</div> :
+                                            <div className="bg-red-500 text-white py-1 px-2 rounded">Not Eligible</div>
+                                    }
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

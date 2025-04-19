@@ -128,7 +128,11 @@ const RoomController = {
                     model: 'Hostel',
                     populate: {
                         path: 'rooms',
-                        model: 'Room'
+                        model: 'Room',
+                        populate: {
+                            path: 'hostel',
+                            model: 'Hostel'
+                        }
                     }
                 });
 
