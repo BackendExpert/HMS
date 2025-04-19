@@ -1,19 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaBed, FaMale, FaFemale } from 'react-icons/fa';
+import secureLocalStorage from 'react-secure-storage'
+import axios from 'axios'
 
 const WardenData = () => {
+    const username = secureLocalStorage.getItem('loginU')
+    const role = secureLocalStorage.getItem('loginR')
+    const token = localStorage.getItem('login');
+
+    const [getvardenstd, setgetvardenstd] = useState([]);
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/student/vardenstd', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => setgetvardenstd(res.data.Result))
+            .catch(err => console.log(err))
+    }, [token]);
+
+    const [vardenrooms, setvardenrooms] = useState([]);
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/room/vardenrooms', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => setvardenrooms(res.data.Result || []))
+            .catch(err => console.log(err));
+    }, [token]);
+
+
     const data = [
         {
             id: 1,
             name: 'Rooms',
-            value: 0,
+            value: vardenrooms.length,
             icon: <FaBed />,
-            color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600', 
+            color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600',
         },
         {
             id: 2,
             name: 'Students',
-            value: 0,
+            value: getvardenstd.length,
             icon: <FaMale />,
             color: 'bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-600',
         },
