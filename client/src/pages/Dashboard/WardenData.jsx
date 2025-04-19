@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { FaBed, FaMale, FaFemale } from 'react-icons/fa';
 import secureLocalStorage from 'react-secure-storage'
 import axios from 'axios'
+import { FaSchool, FaMedal } from "react-icons/fa";
+
 
 const WardenData = () => {
     const username = secureLocalStorage.getItem('loginU')
@@ -32,7 +34,6 @@ const WardenData = () => {
             .catch(err => console.log(err));
     }, [token]);
 
-
     const data = [
         {
             id: 1,
@@ -59,11 +60,11 @@ const WardenData = () => {
                     >
                         <div className="flex items-center justify-between mb-4">
                             <div className="w-12 h-12 rounded-full bg-white text-gray-800 flex items-center justify-center">
-                                <FaMale />
+                                <FaSchool />
                             </div>
-                            <span className="text-3xl font-bold">40</span>
+                            <span className="text-3xl font-bold"><FaMedal className='h-8 w-auto fill-yellow-500'/></span>
                         </div>
-                        <h2 className="text-xl font-semibold tracking-wide">My Hostel</h2>
+                        <h2 className="text-xl font-semibold tracking-wide">{vardenrooms[0]?.hostel?.name}</h2>
                     </div>
                 </div>
                 <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
