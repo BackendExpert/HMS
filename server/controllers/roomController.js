@@ -82,6 +82,28 @@ const RoomController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    ViewRoom: async(req, res) => {
+        try{
+            const roomID = req.params.id
+
+            const findRoom = await Room.findById(roomID)
+                .populate({
+                    path: "hostel",
+                    model: "Hostel"
+                })
+
+            if(!findRoom){
+                return res.json({ Error: 'Room not Found...'})
+            }
+
+            return res.json({ Result: findRoom })
+
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 
