@@ -3,7 +3,6 @@ const serverless = require('serverless-http');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
-const path = require('path');
 const bodyParser = require('body-parser');
 
 // Routes
@@ -13,23 +12,29 @@ const studentRoute = require('../routes/studentRoute');
 const hostelRoute = require('../routes/hostelRoute');
 const roomRoute = require('../routes/roomRoute');
 
+// Initialize Express app
 const app = express();
+
+// Connect to MongoDB
 ConnectDB();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Use routes
 app.use('/auth', authRoute);
 app.use('/student', studentRoute);
 app.use('/hostel', hostelRoute);
 app.use('/room', roomRoute);
 
+// Root route to test if API is working
 app.get('/', (req, res) => {
-  res.send('API is working');
+  res.send('Server is up and running');
 });
 
+// Export handler for serverless
 module.exports = app;
 module.exports.handler = serverless(app);
