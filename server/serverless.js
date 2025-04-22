@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/auth', authRoute);
 app.use('/student', studentRoute);
 app.use('/hostel', hostelRoute);
