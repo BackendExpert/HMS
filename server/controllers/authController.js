@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const UserActivity = require('../models/UserActivity');
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const { signin } = require('mern-mvc-gen')
 const crypto = require('crypto');
 
 const transporter = nodemailer.createTransport({
