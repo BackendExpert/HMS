@@ -123,12 +123,21 @@ const AuthController = {
                     indexNo: indexNo,
                     faculty: faculty,
                     address: address,
-                    homeDistance: '',
+                    homeDistance: distance,
                 })
 
                 const resultCreateStdWaiting = await createstdwaiting.save()
 
                 if (resultCreateStdWaiting) {
+                    const mailOptions = {
+                        from: process.env.EMAIL_USER,
+                        to: email,
+                        subject: 'Student Registration - Waiting List Confirmation',
+                        text: `Hello ${username},\n\nThank you for registering. Your account has been placed on the student waiting list.\n\n✅ Once an administrator approves your account, you will receive another email with further instructions.\n\nPlease do not reply to this email.\n\nBest regards,\nUniversity of Peradeniya`
+                    };                 
+    
+                    const mailsent = await transporter.sendMail(mailOptions);
+
                     return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })
                 }
                 else {
