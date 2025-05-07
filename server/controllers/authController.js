@@ -20,7 +20,9 @@ const AuthController = {
                 indexNo,
                 username,
                 email,
-                password
+                password,
+                address,
+                role
             } = req.body
 
             if (!validator.isEmail(email)) {
