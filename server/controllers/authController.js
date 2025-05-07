@@ -5,6 +5,7 @@ const UserActivity = require('../models/UserActivity');
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto');
+const StudentWaiting = require('../models/StudentWaiting');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -22,7 +23,8 @@ const AuthController = {
                 email,
                 password,
                 address,
-                role
+                role,
+                faculty
             } = req.body
 
             if (!validator.isEmail(email)) {
@@ -46,6 +48,39 @@ const AuthController = {
             }
 
             const hashpass = await bcrypt.hash(password, 10)
+
+            if(role === 'student'){
+                const checkstd = await StudentWaiting.findOne({
+                    $or: [
+                        { indexNo: indexNo },
+                        { username: username },
+                        { email: email },
+                    ]
+                })
+
+                if(checkstd){
+                    return res.json({ Error: "You are still on Waiting list wait for Approve by admin"})
+                }
+
+
+                const createstdwaiting = new StudentWaiting({
+                    username: username,
+                    email: email,
+                    indexNo: indexNo,
+                    faculty: faculty,
+                    address: address,
+                    homeDistance: '',
+                })
+
+                const resultCreateStdWaiting = await createstdwaiting.save()
+
+                if(resultCreateStdWaiting){
+                    return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin"})
+                }
+                else{
+                    return res.json({ Error: "Internal Server Error "})
+                }
+            }
 
             const newuser = new User({
                 indexNo: indexNo,
