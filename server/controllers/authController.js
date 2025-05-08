@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const crypto = require('crypto');
 const StudentWaiting = require('../models/StudentWaiting');
 const axios = require('axios');
+const UserOTP = require('../models/UserOTP');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -132,16 +133,62 @@ const AuthController = {
                 const resultCreateStdWaiting = await createstdwaiting.save()
 
                 if (resultCreateStdWaiting) {
-                    const mailOptions = {
-                        from: process.env.EMAIL_USER,
-                        to: email,
-                        subject: 'Student Registration - Waiting List Confirmation',
-                        text: `Hello ${username},\n\nThank you for registering. Your account has been placed on the student waiting list.\n\n✅ Once an administrator approves your account, you will receive another email with further instructions.\n\nPlease do not reply to this email.\n\nBest regards,\nUniversity of Peradeniya`
+                    const generateOTP = (length = 6) => {
+                        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+                        let otp = '';
+                        for (let i = 0; i < length; i++) {
+                            otp += chars.charAt(Math.floor(Math.random() * chars.length));
+                        }
+                        return otp;
                     };
+                
+                    const otp = generateOTP(8);
 
-                    const mailsent = await transporter.sendMail(mailOptions);
+                    const hashotp = await bcrypt.hash(otp, 10)
 
-                    return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })
+                    const newOTP = new UserOTP({
+                        email: email,
+                        otp: hashotp
+                    })
+
+                    const resultsaveotp = await newOTP.save()
+
+                    if(resultsaveotp){
+                        const mailOptions = {
+                            from: process.env.EMAIL_USER,
+                            to: email,
+                            subject: 'Student Registration - Email Verification Required',
+                            text: `Dear ${username},
+
+                            Thank you for registering with the University of Peradeniya Hostel Management System.
+                            
+                            Your account has been successfully placed on the student waiting list. To complete your registration, please verify your email address using the One-Time Password (OTP) provided below:
+                            
+                            🔐 OTP Code: ${otp}
+                            
+                            This OTP is valid for 5 minutes. Please do not share this code with anyone.
+                            
+                            Once your email is verified and your registration is approved by the university administration, you will receive a confirmation email with further instructions.
+                            
+                            If you did not request this registration, please ignore this email.
+                            
+                            Best regards,  
+                            University of Peradeniya  
+                            ICT Services Division`
+                        };
+    
+                        const mailsent = await transporter.sendMail(mailOptions);
+
+                        if(mailsent){
+                            return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })
+                        }
+                        else{
+                            return res.json({ Error: "Internal Server Error while Sending Email"})
+                        }                
+                    }
+                    else{
+                        return res.json({ Error: "Internal Server Error"})
+                    }
                 }
                 else {
                     return res.json({ Error: "Internal Server Error " })
