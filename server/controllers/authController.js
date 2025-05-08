@@ -104,7 +104,6 @@ const AuthController = {
                     return res.json({ Error: "You are still on Waiting list wait for Approve by admin" })
                 }
 
-                // 🌍 Calculate road distance from address to university
                 const studentCoords = await geocodeWithOpenCage(address);
                 const universityCoords = await geocodeWithOpenCage("University of Peradeniya");
 
@@ -114,6 +113,10 @@ const AuthController = {
                     distance = distKm ? distKm.toFixed(2) + ' km' : 'Unavailable';
                 } else {
                     distance = 'Unavailable';
+                }
+
+                if (distance === 'Unavailable') {
+                    return res.json({ Error: "Unable to calculate your home distance. Please enter a valid address." });
                 }
 
 
@@ -134,8 +137,8 @@ const AuthController = {
                         to: email,
                         subject: 'Student Registration - Waiting List Confirmation',
                         text: `Hello ${username},\n\nThank you for registering. Your account has been placed on the student waiting list.\n\n✅ Once an administrator approves your account, you will receive another email with further instructions.\n\nPlease do not reply to this email.\n\nBest regards,\nUniversity of Peradeniya`
-                    };                 
-    
+                    };
+
                     const mailsent = await transporter.sendMail(mailOptions);
 
                     return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })

@@ -85,13 +85,13 @@ const Signin = () => {
 
                             </form>
                         </div>
-                        <div className="flex justify-between mt-4">
+                        <div className="mt-4">
                             <div className="">
                                 <a href="" className='text-blue-600 font-semibold'>Forget Password ?</a>
                             </div>
-                            {/* <div className="">
-                                Don't have Account ? <a href="/" className='text-blue-600 font-semibold'>Create Account</a>
-                            </div> */}
+                            <div className="">
+                                Don't have Account ? <a href="/signup" className='text-blue-600 font-semibold'>Create Account</a>
+                            </div>
                         </div>
                     </div>
                 </div>
