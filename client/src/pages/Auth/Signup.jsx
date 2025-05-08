@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DefultInput from '../../components/Forms/DefultInput'
 import DefultButton from '../../components/Buttons/DefultButton'
+import Dropdown from '../../components/Forms/Dropdown'
 
 
 const Signup = () => {
@@ -12,7 +13,29 @@ const Signup = () => {
         username: '',
         email: '',
         password: '',
+        role: '',
+        address: '',
+        faculty: ''
     })
+
+    const facultyOptions = [
+        { label: 'Faculty of Agriculture', value: 'Faculty of Agriculture' },
+        { label: 'Faculty of Allied Health Sciences', value: 'Faculty of Allied Health Sciences' },
+        { label: 'Faculty of Arts', value: 'Faculty of Arts' },
+        { label: 'Faculty of Dental Sciences', value: 'Faculty of Dental Sciences' },
+        { label: 'Faculty of Engineering', value: 'Faculty of Engineering' },
+        { label: 'Faculty of Management', value: 'Faculty of Management' },
+        { label: 'Faculty of Medicine', value: 'Faculty of Medicine' },
+        { label: 'Faculty of Science', value: 'Faculty of Science' },
+        { label: 'Faculty of Veterinary Medicine and Animal Science', value: 'Faculty of Veterinary Medicine and Animal Science' },
+        { label: 'Postgraduate Institute of Humanities and Social Sciences (PGIHS)', value: 'Postgraduate Institute of Humanities and Social Sciences (PGIHS)' },
+        { label: 'Postgraduate Institute of Agriculture (PGIA)', value: 'Postgraduate Institute of Agriculture (PGIA)' },
+    ];
+
+    const roleusers = [
+        { label: 'Student', value: 'student' },
+        { label: 'Warden', value: 'warden' },
+    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -41,8 +64,8 @@ const Signup = () => {
         }
     }
     return (
-        <div className='bg-gray-200 min-h-screen'>
-            <div className="xl:grid grid-cols-3 gap-4 xl:py-[10%] py-[15%] xl:px-0 px-4 md:px-16">
+        <div className='bg-gray-200 min-h-screen -mb-8'>
+            <div className="xl:grid grid-cols-3 gap-4 xl:py-[5%] py-[15%] xl:px-0 px-4 md:px-16">
                 <div className="w-full"></div>
                 <div className="w-full bg-white p-8 rounded-md shadow-xl">
                     <div className="">
@@ -51,7 +74,7 @@ const Signup = () => {
                         <div className="mt-4">
                             <form onSubmit={headleSubmit} method="post">
                                 <div className="xl:flex justify-between">
-                                    <div className="my-4">
+                                    <div className="">
                                         <DefultInput
                                             label={"Enter Registaion Number"}
                                             placeholder={"Index Number"}
@@ -61,7 +84,7 @@ const Signup = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <div className="my-4">
+                                    <div className="">
                                         <DefultInput
                                             label={"Enter Username"}
                                             placeholder={"Username"}
@@ -73,7 +96,7 @@ const Signup = () => {
                                     </div>
                                 </div>
 
-                                <div className="my-1">
+                                <div className="">
                                     <DefultInput
                                         label={"Enter Email Address"}
                                         placeholder={"Email Address"}
@@ -84,7 +107,42 @@ const Signup = () => {
                                     />
                                 </div>
 
-                                <div className="my-1">
+                                <div className="">
+                                    <Dropdown
+                                        label="Enter Role Options"
+                                        name="role"
+                                        onChange={handleInputChange}
+                                        required
+                                        options={roleusers}
+                                    />
+                                </div>
+
+                                {signupdata.role === 'student' && (
+                                    <div className="xl:flex justify-between">
+                                        <div className="w-1/2">
+                                            <Dropdown
+                                                label="Enter Faculty"
+                                                name="faculty"
+                                                onChange={handleInputChange}
+                                                required
+                                                options={facultyOptions}
+                                            />
+                                        </div>
+                                        <div className="">
+                                            <DefultInput
+                                                label={"Enter Nearest City"}
+                                                placeholder={"Nearest City"}
+                                                name={'address'}
+                                                value={signupdata.address}
+                                                required
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+
+                                <div className="">
                                     <DefultInput
                                         type='password'
                                         label={"Enter Password"}
@@ -96,7 +154,7 @@ const Signup = () => {
                                     />
                                 </div>
 
-                                <DefultButton 
+                                <DefultButton
                                     btntype={'submit'}
                                     text='Create Account'
                                 />
@@ -105,7 +163,7 @@ const Signup = () => {
                         </div>
                         <div className="flex justify-between mt-4">
                             <div className="">
-                                Already have Account ? <a href="/SignIn" className='text-blue-600 font-semibold'>Login</a>
+                                Already have Account ? <a href="/" className='text-blue-600 font-semibold'>Login</a>
                             </div>
                         </div>
                     </div>

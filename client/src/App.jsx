@@ -25,6 +25,7 @@ export default function App() {
         <Route path="*" element={<PageNotFound /> } />
         <Route path="/" element={<Signin /> } />
         <Route path="/Test" element={<HomePage /> } />
+        <Route path="signup" element={<Signup /> } />
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
