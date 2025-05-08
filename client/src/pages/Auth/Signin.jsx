@@ -87,9 +87,12 @@ const Signin = () => {
                         </div>
                         <div className="mt-4">
                             <div className="">
-                                <a href="" className='text-blue-600 font-semibold'>Forget Password ?</a>
+                                <a href="/StudentEmailVerify" className='text-blue-600 font-semibold'>Verify Email (if Student)</a>
                             </div>
                             <div className="">
+                                <a href="" className='text-blue-600 font-semibold'>Forget Password ?</a>
+                            </div>
+                            <div className="text-gray-500">
                                 Don't have Account ? <a href="/signup" className='text-blue-600 font-semibold'>Create Account</a>
                             </div>
                         </div>

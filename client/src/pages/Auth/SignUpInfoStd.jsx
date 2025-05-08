@@ -25,11 +25,12 @@ const SignUpInfoStd = () => {
                     </div>
 
                     <div className="flex items-start">
-                        <Fa3 className="mt-1 text-blue-600 w-5 h-5" />
+                        <Fa3 className="mt-1 text-blue-600 h-16 w-auto" />
                         <p className="ml-3 text-gray-600">
-                            Verify your university email address. After registration, you’ll be redirected to an OTP verification page. An OTP will be sent to your entered email.
+                            Verify your university email address. After registration, you’ll be redirected to a Login Page. In the Login page, you will need to <span className="text-red-600">Verify Email</span>, and use the <span className="text-red-600">OTP</span> that has already been sent to your email. Verify your email within <span className="text-red-600">5 minutes</span>; otherwise, you cannot verify your email and cannot continue the process. If you face this issue, please <span className="text-red-600">contact the administrator</span>.
                         </p>
                     </div>
+
 
                     <div className="flex items-start">
                         <Fa4 className="mt-1 text-blue-600 w-5 h-5" />
