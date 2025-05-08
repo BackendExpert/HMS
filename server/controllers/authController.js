@@ -227,8 +227,7 @@ const AuthController = {
         try {
             const { email, otp } = req.body;
 
-            console.log("Incoming email:", email);
-    
+   
             const checkotpuser = await UserOTP.findOne({ email });
     
             if (!checkotpuser) {
