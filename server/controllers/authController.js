@@ -310,6 +310,19 @@ const AuthController = {
         }
     },
 
+    forgetpass: async(req, res) => {
+        try{
+            const {
+                email
+            } = req.body
+
+            
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
     updatepassviadash: async (req, res) => {
         try {
             const token = req.header('Authorization');
