@@ -52,7 +52,7 @@ const Signup = () => {
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert("Registation Success")
-                        navigate('/SignIn')
+                        navigate('/')
                     }
                     else {
                         alert(res.data.Error)
