@@ -7,6 +7,7 @@ const StudentWaitingSchema = new mongoose.Schema({
     faculty: { type: String, required: true },
     address: { type: String, required: true },
     homeDistance: { type: String, required: true },
+    isVerifyEmail: { type: Boolean, required: true, default: false },
     isApprove: { type: Boolean, required: true, default: false },
 }, { timestamps: true }); 
 
