@@ -14,6 +14,7 @@ import ViewHostel from "./pages/Hostels/ViewHostel";
 import ViewRoom from "./pages/Room/ViewRoom";
 import Profile from "./pages/Profile/Profile";
 import Users from "./pages/Users/Users";
+import SignUpInfoStd from "./pages/Auth/SignUpInfoStd";
 
 
 export default function App() {
@@ -25,7 +26,8 @@ export default function App() {
         <Route path="*" element={<PageNotFound /> } />
         <Route path="/" element={<Signin /> } />
         <Route path="/Test" element={<HomePage /> } />
-        <Route path="signup" element={<Signup /> } />
+        <Route path="/signup" element={<Signup /> } />
+        <Route path="/signupInfo" element={<SignUpInfoStd /> } />
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />

@@ -167,6 +167,12 @@ const Signup = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="">
+                        <div className="text-sm text-gray-500 font-sembold">
+                            How to Register on Hostal Management System ? <a href="/signupInfo" className='font-semibold text-blue-600 duration-500 hover:underline'>Student SignUp Guide</a>
+                        </div>
+                    </div>
                 </div>
                 <div className="w-full"></div>
             </div>
