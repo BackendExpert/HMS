@@ -223,6 +223,50 @@ const AuthController = {
         }
     },
 
+    stdemailverify: async(req, res) => {
+        try {
+            const { email, otp } = req.body;
+
+            console.log("Incoming email:", email);
+    
+            const checkotpuser = await UserOTP.findOne({ email });
+    
+            if (!checkotpuser) {
+                return res.json({ Error: "No Records found by Given Email address" });
+            }
+    
+
+            const isValid = await bcrypt.compare(otp, checkotpuser.otp);
+    
+            if (!isValid) {
+                return res.json({ Error: "The Given OTP Cannot Be Verified. Please Check the OTP." });
+            }
+    
+
+            const updateStdWaitinglist = await StudentWaiting.findOneAndUpdate(
+                { email },
+                { $set: { isVerifyEmail: true } },
+                { new: true }
+            );
+    
+            if (!updateStdWaitinglist) {
+                return res.json({ Error: "Student record not found to update verification." });
+            }
+    
+
+            await UserOTP.findOneAndDelete({ email });
+    
+            return res.json({
+                Status: "Success",
+                Message: "The Email Verification Was Successful"
+            });
+    
+        } catch (err) {
+            console.error("Verification error:", err);
+            return res.status(500).json({ Error: "Internal Server Error" });
+        }
+    },
+
     signin: async (req, res) => {
         try {
             const {
