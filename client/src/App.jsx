@@ -15,6 +15,7 @@ import ViewRoom from "./pages/Room/ViewRoom";
 import Profile from "./pages/Profile/Profile";
 import Users from "./pages/Users/Users";
 import SignUpInfoStd from "./pages/Auth/SignUpInfoStd";
+import EmailVerifyStd from "./pages/Auth/EmailVerifyStd";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/Test" element={<HomePage /> } />
         <Route path="/signup" element={<Signup /> } />
         <Route path="/signupInfo" element={<SignUpInfoStd /> } />
+        <Route path="/StudentEmailVerify" element={<EmailVerifyStd /> } />
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
