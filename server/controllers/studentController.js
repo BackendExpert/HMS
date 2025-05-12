@@ -7,6 +7,7 @@ const RoomAllocation = require('../models/RoomAllocation');
 const jwt = require('jsonwebtoken');
 const Warden = require('../models/Warden');
 const User = require('../models/User');
+const StudentWaiting = require('../models/StudentWaiting');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
@@ -168,19 +169,19 @@ const StudentController = {
 
             const varden = await User.findOne({ email: email })
 
-            if(!varden){
-                return res.json({ Error: "NO warden Found..."})
+            if (!varden) {
+                return res.json({ Error: "NO warden Found..." })
             }
 
             const wardenData = await Warden.findOne({ email: email })
-            .populate({
-                path: 'hostelID',
-                model: 'Hostel',
-                populate: {
-                    path: 'rooms',
-                    model: 'Room'
-                }
-            });
+                .populate({
+                    path: 'hostelID',
+                    model: 'Hostel',
+                    populate: {
+                        path: 'rooms',
+                        model: 'Room'
+                    }
+                });
 
             if (!wardenData || !wardenData.hostelID) {
                 return res.json({ error: "Warden has no hostel assigned." });
@@ -198,7 +199,41 @@ const StudentController = {
 
             const students = allocations.map(allocation => allocation.studentId);
 
-            res.json({ Result: students });                
+            res.json({ Result: students });
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    getallstdwaiting: async (req, res) => {
+        try {
+            const allwaitingstds = await StudentWaiting.find()
+
+            return res.json({ Result: allwaitingstds })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    approveStd: async (req, res) => {
+        try {
+            const { email } = req.params.email
+
+            const getstudentwaiting = await StudentWaiting.findOne({ email: email })
+
+            let rawDistance = getstudentwaiting.distance
+
+            const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
+            console.log(distanceInt);
+            
+            const newstudent = new Student({
+                indexNo: getstudentwaiting.indexNo,
+                email: getstudentwaiting.email,
+                distance: distanceInt
+            })
+
         }
         catch (err) {
             console.log(err)
