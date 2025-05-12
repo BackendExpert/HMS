@@ -73,7 +73,7 @@ const Signup = () => {
                         <h1 className="text-center font-semibold uppercase text-xl text-gray-500">Registation</h1>
                         <h1 className="my-4">
                             <span className='text-red-500 font-semibold uppercase'>important :</span>
-                            <span className="text-gray-500"> Please Read <span className='text-blue-500 font-semibold'>Student Sign-Up Guide</span> before the Regisation</span>
+                            <span className="text-gray-500"> Please Read <span className='text-blue-500 font-semibold'>Student Sign-Up Guide</span> before the Registation</span>
                         </h1>
                         <hr />
                         <div className="mt-4">

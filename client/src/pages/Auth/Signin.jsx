@@ -90,7 +90,7 @@ const Signin = () => {
                         <div className="">
                             <div className="mt-4">
                                 <div className="">
-                                    <a href="" className='text-blue-600 font-semibold'>Forget Password ?</a>
+                                    <a href="/Forgetpass" className='text-blue-600 font-semibold'>Forget Password ?</a>
                                 </div>
 
                                 <div className="md:flex justify-between mt-4">

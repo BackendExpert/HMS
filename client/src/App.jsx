@@ -16,6 +16,8 @@ import Profile from "./pages/Profile/Profile";
 import Users from "./pages/Users/Users";
 import SignUpInfoStd from "./pages/Auth/SignUpInfoStd";
 import EmailVerifyStd from "./pages/Auth/EmailVerifyStd";
+import Forgetpass from "./pages/Auth/Forgetpass";
+import VerifyOPTPass from "./pages/Auth/VerifyOPTPass";
 
 
 export default function App() {
@@ -30,6 +32,10 @@ export default function App() {
         <Route path="/signup" element={<Signup /> } />
         <Route path="/signupInfo" element={<SignUpInfoStd /> } />
         <Route path="/StudentEmailVerify" element={<EmailVerifyStd /> } />
+        <Route path="/Forgetpass" element={<Forgetpass /> } />
+        <Route path="/VerifyOPTPass" element={<VerifyOPTPass /> } />
+
+
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
