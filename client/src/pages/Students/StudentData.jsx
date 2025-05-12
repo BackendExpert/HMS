@@ -62,7 +62,16 @@ const StudentData = ({ btnclickvalue }) => {
             clickvalue: 'eligiblehostel',
             icon: Users,
             color: 'bg-gradient-to-r from-yellow-500 to-orange-500',
-        }
+        },
+        {
+            id: 6,
+            name: 'Student Waiting List',
+            value: 50,
+            clickvalue: 'waitinglist',
+            icon: AlertCircle,
+            color: 'bg-gradient-to-r from-purple-500 to-pink-500',
+        },
+
     ];
 
     const headleClick = (value) => {

@@ -5,6 +5,7 @@ import StudentData from './StudentData';
 import EligibleStds from './EligibleStds';
 import NotEligibleStds from './NotEligibleStds';
 import EligibleHostel from './EligibleHostel';
+import StudentWaiting from './StudentWaiting';
 
 const AuthStd = () => {
 
@@ -16,7 +17,7 @@ const AuthStd = () => {
 
     return (
         <div className="">
-            <StudentData btnclickvalue={headleClick}/>
+            <StudentData btnclickvalue={headleClick} />
 
             <div className="mt-4">
                 {
@@ -49,10 +50,17 @@ const AuthStd = () => {
                                 </div>
                             )
                         }
-                        if (valueclick === "eligiblehostel"){
+                        if (valueclick === "eligiblehostel") {
                             return (
                                 <div className="">
                                     <EligibleHostel />
+                                </div>
+                            )
+                        }
+                        if (valueclick === "waitinglist") {
+                            return (
+                                <div className="">
+                                    <StudentWaiting />
                                 </div>
                             )
                         }
