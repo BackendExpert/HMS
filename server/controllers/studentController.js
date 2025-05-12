@@ -234,6 +234,14 @@ const StudentController = {
                 distance: distanceInt
             })
 
+            const resultnewstudent = await newstudent.save()
+
+            if(resultnewstudent){
+                return res.json({ Status: "Success", Message: "Student Approved Success"})
+            }
+            else{
+                return res.json({ Error: "Internl Server Error"})
+            }
         }
         catch (err) {
             console.log(err)
