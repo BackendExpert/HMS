@@ -42,7 +42,7 @@ const DashNav = () => {
     }, [])
 
     return (
-        <div className="relative z-50 bg-white border-b border-gray-200 shadow-sm py-4 px-6 rounded-b-2xl">
+        <div className="relative z-50 bg-white shadow-sm py-4 px-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-xl font-bold tracking-wide text-emerald-600">Dashboard</h1>
                 <div className="flex items-center gap-4 cursor-pointer" onClick={toggleMenu}>
