@@ -235,22 +235,19 @@ const StudentController = {
             )
 
             if (approvestd) {
-                if (distanceInt > 50) {
-                    const newstudent = new Student({
-                        indexNo: getstudentwaiting.indexNo,
-                        email: getstudentwaiting.email,
-                        distance: distanceInt,
-                        eligible: true
-                    })
+                const newstudent = new Student({
+                    indexNo: getstudentwaiting.indexNo,
+                    email: getstudentwaiting.email,
+                    distance: distanceInt
+                })
 
-                    const resultnewstudent = await newstudent.save()
+                const resultnewstudent = await newstudent.save()
 
-                    if (resultnewstudent) {
-                        return res.json({ Status: "Success", Message: "Student Approved Success" })
-                    }
-                    else {
-                        return res.json({ Error: "Internl Server Error" })
-                    }
+                if (resultnewstudent) {
+                    return res.json({ Status: "Success", Message: "Student Approved Success" })
+                }
+                else {
+                    return res.json({ Error: "Internl Server Error" })
                 }
             }
 
