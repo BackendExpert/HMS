@@ -25,11 +25,11 @@ const UpdatePass = () => {
 
     const headleUpdatePass = async (e) => {
         e.preventDefault()
+        if (updatepassdata.newpass !== updatepassdata.confirmmewpass) {
+            alert("Password Not Match")
+            return
+        }
         try {
-            if(updatepassdata.newpass !== updatepassdata.confirmmewpass){
-                alert("Password Not Match")
-            }
-
             const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/passupdate', updatepassdata, {
                 headers: {
                     'Authorization': `Bearer ${passtoken}`,
@@ -81,7 +81,7 @@ const UpdatePass = () => {
                         label="Confirm New Password"
                         type="password"
                         name="confirmmewpass"
-                        value={otpdata.confirmmewpass}
+                        value={updatepassdata.confirmmewpass}
                         onChange={handleInputChange}
                         placeholder="Re-Type Password"
                         required
