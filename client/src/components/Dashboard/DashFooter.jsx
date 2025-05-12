@@ -9,7 +9,7 @@ const DashFooter = () => {
                 Engineered by
                 <a href="https://blackalphalabs.vercel.app" target='_blank' className='text-emerald-500 font-medium ml-1 hover:underline'>BLACK ALPHA LABS</a>
             </h1>
-            <p className="text-gray-400 mt-2 md:mt-0">version 1.0</p>
+            <p className="text-gray-400 mt-2 md:mt-0">version 2.0</p>
         </div>
 
 
