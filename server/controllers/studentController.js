@@ -246,6 +246,36 @@ const StudentController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    accesstosystem: async(req, res) => {
+        try{
+            const email = req.params.email
+
+            const checkstd = await StudentWaiting.findOne({ email: email })
+
+            const createStdAccount = new User({
+                indexNo: checkstd.indexNo,
+                username: checkstd.username,
+                email: checkstd.email,
+                role: 'student',
+                faculty: checkstd.faculty,
+                password: checkstd.password,
+                isActive: true
+            })
+
+            const resultstdacc = await createStdAccount.save()
+
+            if(resultstdacc){
+                return res.json({ Status: "Success", Message: "Student Account Created Success"})
+            }
+            else{
+                return res.json({ Error: "Internal Server Error"})
+            }
+        }
+        catch (err){
+            console.log(err)
+        }
     }
 };
 
