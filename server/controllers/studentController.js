@@ -219,11 +219,11 @@ const StudentController = {
 
     approveStd: async (req, res) => {
         try {
-            const { email } = req.params.email
+            const email = req.params.email
 
             const getstudentwaiting = await StudentWaiting.findOne({ email: email })
 
-            let rawDistance = getstudentwaiting.distance
+            let rawDistance = getstudentwaiting.homeDistance
 
             const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
             console.log(distanceInt);
@@ -235,19 +235,22 @@ const StudentController = {
             )
 
             if (approvestd) {
-                const newstudent = new Student({
-                    indexNo: getstudentwaiting.indexNo,
-                    email: getstudentwaiting.email,
-                    distance: distanceInt
-                })
+                if (distanceInt > 50) {
+                    const newstudent = new Student({
+                        indexNo: getstudentwaiting.indexNo,
+                        email: getstudentwaiting.email,
+                        distance: distanceInt,
+                        eligible: true
+                    })
 
-                const resultnewstudent = await newstudent.save()
+                    const resultnewstudent = await newstudent.save()
 
-                if (resultnewstudent) {
-                    return res.json({ Status: "Success", Message: "Student Approved Success" })
-                }
-                else {
-                    return res.json({ Error: "Internl Server Error" })
+                    if (resultnewstudent) {
+                        return res.json({ Status: "Success", Message: "Student Approved Success" })
+                    }
+                    else {
+                        return res.json({ Error: "Internl Server Error" })
+                    }
                 }
             }
 

@@ -21,7 +21,7 @@ const StudentWaiting = () => {
 
     const headleApproveStd = async (stdID) => {
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/approvstd/' + stdID, {
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/approvstd/' + stdID, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
