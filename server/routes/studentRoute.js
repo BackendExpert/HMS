@@ -13,7 +13,7 @@ router.get('/getstudent/:id', authMiddleware, accessMiddleware(['admin', 'direct
 router.get('/vardenstd', authMiddleware, accessMiddleware(['admin', 'director', 'warden']), StudentController.getvardenstd)
 
 router.get('/waitinglist', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.getallstdwaiting)
-router.post('/approvstd/:email', authMiddleware. accessMiddleware(['admin', 'director']), StudentController.approveStd)
+router.post('/approvstd/:email', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.approveStd)
 
 router.post('/accessstd/:email', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.accesstosystem)
 
