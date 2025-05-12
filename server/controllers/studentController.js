@@ -227,29 +227,38 @@ const StudentController = {
 
             const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
             console.log(distanceInt);
-            
-            const newstudent = new Student({
-                indexNo: getstudentwaiting.indexNo,
-                email: getstudentwaiting.email,
-                distance: distanceInt
-            })
 
-            const resultnewstudent = await newstudent.save()
+            const approvestd = await StudentWaiting.findOneAndUpdate(
+                { email: email },
+                { $set: { isApprove: true } },
+                { new: true }
+            )
 
-            if(resultnewstudent){
-                return res.json({ Status: "Success", Message: "Student Approved Success"})
+            if (approvestd) {
+                const newstudent = new Student({
+                    indexNo: getstudentwaiting.indexNo,
+                    email: getstudentwaiting.email,
+                    distance: distanceInt
+                })
+
+                const resultnewstudent = await newstudent.save()
+
+                if (resultnewstudent) {
+                    return res.json({ Status: "Success", Message: "Student Approved Success" })
+                }
+                else {
+                    return res.json({ Error: "Internl Server Error" })
+                }
             }
-            else{
-                return res.json({ Error: "Internl Server Error"})
-            }
+
         }
         catch (err) {
             console.log(err)
         }
     },
 
-    accesstosystem: async(req, res) => {
-        try{
+    accesstosystem: async (req, res) => {
+        try {
             const email = req.params.email
 
             const checkstd = await StudentWaiting.findOne({ email: email })
@@ -266,14 +275,14 @@ const StudentController = {
 
             const resultstdacc = await createStdAccount.save()
 
-            if(resultstdacc){
-                return res.json({ Status: "Success", Message: "Student Account Created Success"})
+            if (resultstdacc) {
+                return res.json({ Status: "Success", Message: "Student Account Created Success" })
             }
-            else{
-                return res.json({ Error: "Internal Server Error"})
+            else {
+                return res.json({ Error: "Internal Server Error" })
             }
         }
-        catch (err){
+        catch (err) {
             console.log(err)
         }
     }

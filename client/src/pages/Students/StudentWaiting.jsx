@@ -19,6 +19,50 @@ const StudentWaiting = () => {
             .catch(err => console.log(err))
     }, [])
 
+    const headleApproveStd = async (stdID) => {
+        try {
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/approvstd/' + stdID, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+                .then(res => {
+                    if (res.data.Status === "Success") {
+                        alert(res.data.Message)
+                        window.location.reload()
+                    }
+                    else {
+                        alert(res.data.Error)
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    const headleAccesstoSystem = async (stdID) => {
+        try {
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/accessstd/' + stdID, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+                .then(res => {
+                    if (res.data.Status === "Success") {
+                        alert(res.data.Message)
+                        window.location.reload()
+                    }
+                    else {
+                        alert(res.data.Error)
+                    }
+                })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className='bg-white p-8 shadow-xl rounded-xl'>
             <table className="w-full">
@@ -53,14 +97,14 @@ const StudentWaiting = () => {
                                     </td>
                                     <td>
                                         {
-                                            data.isApprove === false ? 
-                                            <div className="">
-                                                <button className='bg-blue-500 text-white px-4 py-2 rounded'>Approve Account</button>
-                                            </div>
-                                            :
-                                            <div className="">
-                                                <button className='bg-blue-500 text-white px-4 py-2 rounded'>Grant Access</button>
-                                            </div>
+                                            data.isApprove === false ?
+                                                <div className="">
+                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleApproveStd(data.email)}>Approve Account</button>
+                                                </div>
+                                                :
+                                                <div className="">
+                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleAccesstoSystem(data.email)}>Grant Access</button>
+                                                </div>
                                         }
                                     </td>
                                 </tr>
