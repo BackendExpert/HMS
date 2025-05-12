@@ -12,4 +12,7 @@ router.get('/allstudents', authMiddleware, accessMiddleware(['admin', 'director'
 router.get('/getstudent/:id', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.getstdbyID)
 router.get('/vardenstd', authMiddleware, accessMiddleware(['admin', 'director', 'warden']), StudentController.getvardenstd)
 
+router.get('/waitinglist', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.getallstdwaiting)
+router.post('/approvstd/:email', authMiddleware. accessMiddleware(['admin', 'director']), StudentController.approveStd)
+
 module.exports = router;
