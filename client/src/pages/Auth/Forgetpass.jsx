@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import DefultInput from '../../components/Forms/DefultInput';
+import DefultButton from '../../components/Buttons/DefultButton';
+import axios from 'axios';
+
 
 const Forgetpass = () => {
     const navigate = useNavigate()
@@ -18,7 +22,7 @@ const Forgetpass = () => {
     const headleforgetpass = async (e) => {
         e.preventDefault()
         try{
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/signin', forgetpass)
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/forgetpass', forgetpass)
             .then(res => {
                 if(res.data.Status === "Success"){
                     alert(res.data.Message)
