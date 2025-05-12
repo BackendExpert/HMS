@@ -45,14 +45,23 @@ const StudentWaiting = () => {
                                     <td>{data.homeDistance} , {data.address}</td>
                                     <td>
                                         {
-                                            data.isVerifyEmail === true ?
+                                            data.isVerifyEmail === false ?
                                                 <div className="text-red-500 font-semibold">Not Verify</div>
                                                 :
                                                 <div className="text-green-500 font-semibold">Verifed</div>
                                         }
                                     </td>
                                     <td>
-                                        <button>View</button>
+                                        {
+                                            data.isApprove === false ? 
+                                            <div className="">
+                                                <button className='bg-blue-500 text-white px-4 py-2 rounded'>Approve Account</button>
+                                            </div>
+                                            :
+                                            <div className="">
+                                                <button className='bg-blue-500 text-white px-4 py-2 rounded'>Grant Access</button>
+                                            </div>
+                                        }
                                     </td>
                                 </tr>
                             )
