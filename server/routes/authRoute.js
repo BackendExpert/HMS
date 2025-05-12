@@ -13,4 +13,8 @@ router.post('/createuser', authMiddleware, accessMiddleware(['director']), AuthC
 router.get('/allusers', authMiddleware, accessMiddleware(['admin','director']), AuthController.getallusers)
 router.put('/togglestatus/:id', authMiddleware, accessMiddleware(['director']), AuthController.toggleUserstatus)
 
+router.post('/forgetpass', AuthController.forgetpass)
+router.post('/verifypassotp', AuthController.verifypassotp)
+router.post('/passupdate', AuthController.updatepass)
+
 module.exports = router;

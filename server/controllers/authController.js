@@ -141,7 +141,7 @@ const AuthController = {
                         }
                         return otp;
                     };
-                
+
                     const otp = generateOTP(8);
 
                     const hashotp = await bcrypt.hash(otp, 10)
@@ -153,7 +153,7 @@ const AuthController = {
 
                     const resultsaveotp = await newOTP.save()
 
-                    if(resultsaveotp){
+                    if (resultsaveotp) {
                         const mailOptions = {
                             from: process.env.EMAIL_USER,
                             to: email,
@@ -176,18 +176,18 @@ const AuthController = {
                             University of Peradeniya  
                             ICT Services Division`
                         };
-    
+
                         const mailsent = await transporter.sendMail(mailOptions);
 
-                        if(mailsent){
+                        if (mailsent) {
                             return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })
                         }
-                        else{
-                            return res.json({ Error: "Internal Server Error while Sending Email"})
-                        }                
+                        else {
+                            return res.json({ Error: "Internal Server Error while Sending Email" })
+                        }
                     }
-                    else{
-                        return res.json({ Error: "Internal Server Error"})
+                    else {
+                        return res.json({ Error: "Internal Server Error" })
                     }
                 }
                 else {
@@ -223,43 +223,43 @@ const AuthController = {
         }
     },
 
-    stdemailverify: async(req, res) => {
+    stdemailverify: async (req, res) => {
         try {
             const { email, otp } = req.body;
 
-   
+
             const checkotpuser = await UserOTP.findOne({ email });
-    
+
             if (!checkotpuser) {
                 return res.json({ Error: "No Records found by Given Email address" });
             }
-    
+
 
             const isValid = await bcrypt.compare(otp, checkotpuser.otp);
-    
+
             if (!isValid) {
                 return res.json({ Error: "The Given OTP Cannot Be Verified. Please Check the OTP." });
             }
-    
+
 
             const updateStdWaitinglist = await StudentWaiting.findOneAndUpdate(
                 { email },
                 { $set: { isVerifyEmail: true } },
                 { new: true }
             );
-    
+
             if (!updateStdWaitinglist) {
                 return res.json({ Error: "Student record not found to update verification." });
             }
-    
+
 
             await UserOTP.findOneAndDelete({ email });
-    
+
             return res.json({
                 Status: "Success",
                 Message: "The Email Verification Was Successful"
             });
-    
+
         } catch (err) {
             console.error("Verification error:", err);
             return res.status(500).json({ Error: "Internal Server Error" });
@@ -309,6 +309,7 @@ const AuthController = {
             console.log(err)
         }
     },
+
 
     updatepassviadash: async (req, res) => {
         try {
@@ -457,7 +458,163 @@ const AuthController = {
             console.error(err);
             res.status(500).json({ Error: 'Server error' });
         }
+    },
+
+    // --------------------------------------------------------------------------------------
+
+    forgetpass: async (req, res) => {
+        try {
+            const {
+                email
+            } = req.body
+
+            const checkuser = await User.findOne({ email: email })
+
+            if (!checkuser) {
+                return res.json({ Error: "No User found by given Email Address" })
+            }
+
+            const PassResutOTPGen = (length = 8) => {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+                let otp = '';
+                for (let i = 0; i < length; i++) {
+                    otp += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return otp;
+            };
+
+            const passotp = PassResutOTPGen();
+            const hashotp = await bcrypt.hash(passotp, 10);
+            const resultsaveotppass = await UserOTP.findOneAndUpdate(
+                { email },
+                { $set: { otp: hashotp } },
+                { upsert: true, new: true }
+            );
+
+            if (resultsaveotppass) {
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Password Reset',
+                    text: `Dear ${email},
+
+                        We received a request to reset the password for your account on the University of Peradeniya Hostal Management System.
+
+                        🔐 OTP Code for Password Reset: ${passotp}
+
+                        This OTP is valid for 5 minutes. Please do not share this code with anyone.
+
+                        If you did not request a password reset, please ignore this email. Your account will remain secure.
+
+                        Best regards,  
+                        University of Peradeniya  
+                        Hostel Management System`
+                };
+
+                const mailsent = await transporter.sendMail(mailOptions);
+
+                if (mailsent) {
+                    return res.json({ Status: "Success", Message: "OTP (One TIme Password) is send to your emal address" })
+                }
+                else {
+                    return res.json({ Error: "Error While Sending Email" })
+                }
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    verifypassotp: async (req, res) => {
+        try {
+            const {
+                email,
+                otp
+            } = req.body
+
+            const checkuser = await User.findOne({ email: email })
+
+            if (!checkuser) {
+                return res.json({ Error: "No User found by Given Email" })
+            }
+
+            const checkotp = await UserOTP.findOne({ email: email })
+
+            if (!checkotp) {
+                return res.json({ Error: "No Recodes found..." })
+            }
+
+            const otpcheck = await bcrypt.compare(otp, checkotp.otp)
+
+            if (!otpcheck) {
+                return res.json({ Error: "OTP Not Match" })
+            }
+
+            const successdeleteotp = await UserOTP.findOneAndDelete({ email: email })
+
+            if (successdeleteotp) {
+                const token = jwt.sign(
+                    { email: checkuser.email },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "5m" }
+                );
+                return res.json({ Status: "Success", Message: "OTP Verify Success", token: token })
+            }
+            else {
+                return res.json({ Error: "Internal Server Error While Verify OTP" })
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    updatepass: async (req, res) => {
+        try {
+            const token = req.headers.authorization?.split(" ")[1];
+            if (!token) {
+                return res.json({ Error: "Access Denied. No Token Provided." });
+            }
+
+            let decoded;
+            try {
+                decoded = jwt.verify(token, process.env.JWT_SECRET);
+            } catch (err) {
+                return res.json({ Error: "Invalid or Expired Token." });
+            }
+
+            const {
+                newpass,
+            } = req.body
+
+            // console.log(decoded)
+            // console.log(decoded.email)
+
+            const checkuser = await User.findOne({ email: decoded.email })
+
+            const hashnewpass = await bcrypt.hash(newpass, 10)
+
+            if (hashnewpass) {
+                const updatenewpass = await User.findOneAndUpdate(
+                    { email: decoded.email },
+                    { $set: { password: hashnewpass } },
+                    { new: true }
+                )
+
+                if (updatenewpass) {
+                    return res.json({ Status: "Success", Message: "Password Update Successfull" })
+                }
+                else {
+                    return res.json({ Error: "Internal Server Error while Updating the Password" })
+                }
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
+
 };
 
 module.exports = AuthController;
