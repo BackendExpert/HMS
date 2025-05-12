@@ -141,7 +141,7 @@ const AuthController = {
                         }
                         return otp;
                     };
-                
+
                     const otp = generateOTP(8);
 
                     const hashotp = await bcrypt.hash(otp, 10)
@@ -153,7 +153,7 @@ const AuthController = {
 
                     const resultsaveotp = await newOTP.save()
 
-                    if(resultsaveotp){
+                    if (resultsaveotp) {
                         const mailOptions = {
                             from: process.env.EMAIL_USER,
                             to: email,
@@ -176,18 +176,18 @@ const AuthController = {
                             University of Peradeniya  
                             ICT Services Division`
                         };
-    
+
                         const mailsent = await transporter.sendMail(mailOptions);
 
-                        if(mailsent){
+                        if (mailsent) {
                             return res.json({ Status: "Success", Message: "Now You are in Waiting List Wait for Approve by Admin" })
                         }
-                        else{
-                            return res.json({ Error: "Internal Server Error while Sending Email"})
-                        }                
+                        else {
+                            return res.json({ Error: "Internal Server Error while Sending Email" })
+                        }
                     }
-                    else{
-                        return res.json({ Error: "Internal Server Error"})
+                    else {
+                        return res.json({ Error: "Internal Server Error" })
                     }
                 }
                 else {
@@ -223,43 +223,43 @@ const AuthController = {
         }
     },
 
-    stdemailverify: async(req, res) => {
+    stdemailverify: async (req, res) => {
         try {
             const { email, otp } = req.body;
 
-   
+
             const checkotpuser = await UserOTP.findOne({ email });
-    
+
             if (!checkotpuser) {
                 return res.json({ Error: "No Records found by Given Email address" });
             }
-    
+
 
             const isValid = await bcrypt.compare(otp, checkotpuser.otp);
-    
+
             if (!isValid) {
                 return res.json({ Error: "The Given OTP Cannot Be Verified. Please Check the OTP." });
             }
-    
+
 
             const updateStdWaitinglist = await StudentWaiting.findOneAndUpdate(
                 { email },
                 { $set: { isVerifyEmail: true } },
                 { new: true }
             );
-    
+
             if (!updateStdWaitinglist) {
                 return res.json({ Error: "Student record not found to update verification." });
             }
-    
+
 
             await UserOTP.findOneAndDelete({ email });
-    
+
             return res.json({
                 Status: "Success",
                 Message: "The Email Verification Was Successful"
             });
-    
+
         } catch (err) {
             console.error("Verification error:", err);
             return res.status(500).json({ Error: "Internal Server Error" });
@@ -310,18 +310,6 @@ const AuthController = {
         }
     },
 
-    forgetpass: async(req, res) => {
-        try{
-            const {
-                email
-            } = req.body
-
-            
-        }
-        catch(err){
-            console.log(err)
-        }
-    },
 
     updatepassviadash: async (req, res) => {
         try {
@@ -470,7 +458,23 @@ const AuthController = {
             console.error(err);
             res.status(500).json({ Error: 'Server error' });
         }
-    }
+    },
+
+    // --------------------------------------------------------------------------------------
+
+    forgetpass: async (req, res) => {
+        try {
+            const {
+                email
+            } = req.body
+
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
 };
 
 module.exports = AuthController;
