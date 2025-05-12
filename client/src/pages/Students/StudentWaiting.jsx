@@ -21,11 +21,11 @@ const StudentWaiting = () => {
     }, [])
 
     return (
-        <div>
+        <div className='bg-white p-8 shadow-xl rounded-xl'>
             <table className="w-full">
                 <thead>
-                    <tr className='h-12 border-b border-gray-200'>
-                        <th>#</th>
+                    <tr className='h-12 border-b border-gray-300 text-gray-500'>
+                        <th className='font-semibold'>#</th>
                         <th>Email</th>
                         <th>Index No</th>
                         <th>Faculty</th>
@@ -39,7 +39,7 @@ const StudentWaiting = () => {
                         stdwaiting.map((data, index) => {
                             return (
                                 <tr key={index} className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <td>{index + 1}</td>
+                                    <td className='font-semibold'>{index + 1}</td>
                                     <td>{data.email}</td>
                                     <td>{data.indexNo}</td>
                                     <td>{data.faculty}</td>
