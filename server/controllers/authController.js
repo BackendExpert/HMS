@@ -526,6 +526,95 @@ const AuthController = {
         }
     },
 
+    verifypassotp: async (req, res) => {
+        try {
+            const {
+                email,
+                otp
+            } = req.body
+
+            const checkuser = await User.findOne({ email: email })
+
+            if (!checkuser) {
+                return res.json({ Error: "No User found by Given Email" })
+            }
+
+            const checkotp = await UserOTP.findOne({ email: email })
+
+            if (!checkotp) {
+                return res.json({ Error: "No Recodes found..." })
+            }
+
+            const otpcheck = await bcrypt.compare(otp, checkotp.otp)
+
+            if (!otpcheck) {
+                return res.json({ Error: "OTP Not Match" })
+            }
+
+            const successdeleteotp = await UserOTP.findOneAndDelete({ email: email })
+
+            if (successdeleteotp) {
+                const token = jwt.sign(
+                    { email: checkuser.email },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "5m" }
+                );
+                return res.json({ Status: "Success", Message: "OTP Verify Success", token: token })
+            }
+            else {
+                return res.json({ Error: "Internal Server Error While Verify OTP" })
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    updatepass: async (req, res) => {
+        try {
+            const token = req.headers.authorization?.split(" ")[1];
+            if (!token) {
+                return res.json({ Error: "Access Denied. No Token Provided." });
+            }
+
+            let decoded;
+            try {
+                decoded = jwt.verify(token, process.env.JWT_SECRET);
+            } catch (err) {
+                return res.json({ Error: "Invalid or Expired Token." });
+            }
+
+            const {
+                newpass,
+            } = req.body
+
+            // console.log(decoded)
+            // console.log(decoded.email)
+
+            const checkuser = await User.findOne({ email: decoded.email })
+
+            const hashnewpass = await bcrypt.hash(newpass, 10)
+
+            if (hashnewpass) {
+                const updatenewpass = await User.findOneAndUpdate(
+                    { email: decoded.email },
+                    { $set: { password: hashnewpass } },
+                    { new: true }
+                )
+
+                if (updatenewpass) {
+                    return res.json({ Status: "Success", Message: "Password Update Successfull" })
+                }
+                else {
+                    return res.json({ Error: "Internal Server Error while Updating the Password" })
+                }
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
 };
 
 module.exports = AuthController;
