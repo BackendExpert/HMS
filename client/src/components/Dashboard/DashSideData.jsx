@@ -30,7 +30,7 @@ const dashsidedata = [
     },
     {
         id: 5,
-        name: 'My Room & Hostel',
+        name: 'My Information',
         link: '/Dashboard/MyRoomHostel',
         icon: FaUserGraduate
     },
