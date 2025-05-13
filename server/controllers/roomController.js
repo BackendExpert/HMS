@@ -19,47 +19,107 @@ const RoomController = {
 
     roomAllocationStd: async (req, res) => {
         try {
+            // Step 1: Fetch eligible students
             const eligiblestds = await Student.find({ eligible: true });
 
             if (!eligiblestds || eligiblestds.length === 0) {
                 return res.json({ error: "No eligible students found" });
             }
 
-            const availableRooms = await Room.find({ status: 'Availabe' });
+            // Step 2: Fetch available rooms (only those with 'Available' status)
+            const availableRooms = await Room.find({ status: 'Available' });
+
+            if (!availableRooms || availableRooms.length === 0) {
+                return res.json({ error: "No rooms found in the database. Please add rooms before allocating." });
+            }
 
             const genderGroupedRooms = {
                 Male: availableRooms.filter(room => room.gender === 'Male'),
                 Female: availableRooms.filter(room => room.gender === 'Female')
             };
 
+            let allocations = [];
+            let studentsAssigned = 0;
+
+            // Helper: Check if all fields are filled (even optional ones)
+            const isAllFieldsFilled = (student) => {
+                const fields = [
+                    'enrolmentNo', 'indexNo', 'nic', 'title', 'firstName', 'surname', 'initials', 'gender',
+                    'email', 'phone1', 'phone2', 'alDistrict', 'zScore', 'medium', 'generalEnglish',
+                    'intake', 'dateOfEnrolment', 'address1', 'address2', 'distance'
+                ];
+
+                return fields.every(field => {
+                    const value = student[field];
+                    return value !== null && value !== undefined && value !== '';
+                });
+            };
+
+            // Step 3: Loop through eligible students
             for (const student of eligiblestds) {
-                const studentGender = student.gender;
 
-                const room = genderGroupedRooms[studentGender].find(r => r.currentOccupants < r.capacity);
+                // Check if all fields are filled
+                if (!isAllFieldsFilled(student)) {
+                    console.warn(`Student ${student._id} skipped due to incomplete data.`);
+                    continue;
+                }
 
-                if (room) {
-                    // Create RoomAllocation
-                    await RoomAllocation.create({
-                        studentId: student._id,
-                        roomId: room._id
-                    });
+                const studentGender = student.gender?.trim().charAt(0).toUpperCase() + student.gender?.slice(1).toLowerCase();
+                const roomsForGender = genderGroupedRooms[studentGender];
 
-                    // Update room info
-                    room.currentOccupants += 1;
-                    room.students.push(student._id); // Push student to room
+                if (!roomsForGender || roomsForGender.length === 0) {
+                    console.warn(`No rooms available for gender: ${studentGender}`);
+                    continue;
+                }
 
-                    if (room.currentOccupants >= room.capacity) {
-                        room.status = 'Full';
+                const alreadyAllocated = await RoomAllocation.findOne({ studentId: student._id });
+                if (alreadyAllocated) {
+                    console.warn(`Student ${student._id} already allocated`);
+                    continue;
+                }
+
+                let roomAllocated = false;
+
+                for (let room of roomsForGender) {
+                    if (room.currentOccupants < room.capacity) {
+                        await RoomAllocation.create({
+                            studentId: student._id,
+                            roomId: room._id
+                        });
+
+                        room.currentOccupants += 1;
+                        room.students.push(student._id);
+
+                        if (room.currentOccupants >= room.capacity) {
+                            room.status = 'Full';
+                        }
+
+                        await room.save();
+
+                        allocations.push({ student: student._id, room: room.roomNumber });
+                        studentsAssigned++;
+                        roomAllocated = true;
+                        break;
                     }
+                }
 
-                    await room.save();
+                if (!roomAllocated) {
+                    console.warn(`No available room for student ${student._id}`);
                 }
             }
 
-            res.json({ Status: "Success" });
+            if (studentsAssigned === eligiblestds.length) {
+                res.json({ Status: "Success", Allocated: allocations });
+            } else {
+                res.json({
+                    Status: "Partial Success",
+                    Allocated: allocations,
+                    Message: `${studentsAssigned} out of ${eligiblestds.length} students were allocated rooms.`
+                });
+            }
 
         } catch (err) {
-            console.log(err);
+            console.log("❌ Allocation Error:", err);
             res.status(500).json({ error: "Internal Server Error" });
         }
     },

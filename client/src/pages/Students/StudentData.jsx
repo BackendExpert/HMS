@@ -20,6 +20,18 @@ const StudentData = ({ btnclickvalue }) => {
             .catch(err => console.log(err));
     }, []);
 
+    const [stdwaiting, setstdwating] = useState([])
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_APP_API}/student/waitinglist`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(res => setstdwating(res.data.Result))
+            .catch(err => console.log(err))
+    }, [])
+
     const eligibleCount = getallstudent.filter(std => std.eligible === true).length;
     const notEligibleCount = getallstudent.filter(std => std.eligible === false).length;
     const stdmenu = [
@@ -66,7 +78,7 @@ const StudentData = ({ btnclickvalue }) => {
         {
             id: 6,
             name: 'Student Waiting List',
-            value: 50,
+            value: stdwaiting.length,
             clickvalue: 'waitinglist',
             icon: AlertCircle,
             color: 'bg-gradient-to-r from-purple-500 to-pink-500',

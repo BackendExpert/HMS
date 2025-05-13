@@ -58,21 +58,32 @@ const EligibleHostel = () => {
 
     const handleRoomAllocation = async () => {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_APP_API}/room/roomallocation`, {}, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const res = await axios.post(
+                `${import.meta.env.VITE_APP_API}/room/roomallocation`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
 
-            if (res.data.Status === "Success") {
-                alert("Room Allocation Successful");
+            const data = res.data;
+
+            if (data.Status === "Success") {
+                alert("✅ Room Allocation Successful for all eligible students.");
+                window.location.reload();
+            } else if (data.Status === "Partial Success") {
+                alert(`⚠️ Partial Allocation: ${data.Message}`);
+                console.log("Allocated students:", data.Allocated);
                 window.location.reload();
             } else {
-                alert(res.data.error || "Something went wrong");
+                alert(data.error || "❌ Something went wrong. Please check server logs.");
             }
         } catch (err) {
-            console.error(err);
+            console.error("❌ Server error:", err);
             alert("Server error. Please try again later.");
         }
     };
+
 
     const eligibleCount = students.filter(std => std.eligible).length;
 

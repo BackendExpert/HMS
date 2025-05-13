@@ -16,7 +16,7 @@ const WardenDashboard = () => {
                 </div>
             </div>
             <div className="my-4">
-                
+                <p className="font-semibold"><span className='text-red-500 font-bold uppercase'>important: </span>Please don't do anything until you assign to hostel</p>
             </div>
         </div>
     )

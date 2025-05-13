@@ -7,6 +7,7 @@ const RoomAllocation = require('../models/RoomAllocation');
 const jwt = require('jsonwebtoken');
 const Warden = require('../models/Warden');
 const User = require('../models/User');
+const StudentWaiting = require('../models/StudentWaiting');
 
 // Geocoding function using OpenCage API with the direct URL
 async function geocodeWithOpenCage(address) {
@@ -168,19 +169,19 @@ const StudentController = {
 
             const varden = await User.findOne({ email: email })
 
-            if(!varden){
-                return res.json({ Error: "NO warden Found..."})
+            if (!varden) {
+                return res.json({ Error: "NO warden Found..." })
             }
 
             const wardenData = await Warden.findOne({ email: email })
-            .populate({
-                path: 'hostelID',
-                model: 'Hostel',
-                populate: {
-                    path: 'rooms',
-                    model: 'Room'
-                }
-            });
+                .populate({
+                    path: 'hostelID',
+                    model: 'Hostel',
+                    populate: {
+                        path: 'rooms',
+                        model: 'Room'
+                    }
+                });
 
             if (!wardenData || !wardenData.hostelID) {
                 return res.json({ error: "Warden has no hostel assigned." });
@@ -198,12 +199,93 @@ const StudentController = {
 
             const students = allocations.map(allocation => allocation.studentId);
 
-            res.json({ Result: students });                
+            res.json({ Result: students });
         }
         catch (err) {
             console.log(err)
         }
+    },
+
+    getallstdwaiting: async (req, res) => {
+        try {
+            const allwaitingstds = await StudentWaiting.find()
+
+            return res.json({ Result: allwaitingstds })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    approveAndCreateAccount: async (req, res) => {
+        try {
+            const email = req.params.email;
+
+            // 1. Find student in waiting list
+            const getstudentwaiting = await StudentWaiting.findOne({ email });
+
+            if (!getstudentwaiting) {
+                return res.json({ Error: "Student not found" });
+            }
+
+            // 2. Extract and process distance
+            const rawDistance = getstudentwaiting.homeDistance;
+            const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
+            console.log("Distance:", distanceInt);
+
+            // 3. Approve student in the waiting list
+            const approvestd = await StudentWaiting.findOneAndUpdate(
+                { email },
+                { $set: { isApprove: true } },
+                { new: true }
+            );
+
+            if (!approvestd) {
+                return res.json({ Error: "Student approval failed" });
+            }
+
+            // 4. Determine eligibility based on distance
+            const eligibleStatus = distanceInt > 50;
+
+            // 5. Create new student entry
+            const newstudent = new Student({
+                indexNo: getstudentwaiting.indexNo,
+                email: getstudentwaiting.email,
+                distance: distanceInt,
+                eligible: eligibleStatus,
+                gender: getstudentwaiting.gender
+            });
+
+            const resultnewstudent = await newstudent.save();
+            if (!resultnewstudent) {
+                return res.json({ Error: "Failed to save student data" });
+            }
+
+            // 6. Create user account for system access
+            const createStdAccount = new User({
+                indexNo: getstudentwaiting.indexNo,
+                username: getstudentwaiting.username,
+                email: getstudentwaiting.email,
+                role: 'student',
+                faculty: getstudentwaiting.faculty,
+                password: getstudentwaiting.password, // assumes already hashed
+                isActive: true
+            });
+
+            const resultstdacc = await createStdAccount.save();
+            if (!resultstdacc) {
+                return res.json({ Error: "Failed to create student account" });
+            }
+
+            // 7. Return success message
+            return res.json({ Status: "Success", Message: "Student approved and account created successfully" });
+
+        } catch (err) {
+            console.log(err);
+            return res.json({ Error: "Internal Server Error" });
+        }
     }
+
 };
 
 module.exports = StudentController;

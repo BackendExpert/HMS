@@ -67,7 +67,8 @@ const AuthController = {
                 password,
                 address,
                 role,
-                faculty
+                faculty,
+                gender
             } = req.body
 
             if (!validator.isEmail(email)) {
@@ -120,6 +121,7 @@ const AuthController = {
                     return res.json({ Error: "Unable to calculate your home distance. Please enter a valid address." });
                 }
 
+                const hashpass = await bcrypt.hash(password, 10)
 
                 const createstdwaiting = new StudentWaiting({
                     username: username,
@@ -128,6 +130,8 @@ const AuthController = {
                     faculty: faculty,
                     address: address,
                     homeDistance: distance,
+                    gender: gender,
+                    password: hashpass
                 })
 
                 const resultCreateStdWaiting = await createstdwaiting.save()
