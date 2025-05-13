@@ -15,7 +15,8 @@ const Signup = () => {
         password: '',
         role: '',
         address: '',
-        faculty: ''
+        faculty: '',
+        gender: ''
     })
 
     const facultyOptions = [
@@ -37,6 +38,11 @@ const Signup = () => {
         { label: 'Warden', value: 'warden' },
     ];
 
+    const genderselect = [
+        { label: 'Male', value: 'Male' },
+        { label: 'Female', value: 'Female' },
+    ];
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setsignupdata((prevData) => ({
@@ -47,6 +53,7 @@ const Signup = () => {
 
     const headleSubmit = async (e) => {
         e.preventDefault()
+        // console.log(signupdata)
         try {
             const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/signup', signupdata)
                 .then(res => {
@@ -123,24 +130,35 @@ const Signup = () => {
                                 </div>
 
                                 {signupdata.role === 'student' && (
-                                    <div className="xl:flex justify-between">
-                                        <div className="w-1/2">
-                                            <Dropdown
-                                                label="Enter Faculty"
-                                                name="faculty"
-                                                onChange={handleInputChange}
-                                                required
-                                                options={facultyOptions}
-                                            />
+                                    <div className="">
+                                        <div className="xl:flex justify-between">
+                                            <div className="w-1/2">
+                                                <Dropdown
+                                                    label="Enter Faculty"
+                                                    name="faculty"
+                                                    onChange={handleInputChange}
+                                                    required
+                                                    options={facultyOptions}
+                                                />
+                                            </div>
+                                            <div className="">
+                                                <DefultInput
+                                                    label={"Enter Nearest City"}
+                                                    placeholder={"Nearest City"}
+                                                    name={'address'}
+                                                    value={signupdata.address}
+                                                    required
+                                                    onChange={handleInputChange}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="">
-                                            <DefultInput
-                                                label={"Enter Nearest City"}
-                                                placeholder={"Nearest City"}
-                                                name={'address'}
-                                                value={signupdata.address}
-                                                required
+                                            <Dropdown
+                                                label="Select Gender"
+                                                name="gender"
                                                 onChange={handleInputChange}
+                                                required
+                                                options={genderselect}
                                             />
                                         </div>
                                     </div>

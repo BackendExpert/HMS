@@ -30,8 +30,8 @@ const RoomSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Availabe', 'Repair', 'Full'],
-        default: 'Availabe'
+        enum: ['Available', 'Repair', 'Full'],
+        default: 'Available'
     }
 }, { timestamps: true });
 

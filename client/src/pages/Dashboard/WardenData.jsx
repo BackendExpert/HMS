@@ -38,14 +38,14 @@ const WardenData = () => {
         {
             id: 1,
             name: 'Rooms',
-            value: vardenrooms.length,
+            value: Array.isArray(vardenrooms) ? vardenrooms.length : 0,
             icon: <FaBed />,
             color: 'bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-600',
         },
         {
             id: 2,
             name: 'Students',
-            value: getvardenstd.length,
+            value: Array.isArray(getvardenstd) ? getvardenstd.length : 0,
             icon: <FaMale />,
             color: 'bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-600',
         },
@@ -62,7 +62,7 @@ const WardenData = () => {
                             <div className="w-12 h-12 rounded-full bg-white text-gray-800 flex items-center justify-center">
                                 <FaSchool />
                             </div>
-                            <span className="text-3xl font-bold"><FaMedal className='h-8 w-auto fill-yellow-500'/></span>
+                            <span className="text-3xl font-bold"><FaMedal className='h-8 w-auto fill-yellow-500' /></span>
                         </div>
                         <h2 className="text-xl font-semibold tracking-wide">{vardenrooms[0]?.hostel?.name}</h2>
                     </div>

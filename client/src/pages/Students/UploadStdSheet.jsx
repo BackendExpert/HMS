@@ -55,6 +55,7 @@ const UploadStdSheet = () => {
         <div className="my-6">
             <div className="bg-white shadow-md p-4 rounded">
                 <h1 className="text-lg text-gray-500 font-semibold">Upload Student Data Sheet</h1>
+                <p className="font-semibold my-2"><span className='font-bold text-red-500 uppercase'>important</span> Please be kind, this get some time to process and wait until confirmation message alert</p>
 
                 <form onSubmit={headleuploadsheet}>
                     <div className="my-4">

@@ -21,47 +21,49 @@ const StudentWaiting = () => {
 
     const headleApproveStd = async (stdID) => {
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/approvstd/' + stdID, {}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-                .then(res => {
-                    if (res.data.Status === "Success") {
-                        alert(res.data.Message)
-                        window.location.reload()
-                    }
-                    else {
-                        alert(res.data.Error)
-                    }
-                })
+            const res = await axios.post(
+                `${import.meta.env.VITE_APP_API}/student/approvstd/${stdID}`,
+                {}, // empty body
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (res.data.Status === "Success") {
+                alert(res.data.Message);
+                window.location.reload();
+            } else {
+                alert(res.data.Error);
+            }
+        } catch (err) {
+            console.log(err);
         }
-        catch (err) {
-            console.log(err)
-        }
-    }
+    };
 
     const headleAccesstoSystem = async (stdID) => {
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/student/accessstd/' + stdID, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-                .then(res => {
-                    if (res.data.Status === "Success") {
-                        alert(res.data.Message)
-                        window.location.reload()
-                    }
-                    else {
-                        alert(res.data.Error)
-                    }
-                })
+            const res = await axios.post(
+                `${import.meta.env.VITE_APP_API}/student/accessstd/${stdID}`,
+                {}, // No request body, so send empty object
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (res.data.Status === "Success") {
+                alert(res.data.Message);
+                window.location.reload();
+            } else {
+                alert(res.data.Error);
+            }
+        } catch (err) {
+            console.log(err);
         }
-        catch (err) {
-            console.log(err)
-        }
-    }
+    };
 
     return (
         <div className='bg-white p-8 shadow-xl rounded-xl'>
@@ -99,12 +101,13 @@ const StudentWaiting = () => {
                                         {
                                             data.isApprove === false ?
                                                 <div className="">
-                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleApproveStd(data.email)}>Approve Account</button>
+                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleAccesstoSystem(data.email)}>Grant Access</button>
                                                 </div>
                                                 :
                                                 <div className="">
-                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleAccesstoSystem(data.email)}>Grant Access</button>
+                                                    <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => headleApproveStd(data.email)}>Approve Account</button>
                                                 </div>
+
                                         }
                                     </td>
                                 </tr>

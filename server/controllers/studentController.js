@@ -219,43 +219,55 @@ const StudentController = {
 
     approveStd: async (req, res) => {
         try {
-            const email = req.params.email
+            const email = req.params.email;
 
-            const getstudentwaiting = await StudentWaiting.findOne({ email: email })
+            // Find the student waiting to be approved
+            const getstudentwaiting = await StudentWaiting.findOne({ email: email });
 
-            let rawDistance = getstudentwaiting.homeDistance
+            if (!getstudentwaiting) {
+                return res.json({ Error: "Student not found" });
+            }
 
+            let rawDistance = getstudentwaiting.homeDistance;
             const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
-            console.log(distanceInt);
+            console.log("Distance:", distanceInt);
 
+            // Approve the student in the waiting list
             const approvestd = await StudentWaiting.findOneAndUpdate(
                 { email: email },
                 { $set: { isApprove: true } },
                 { new: true }
-            )
+            );
 
             if (approvestd) {
+                // Check if distance is greater than 50, then set eligible to true, else false
+                const eligibleStatus = distanceInt > 50 ? true : false;
+
                 const newstudent = new Student({
                     indexNo: getstudentwaiting.indexNo,
                     email: getstudentwaiting.email,
-                    distance: distanceInt
-                })
+                    distance: distanceInt,
+                    eligible: eligibleStatus,  // This is the key change
+                    gender: getstudentwaiting.gender
+                });
 
-                const resultnewstudent = await newstudent.save()
+                // Save the new student in the Student collection
+                const resultnewstudent = await newstudent.save();
 
                 if (resultnewstudent) {
-                    return res.json({ Status: "Success", Message: "Student Approved Success" })
+                    return res.json({ Status: "Success", Message: "Student Approved Success" });
+                } else {
+                    return res.json({ Error: "Internal Server Error" });
                 }
-                else {
-                    return res.json({ Error: "Internl Server Error" })
-                }
+            } else {
+                return res.json({ Error: "Student Approval Failed" });
             }
-
-        }
-        catch (err) {
-            console.log(err)
+        } catch (err) {
+            console.log(err);
+            return res.json({ Error: "Internal Server Error" });
         }
     },
+
 
     accesstosystem: async (req, res) => {
         try {
