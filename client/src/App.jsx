@@ -19,6 +19,8 @@ import EmailVerifyStd from "./pages/Auth/EmailVerifyStd";
 import Forgetpass from "./pages/Auth/Forgetpass";
 import VerifyOPTPass from "./pages/Auth/VerifyOPTPass";
 import UpdatePass from "./pages/Auth/UpdatePass";
+import UnderDev from "./components/Dashboard/UnderDev";
+import StudentInfor from "./pages/Dashboard/Student/StudentInfor";
 
 
 export default function App() {
@@ -39,6 +41,7 @@ export default function App() {
 
 
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
+          <Route path="*" element={<PrivateRoute element={<UnderDev /> } /> } />
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
           <Route path="Hostels" element={<PrivateRoute element={<Hostels /> } /> } />
@@ -48,6 +51,8 @@ export default function App() {
           <Route path="ViewRoom/:id" element={<PrivateRoute element={<ViewRoom /> } /> } />
           <Route path="Profile" element={<PrivateRoute element={<Profile /> } /> } /> 
           <Route path="Users" element={<PrivateRoute element={<Users /> } /> } /> 
+
+          <Route path="MyInfo" element={<PrivateRoute element={<StudentInfor /> } /> } />
         </Route>
       
       </Routes>
