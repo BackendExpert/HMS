@@ -19,6 +19,7 @@ import EmailVerifyStd from "./pages/Auth/EmailVerifyStd";
 import Forgetpass from "./pages/Auth/Forgetpass";
 import VerifyOPTPass from "./pages/Auth/VerifyOPTPass";
 import UpdatePass from "./pages/Auth/UpdatePass";
+import UnderDev from "./components/Dashboard/UnderDev";
 
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
 
 
         <Route path="/Dashboard/" element={<PrivateRoute element={<Dashbaord /> } /> } >
+          <Route path="*" element={<PrivateRoute element={<UnderDev /> } /> } />
           <Route path="Home" element={<PrivateRoute element={<Home /> } /> } />
           <Route path="Students" element={<PrivateRoute element={<Students /> } /> } />
           <Route path="Hostels" element={<PrivateRoute element={<Hostels /> } /> } />
