@@ -3,6 +3,7 @@ import { dashsidedata } from './DashSideData';
 import { Link } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';
 import uoplogo from '../../assets/uoplogo.png'
+import BlueUser from '../../assets/BlueUser.png'
 
 const DashSide = () => {
     const [activeMenu, setActiveMenu] = useState(1);
@@ -36,7 +37,7 @@ const DashSide = () => {
             {/* User Profile */}
             <div className="flex items-center mb-6 p-4 bg-sky-100 text-sky-700 rounded-2xl shadow-inner">
                 <img
-                    src="https://avatars.githubusercontent.com/u/138636749?v=4"
+                    src={BlueUser}
                     alt="User"
                     className="h-12 w-12 rounded-full border-2 border-sky-400 shadow"
                 />

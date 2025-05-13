@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaUserCog } from 'react-icons/fa'
 import { FaGear, FaPowerOff } from 'react-icons/fa6'
 import secureLocalStorage from 'react-secure-storage'
+import BlueUser from '../../assets/BlueUser.png'
 
 const DashNav = () => {
     const [menu, setmenu] = useState(false)
@@ -48,7 +49,7 @@ const DashNav = () => {
                 <div className="flex items-center gap-4 cursor-pointer" onClick={toggleMenu}>
                     <div className="relative">
                         <img
-                            src="https://avatars.githubusercontent.com/u/138636749?s=48&v=4"
+                            src={BlueUser}
                             alt=""
                             className="h-10 w-10 rounded-full border-2 border-emerald-300 shadow"
                         />
@@ -65,7 +66,7 @@ const DashNav = () => {
             >
                 <div className="text-center p-5 border-b border-gray-100">
                     <img
-                        src="https://avatars.githubusercontent.com/u/138636749?s=48&v=4"
+                        src={BlueUser}
                         alt="profile"
                         className="h-20 w-20 mx-auto rounded-full border shadow"
                     />
