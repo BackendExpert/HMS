@@ -125,7 +125,7 @@ const EligibleHostel = () => {
                     <tbody>
                         {currentAllocations.map((allocation, index) => (
                             <tr key={index} className="even:bg-gray-50 h-12">
-                                <td className="border px-4 py-2">{allocation.studentId?.enrolmentNo}</td>
+                                <td className="border px-4 py-2">{allocation.studentId?._id}</td>
                                 <td className="border px-4 py-2">{allocation.studentId?.nic}</td>
                                 <td className="border px-4 py-2">{allocation.studentId?.firstName}</td>
                                 <td className="border px-4 py-2">{allocation.studentId?.gender}</td>

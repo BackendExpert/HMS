@@ -45,10 +45,6 @@ const StudentView = () => {
                         <table className='w-full'>
                             <tbody className='w-full'>
                                 <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Enrolment No:</th>
-                                    <td>{stddata.enrolmentNo}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
                                     <th className="text-left pr-4 font-semibold">Index Number:</th>
                                     <td>{stddata.indexNo}</td>
                                 </tr>
@@ -73,40 +69,12 @@ const StudentView = () => {
                                     <td>{stddata.email}</td>
                                 </tr>
                                 <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Phone 1:</th>
-                                    <td>{stddata.phone1}</td>
+                                    <th className="text-left pr-4 font-semibold">Phone:</th>
+                                    <td>{stddata.phone}</td>
                                 </tr>
                                 <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Phone 2:</th>
-                                    <td>{stddata.phone2}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">A/L District:</th>
-                                    <td>{stddata.alDistrict}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Z core:</th>
-                                    <td>{stddata.zScore}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Medium:</th>
-                                    <td>{stddata.medium}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">General English:</th>
-                                    <td>{stddata.generalEnglish}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Intake:</th>
-                                    <td>{stddata.intake}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Date Of Enrolment:</th>
-                                    <td>{stddata.dateOfEnrolment}</td>
-                                </tr>
-                                <tr className='h-12 border-b border-gray-200 text-gray-500'>
-                                    <th className="text-left pr-4 font-semibold">Address:</th>
-                                    <td>{stddata.address1}, {stddata.address2}</td>
+                                    <th className="text-left pr-4 font-semibold">Live In:</th>
+                                    <td>{stddata.address}</td>
                                 </tr>
                                 <tr className='h-12 border-b border-gray-200 text-gray-500'>
                                     <th className="text-left pr-4 font-semibold">Distance:</th>

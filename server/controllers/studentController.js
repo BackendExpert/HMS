@@ -18,12 +18,12 @@ const StudentController = {
 
     getstdbyID: async (req, res) => {
         try {
-            const stdID = req.params.id
+            const stdID = req.params.id;
 
-            const student = await Student.findById(stdID)
+            const student = await Student.findById(stdID);
 
             if (!student) {
-                return res.json({ Error: "Student Not Found..." })
+                return res.json({ Error: "Student Not Found..." });
             }
 
             const stdroomwithhostel = await RoomAllocation.findOne({ studentId: stdID })
@@ -34,13 +34,12 @@ const StudentController = {
                         path: 'hostel',
                         model: 'Hostel'
                     }
-                })
+                });
 
-            return res.json({ Stundet: student, roomhostel: stdroomwithhostel })
+            return res.json({ Stundet: student, roomhostel: stdroomwithhostel });
 
-        }
-        catch (err) {
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
     },
 
@@ -51,10 +50,10 @@ const StudentController = {
             req.user = decoded;
             const email = req.user.user.email;
 
-            const varden = await User.findOne({ email: email })
+            const varden = await User.findOne({ email: email });
 
             if (!varden) {
-                return res.json({ Error: "NO warden Found..." })
+                return res.json({ Error: "NO warden Found..." });
             }
 
             const wardenData = await Warden.findOne({ email: email })
@@ -84,19 +83,17 @@ const StudentController = {
             const students = allocations.map(allocation => allocation.studentId);
 
             res.json({ Result: students });
-        }
-        catch (err) {
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
     },
 
     getallstdwaiting: async (req, res) => {
         try {
-            const allwaitingstds = await StudentWaiting.find()
-            return res.json({ Result: allwaitingstds })
-        }
-        catch (err) {
-            console.log(err)
+            const allwaitingstds = await StudentWaiting.find();
+            return res.json({ Result: allwaitingstds });
+        } catch (err) {
+            console.log(err);
         }
     },
 
@@ -135,8 +132,8 @@ const StudentController = {
                 surname: getstudentwaiting.surname || '',
                 initials: getstudentwaiting.initials || '',
                 gender: getstudentwaiting.gender || '',
-                phone1: getstudentwaiting.phone1 || '',
-                livein: getstudentwaiting.livein || '',
+                phone: getstudentwaiting.phone1 || '',
+                address: getstudentwaiting.address || '',
                 distance: distanceInt,
                 eligible: eligibleStatus
             });

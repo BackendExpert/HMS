@@ -58,7 +58,7 @@ const NotEligibleStds = () => {
                         <tr>
                             {[
                                 "Enrolment No", "NIC", "First Name", "Gender",
-                                "Email", "Phone No 1", "Intake", "Date of Enrolment", "Eligible", "Action"
+                                "Email", "Phone", "Eligible", "Action"
                             ].map((heading, i) => (
                                 <th key={i} className="border px-4 py-2 h-12 font-semibold">
                                     {heading}
@@ -71,14 +71,12 @@ const NotEligibleStds = () => {
                             if (data.eligible === false) {
                                 return (
                                     <tr className="even:bg-gray-50 h-16" key={index}>
-                                        <td className="border px-4 py-2">{data.enrolmentNo}</td>
+                                        <td className="border px-4 py-2">{data._id}</td>
                                         <td className="border px-4 py-2">{data.nic}</td>
                                         <td className="border px-4 py-2">{data.firstName}</td>
                                         <td className="border px-4 py-2">{data.gender}</td>
                                         <td className="border px-4 py-2">{data.email}</td>
-                                        <td className="border px-4 py-2">{data.phone1}</td>
-                                        <td className="border px-4 py-2">{data.intake}</td>
-                                        <td className="border px-4 py-2">{data.dateOfEnrolment}</td>
+                                        <td className="border px-4 py-2">{data.phone}</td>
                                         <td>
                                             {
                                                 data.eligible === true ?
