@@ -1,5 +1,5 @@
 import { MdBedroomParent, MdDashboard, MdAdminPanelSettings } from "react-icons/md";
-import { FaSchool, FaUserGraduate , FaGear, FaRegClipboard, FaBell, FaRegChartBar, FaRegComments } from "react-icons/fa6";
+import { FaSchool, FaUserGraduate, FaGear, FaRegClipboard, FaBell, FaRegChartBar, FaRegComments } from "react-icons/fa6";
 import { FaUserCog, FaUsers } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 
@@ -30,42 +30,48 @@ const dashsidedata = [
     },
     {
         id: 5,
+        name: 'My Room & Hostel',
+        link: '/Dashboard/MyRoomHostel',
+        icon: FaUserGraduate
+    },
+    {
+        id: 6,
         name: 'Reallocation Requests',
         link: '/Dashboard/Reallocations',
         icon: FaRegClipboard
     },
     {
-        id: 6,
+        id: 7,
         name: 'Notifications',
         link: '/Dashboard/Notifications',
         icon: FaBell
     },
     {
-        id: 7,
+        id: 8,
         name: 'Reports',
         link: '/Dashboard/Reports',
         icon: FaRegChartBar
     },
     {
-        id: 8,
+        id: 9,
         name: 'Feedback/Complaints',
         link: '/Dashboard/Feedback',
         icon: FaRegComments
     },
     {
-        id: 9,
+        id: 10,
         name: 'Users',
         link: '/Dashboard/Users',
         icon: FaUsers
     },
     {
-        id: 10,
+        id: 11,
         name: 'Settings',
         link: '/Dashboard/Settings',
         icon: IoIosSettings
     },
     {
-        id: 11,
+        id: 12,
         name: 'Profile',
         link: '/Dashboard/Profile',
         icon: FaUserCog

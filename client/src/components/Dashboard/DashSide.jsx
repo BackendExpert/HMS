@@ -51,10 +51,13 @@ const DashSide = () => {
                 {dashsidedata
                     .filter((data) => {
                         if (role === "admin" || role === "director") {
-                            return data.id !== 3;
+                            return data.id !== 5;
                         }
                         if (role === "warden") {
-                            return ![2, 7].includes(data.id);
+                            return ![2, 5, 10].includes(data.id);
+                        }
+                        if (role === "student"){
+                            return ![2, 3, 4, 8, 10, 11].includes(data.id)
                         }
                         return false;
                     })
