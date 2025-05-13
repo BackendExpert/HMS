@@ -39,10 +39,31 @@ const RoomController = {
             };
 
             let allocations = [];
-            let studentsAssigned = 0;  // Counter for how many students we successfully assign
+            let studentsAssigned = 0;
 
-            // Step 3: Loop through eligible students and allocate them to rooms
+            // Helper: Check if all fields are filled (even optional ones)
+            const isAllFieldsFilled = (student) => {
+                const fields = [
+                    'enrolmentNo', 'indexNo', 'nic', 'title', 'firstName', 'surname', 'initials', 'gender',
+                    'email', 'phone1', 'phone2', 'alDistrict', 'zScore', 'medium', 'generalEnglish',
+                    'intake', 'dateOfEnrolment', 'address1', 'address2', 'distance'
+                ];
+
+                return fields.every(field => {
+                    const value = student[field];
+                    return value !== null && value !== undefined && value !== '';
+                });
+            };
+
+            // Step 3: Loop through eligible students
             for (const student of eligiblestds) {
+
+                // Check if all fields are filled
+                if (!isAllFieldsFilled(student)) {
+                    console.warn(`Student ${student._id} skipped due to incomplete data.`);
+                    continue;
+                }
+
                 const studentGender = student.gender?.trim().charAt(0).toUpperCase() + student.gender?.slice(1).toLowerCase();
                 const roomsForGender = genderGroupedRooms[studentGender];
 
@@ -51,40 +72,32 @@ const RoomController = {
                     continue;
                 }
 
-                // Step 4: Check if the student is already allocated to any room
                 const alreadyAllocated = await RoomAllocation.findOne({ studentId: student._id });
                 if (alreadyAllocated) {
                     console.warn(`Student ${student._id} already allocated`);
                     continue;
                 }
 
-                // Step 5: Try to find an available room for this student
-                let roomAllocated = false;  // Flag to track if we successfully allocate a room to this student
+                let roomAllocated = false;
 
                 for (let room of roomsForGender) {
                     if (room.currentOccupants < room.capacity) {
-                        // Allocate the student to this room
                         await RoomAllocation.create({
                             studentId: student._id,
                             roomId: room._id
                         });
 
                         room.currentOccupants += 1;
-                        room.students.push(student._id); // Add student ID to room's students array
+                        room.students.push(student._id);
 
-                        // If room is full, mark it as 'Full'
                         if (room.currentOccupants >= room.capacity) {
                             room.status = 'Full';
                         }
 
-                        // Save the updated room details
                         await room.save();
 
-                        // Record allocation
                         allocations.push({ student: student._id, room: room.roomNumber });
                         studentsAssigned++;
-
-                        // Stop searching for rooms once the student is allocated
                         roomAllocated = true;
                         break;
                     }
@@ -95,11 +108,14 @@ const RoomController = {
                 }
             }
 
-            // Step 6: Respond with success and allocation details
             if (studentsAssigned === eligiblestds.length) {
                 res.json({ Status: "Success", Allocated: allocations });
             } else {
-                res.json({ Status: "Partial Success", Allocated: allocations, Message: `${studentsAssigned} out of ${eligiblestds.length} students were allocated rooms.` });
+                res.json({
+                    Status: "Partial Success",
+                    Allocated: allocations,
+                    Message: `${studentsAssigned} out of ${eligiblestds.length} students were allocated rooms.`
+                });
             }
 
         } catch (err) {
@@ -107,8 +123,6 @@ const RoomController = {
             res.status(500).json({ error: "Internal Server Error" });
         }
     },
-
-
 
     roomAllcationData: async (req, res) => {
         try {
