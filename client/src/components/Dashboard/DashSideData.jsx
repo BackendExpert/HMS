@@ -40,18 +40,18 @@ const dashsidedata = [
         link: '/Dashboard/Reallocations',
         icon: FaRegClipboard
     },
-    {
-        id: 7,
-        name: 'Notifications',
-        link: '/Dashboard/Notifications',
-        icon: FaBell
-    },
-    {
-        id: 8,
-        name: 'Reports',
-        link: '/Dashboard/Reports',
-        icon: FaRegChartBar
-    },
+    // {
+    //     id: 7,
+    //     name: 'Notifications',
+    //     link: '/Dashboard/Notifications',
+    //     icon: FaBell
+    // },
+    // {
+    //     id: 8,
+    //     name: 'Reports',
+    //     link: '/Dashboard/Reports',
+    //     icon: FaRegChartBar
+    // },
     {
         id: 9,
         name: 'Feedback/Complaints',
@@ -64,12 +64,12 @@ const dashsidedata = [
         link: '/Dashboard/Users',
         icon: FaUsers
     },
-    {
-        id: 11,
-        name: 'Settings',
-        link: '/Dashboard/Settings',
-        icon: IoIosSettings
-    },
+    // {
+    //     id: 11,
+    //     name: 'Settings',
+    //     link: '/Dashboard/Settings',
+    //     icon: IoIosSettings
+    // },
     {
         id: 12,
         name: 'Profile',
