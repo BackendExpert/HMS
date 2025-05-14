@@ -249,6 +249,50 @@ const StudentController = {
             console.log(err);
             return res.json({ Error: "An error occurred" });
         }
+    },
+
+    getcurrentstdhostlroom: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            if (!token) {
+                return res.status(401).json({ Error: "No token provided" });
+            }
+
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            const email = decoded?.user?.email;
+
+            if (!email) {
+                return res.status(401).json({ Error: "Invalid token data" });
+            }
+
+            const student = await Student.findOne({ email });
+            if (!student) {
+                return res.status(404).json({ Error: "Student not found" });
+            }
+
+            const roomAllocation = await RoomAllocation.findOne({ studentId: student._id })
+                .populate({
+                    path: 'studentId',
+                    model: 'Student'
+                })
+                .populate({
+                    path: 'roomId',
+                    model: 'Room',
+                    populate: {
+                        path: 'hostel',
+                        model: 'Hostel'
+                    }
+                });
+
+            if (!roomAllocation) {
+                return res.status(404).json({ Error: "Room allocation not found" });
+            }
+
+            return res.status(200).json({ Result: roomAllocation });
+        } catch (err) {
+            console.error("Error in getcurrentstdhostlroom:", err);
+            return res.status(500).json({ Error: "Internal Server Error" });
+        }
     }
 
 };

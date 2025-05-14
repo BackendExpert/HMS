@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const StudentInfor = () => {
     const [stddata, setstddata] = useState(null);
+    const [hosteldatastd, sethosteldatastd] = useState(null);
     const token = localStorage.getItem('login');
 
     useEffect(() => {
@@ -20,6 +21,22 @@ const StudentInfor = () => {
                 console.error("Error fetching data:", err);
             });
     }, []);
+
+    useEffect(() => {
+        axios
+            .get(import.meta.env.VITE_APP_API + '/student/getcurrentstdhostlroom', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                sethosteldatastd(res.data.Result);
+            })
+            .catch((err) => {
+                console.error("Error fetching data:", err);
+            });
+    }, []);
+
     return (
         <div className="min-h-screen">
             {/* Dashboard Container */}
@@ -62,11 +79,11 @@ const StudentInfor = () => {
                                                 <>
                                                     <div>
                                                         <h3 className="text-lg text-gray-500 font-semibold">Hostel</h3>
-                                                        <p className="text-base text-gray-700">New Male Hostel</p>
+                                                        <p className="text-base m-2 text-emerald-600 font-semibold">{hosteldatastd?.roomId?.hostel?.name}</p>
                                                     </div>
                                                     <div>
                                                         <h3 className="text-lg text-gray-500 font-semibold">Room</h3>
-                                                        <p className="text-base text-gray-700">125</p>
+                                                        <p className="text-base m-2 text-blue-600 font-semibold">{hosteldatastd?.roomId?.roomNumber}</p>
                                                     </div>
                                                 </>
                                             );

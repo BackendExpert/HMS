@@ -18,4 +18,6 @@ router.get('/currentstudetdata', authMiddleware, accessMiddleware(['admin', 'dir
 
 router.post('/updatemydata', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.updatestdpersonaldata)
 
+router.get('/getcurrentstdhostlroom', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.getcurrentstdhostlroom)
+
 module.exports = router;
