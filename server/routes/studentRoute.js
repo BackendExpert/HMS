@@ -16,6 +16,6 @@ router.post('/accessstd/:email', authMiddleware, accessMiddleware(['admin', 'dir
 
 router.get('/currentstudetdata', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.currentstudetdata)
 
-router.post('/updatemydata', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.approveAndCreateAccount)
+router.post('/updatemydata', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.updatestdpersonaldata)
 
 module.exports = router;

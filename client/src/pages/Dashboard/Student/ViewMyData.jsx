@@ -14,7 +14,6 @@ const ViewMyData = () => {
                 },
             })
             .then((res) => {
-                console.log("Backend response:", res.data);
                 setstddata(res.data.Result);
             })
             .catch((err) => {
@@ -57,12 +56,34 @@ const ViewMyData = () => {
 
             <div className="w-full bg-white p-6 rounded-2xl shadow-lg">
                 <h1 className="text-2xl font-bold text-gray-700 mb-4">Update Personal Information</h1>
-                <p className="text-gray-500 text-sm text-red-500">
-                   This can only be updated for the first time. If a mistake is made, please contact the administrator
-                </p>
+
 
                 <div className="mt-4">
-                    <StudentUpdateForm />
+                    {
+                        (() => {
+                            const incompleteInfo = [
+                                stddata?.student?.nic,
+                                stddata?.student?.title,
+                                stddata?.student?.firstName,
+                                stddata?.student?.surname,
+                                stddata?.student?.initials,
+                                stddata?.student?.phone
+                            ].some(field => !field);
+
+                            return incompleteInfo ? (
+                                <div>
+                                    <p className="text-gray-500 text-sm text-red-500">
+                                        This can only be updated for the first time. If a mistake is made, please contact the administrator
+                                    </p>
+                                    <StudentUpdateForm />
+                                </div>
+                            ) : (
+                                <>
+                                    <p className="">Now You Already Update your Personal Data</p>
+                                </>
+                            );
+                        })()
+                    }
                 </div>
             </div>
         </div>

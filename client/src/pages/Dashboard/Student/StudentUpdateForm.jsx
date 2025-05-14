@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import DefultInput from '../../../components/Forms/DefultInput';
 import Dropdown from '../../../components/Forms/Dropdown';
 import DefultButton from '../../../components/Buttons/DefultButton';
+import axios from 'axios'
 
 const StudentUpdateForm = () => {
     const token = localStorage.getItem('login');

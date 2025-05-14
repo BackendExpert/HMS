@@ -207,6 +207,8 @@ const StudentController = {
 
             const email = decoded.user.email;
 
+            // console.log(email)
+
             const {
                 nic,
                 title,

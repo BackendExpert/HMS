@@ -14,7 +14,6 @@ const StudentInfor = () => {
                 },
             })
             .then((res) => {
-                console.log("Backend response:", res.data);
                 setstddata(res.data.Result);
             })
             .catch((err) => {
