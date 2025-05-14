@@ -44,14 +44,35 @@ const StudentInfor = () => {
                                 <p className="text-orange-500 font-semibold text-sm mb-6">{stddata?.waitstd?.faculty}</p>
 
                                 <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 className="text-lg text-gray-500 font-semibold">Hostel</h3>
-                                        <p className="text-base text-gray-700">New Male Hostel</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg text-gray-500 font-semibold">Room</h3>
-                                        <p className="text-base text-gray-700">125</p>
-                                    </div>
+                                    {
+                                        (() => {
+                                            const incompleteInfo = [
+                                                stddata?.student?.nic,
+                                                stddata?.student?.title,
+                                                stddata?.student?.firstName,
+                                                stddata?.student?.surname,
+                                                stddata?.student?.initials,
+                                                stddata?.student?.phone
+                                            ].some(field => !field); // checks for empty, null or undefined
+
+                                            return incompleteInfo ? (
+                                                <div>
+                                                    Please fill Personal Information to get Hostel and Room
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        <h3 className="text-lg text-gray-500 font-semibold">Hostel</h3>
+                                                        <p className="text-base text-gray-700">New Male Hostel</p>
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-lg text-gray-500 font-semibold">Room</h3>
+                                                        <p className="text-base text-gray-700">125</p>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()
+                                    }
                                 </div>
                             </div>
 
