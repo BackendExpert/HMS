@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ViewMyData from './ViewMyData'
+import axios from 'axios'
 
 const StudentInfor = () => {
+    const [stddata, setstddata] = useState(null);
+    const token = localStorage.getItem('login');
+
+    useEffect(() => {
+        axios
+            .get(import.meta.env.VITE_APP_API + '/student/currentstudetdata', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log("Backend response:", res.data);
+                setstddata(res.data.Result);
+            })
+            .catch((err) => {
+                console.error("Error fetching data:", err);
+            });
+    }, []);
     return (
         <div className="min-h-screen">
             {/* Dashboard Container */}
@@ -21,8 +40,8 @@ const StudentInfor = () => {
                             {/* Text Part */}
                             <div>
                                 <h2 className="text-xl text-gray-600 font-medium mb-2">Welcome Back!</h2>
-                                <p className="text-3xl font-bold text-blue-600 mb-1">Jehan Weerasuriya</p>
-                                <p className="text-orange-500 font-semibold text-sm mb-6">Faculty of Science</p>
+                                <p className="text-3xl font-bold text-blue-600 mb-1">{stddata?.username}</p>
+                                <p className="text-orange-500 font-semibold text-sm mb-6">{stddata?.waitstd?.faculty}</p>
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div>

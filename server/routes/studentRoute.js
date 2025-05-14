@@ -14,4 +14,6 @@ router.get('/vardenstd', authMiddleware, accessMiddleware(['admin', 'director', 
 router.get('/waitinglist', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.getallstdwaiting)
 router.post('/accessstd/:email', authMiddleware, accessMiddleware(['admin', 'director']), StudentController.approveAndCreateAccount)
 
+router.get('/currentstudetdata', authMiddleware, accessMiddleware(['admin', 'director','student']), StudentController.currentstudetdata)
+
 module.exports = router;

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Warden = require('../models/Warden');
 const User = require('../models/User');
 const StudentWaiting = require('../models/StudentWaiting');
+const { model } = require("mongoose");
 
 const StudentController = {
     getallStudents: async (req, res) => {
@@ -163,6 +164,38 @@ const StudentController = {
         } catch (err) {
             console.log(err);
             return res.json({ Error: "Internal Server Error" });
+        }
+    },
+
+    currentstudetdata: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+
+            const email = decoded.user.email
+
+            // console.log(email)
+
+            const user = await User.findOne({ email: email });
+            const student = await Student.findOne({ email: email });
+            const stdwaiting = await StudentWaiting.findOne({ email: email })
+
+            const getstddata = {
+                ...user._doc,
+                student: student,
+                waitstd: stdwaiting
+            };
+
+            if (getstddata) {
+                return res.json({ Status: "Success", Result: getstddata })
+            }
+            else {
+                return res.json({ Error: "Internal Server Error" })
+            }
+        }
+        catch (err) {
+            console.log(err)
         }
     }
 };
