@@ -19,14 +19,12 @@ const RoomController = {
 
     roomAllocationStd: async (req, res) => {
         try {
-            // Step 1: Fetch eligible students
             const eligiblestds = await Student.find({ eligible: true });
 
             if (!eligiblestds || eligiblestds.length === 0) {
                 return res.json({ error: "No eligible students found" });
             }
 
-            // Step 2: Fetch available rooms (only those with 'Available' status)
             const availableRooms = await Room.find({ status: 'Available' });
 
             if (!availableRooms || availableRooms.length === 0) {
@@ -41,24 +39,18 @@ const RoomController = {
             let allocations = [];
             let studentsAssigned = 0;
 
-            // Helper: Check if all fields are filled (even optional ones)
             const isAllFieldsFilled = (student) => {
-                const fields = [
-                    'enrolmentNo', 'indexNo', 'nic', 'title', 'firstName', 'surname', 'initials', 'gender',
-                    'email', 'phone1', 'phone2', 'alDistrict', 'zScore', 'medium', 'generalEnglish',
-                    'intake', 'dateOfEnrolment', 'address1', 'address2', 'distance'
+                const requiredFields = [
+                    'email', 'nic', 'title', 'firstName', 'surname',
+                    'initials', 'gender', 'phone', 'address', 'distance'
                 ];
-
-                return fields.every(field => {
+                return requiredFields.every(field => {
                     const value = student[field];
                     return value !== null && value !== undefined && value !== '';
                 });
             };
 
-            // Step 3: Loop through eligible students
             for (const student of eligiblestds) {
-
-                // Check if all fields are filled
                 if (!isAllFieldsFilled(student)) {
                     console.warn(`Student ${student._id} skipped due to incomplete data.`);
                     continue;
@@ -96,7 +88,19 @@ const RoomController = {
 
                         await room.save();
 
-                        allocations.push({ student: student._id, room: room.roomNumber });
+                        allocations.push({
+                            student: {
+                                id: student._id,
+                                name: student.firstName + ' ' + student.surname,
+                                gender: student.gender,
+                                email: student.email,
+                                phone: student.phone,
+                                address: student.address,
+                                distance: student.distance
+                            },
+                            room: room.roomNumber
+                        });
+
                         studentsAssigned++;
                         roomAllocated = true;
                         break;

@@ -59,14 +59,7 @@ const StudentData = ({ btnclickvalue }) => {
             icon: XCircle,
             color: 'bg-gradient-to-r from-red-400 to-rose-600',
         },
-        {
-            id: 4,
-            name: 'Add Students',
-            value: '+',
-            clickvalue: 'createstd',
-            icon: AlertCircle,
-            color: 'bg-gradient-to-r from-purple-500 to-pink-500',
-        },
+
         {
             id: 5,
             name: 'Eligible with Hostel Assign',

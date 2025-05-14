@@ -1,127 +1,12 @@
-const axios = require('axios');
 const Student = require("../models/Student");
-const XLSX = require('xlsx');
-const path = require('path');
-const { model } = require('mongoose');
 const RoomAllocation = require('../models/RoomAllocation');
 const jwt = require('jsonwebtoken');
 const Warden = require('../models/Warden');
 const User = require('../models/User');
 const StudentWaiting = require('../models/StudentWaiting');
-
-// Geocoding function using OpenCage API with the direct URL
-async function geocodeWithOpenCage(address) {
-    try {
-        const apiKey = process.env.OPENCAGE_API_KEY; // Ensure this is correctly set in your environment variables
-        const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
-
-        console.log('Request URL:', url); // Log the full request URL
-
-        const response = await axios.get(url);
-        console.log('OpenCage API response:', response.data);
-
-        const result = response.data.results[0];
-        if (result) {
-            const { lat, lng } = result.geometry;
-            return { lat, lng };
-        } else {
-            console.error("No results found for the address.");
-            return null;
-        }
-    } catch (error) {
-        console.error(`OpenCage error for "${address}":`, error.message);
-        return null;
-    }
-}
-
-// Function to calculate road distance using OSRM
-async function getRoadDistanceOSRM(start, end) {
-    try {
-        const osrmUrl = `http://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=false&alternatives=false&steps=false`;
-
-        const response = await axios.get(osrmUrl);
-        const distance = response.data.routes[0].legs[0].distance; // Distance in meters
-
-        // Convert distance from meters to kilometers
-        return distance / 1000;
-    } catch (error) {
-        console.error('Error getting road distance from OSRM:', error.message);
-        return null;
-    }
-}
+const { model } = require("mongoose");
 
 const StudentController = {
-    createStudent: async (req, res) => {
-        try {
-            const filePath = req.file.path;
-
-            const workbook = XLSX.readFile(filePath);
-            const sheetName = workbook.SheetNames[0];
-            const studentsFromExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-            let insertedStudents = [];
-            let skippedStudents = [];
-
-            // Directly call OpenCage API for University of Peradeniya's address
-            const universityAddress = "University of Peradeniya, Peradeniya, Kandy, Sri Lanka";
-            const apiKey = process.env.OPENCAGE_API_KEY;  // Ensure you have your OpenCage API key in environment variables
-
-            const universityCoords = await geocodeWithOpenCage(universityAddress);
-
-            if (!universityCoords) {
-                console.error("Unable to geocode university address.");
-                return res.json({ Error: "Unable to get university coordinates" });
-            }
-
-            for (const student of studentsFromExcel) {
-                const existingStudent = await Student.findOne({
-                    $or: [
-                        { enrolmentNo: student.enrolmentNo },
-                        { indexNo: student.indexNo },
-                        { nic: student.nic },
-                        { email: student.email }
-                    ]
-                });
-
-                if (existingStudent) {
-                    skippedStudents.push(student); // Duplicate found
-                } else {
-                    insertedStudents.push(student); // No conflict
-
-                    const fullAddress = [student.address1, student.address2].filter(Boolean).join(', ');
-
-                    if (fullAddress && universityCoords) {
-                        const studentCoords = await geocodeWithOpenCage(fullAddress);
-                        if (studentCoords) {
-                            const distanceKm = await getRoadDistanceOSRM(studentCoords, universityCoords);
-                            if (distanceKm !== null) {
-                                console.log(`${fullAddress} ➜ ${universityAddress}: ${distanceKm.toFixed(2)} km (Road Distance)`);
-
-                                // Set distance in kilometers
-                                student.distance = distanceKm;
-
-                                // Set eligibility based on road distance
-                                student.eligible = distanceKm > 50; // If road distance is greater than 50 km, set eligible to true
-                            }
-                        }
-                    }
-                }
-            }
-
-            const savedStudents = await Student.insertMany(insertedStudents);
-
-            if (savedStudents) {
-                return res.json({ Status: "Success" });
-            } else {
-                return res.json({ Error: "Internal Server Error" });
-            }
-
-        } catch (err) {
-            console.log(err);
-            return res.json({ Error: "Internal Server Error" });
-        }
-    },
-
     getallStudents: async (req, res) => {
         try {
             const getallstd = await Student.find();
@@ -134,12 +19,12 @@ const StudentController = {
 
     getstdbyID: async (req, res) => {
         try {
-            const stdID = req.params.id
+            const stdID = req.params.id;
 
-            const student = await Student.findById(stdID)
+            const student = await Student.findById(stdID);
 
             if (!student) {
-                return res.json({ Error: "Student Not Found..." })
+                return res.json({ Error: "Student Not Found..." });
             }
 
             const stdroomwithhostel = await RoomAllocation.findOne({ studentId: stdID })
@@ -150,13 +35,12 @@ const StudentController = {
                         path: 'hostel',
                         model: 'Hostel'
                     }
-                })
+                });
 
-            return res.json({ Stundet: student, roomhostel: stdroomwithhostel })
+            return res.json({ Stundet: student, roomhostel: stdroomwithhostel });
 
-        }
-        catch (err) {
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
     },
 
@@ -167,10 +51,10 @@ const StudentController = {
             req.user = decoded;
             const email = req.user.user.email;
 
-            const varden = await User.findOne({ email: email })
+            const varden = await User.findOne({ email: email });
 
             if (!varden) {
-                return res.json({ Error: "NO warden Found..." })
+                return res.json({ Error: "NO warden Found..." });
             }
 
             const wardenData = await Warden.findOne({ email: email })
@@ -200,20 +84,17 @@ const StudentController = {
             const students = allocations.map(allocation => allocation.studentId);
 
             res.json({ Result: students });
-        }
-        catch (err) {
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
     },
 
     getallstdwaiting: async (req, res) => {
         try {
-            const allwaitingstds = await StudentWaiting.find()
-
-            return res.json({ Result: allwaitingstds })
-        }
-        catch (err) {
-            console.log(err)
+            const allwaitingstds = await StudentWaiting.find();
+            return res.json({ Result: allwaitingstds });
+        } catch (err) {
+            console.log(err);
         }
     },
 
@@ -221,19 +102,16 @@ const StudentController = {
         try {
             const email = req.params.email;
 
-            // 1. Find student in waiting list
             const getstudentwaiting = await StudentWaiting.findOne({ email });
 
             if (!getstudentwaiting) {
                 return res.json({ Error: "Student not found" });
             }
 
-            // 2. Extract and process distance
             const rawDistance = getstudentwaiting.homeDistance;
             const distanceInt = parseInt(rawDistance.replace(' km', ''), 10);
             console.log("Distance:", distanceInt);
 
-            // 3. Approve student in the waiting list
             const approvestd = await StudentWaiting.findOneAndUpdate(
                 { email },
                 { $set: { isApprove: true } },
@@ -244,16 +122,21 @@ const StudentController = {
                 return res.json({ Error: "Student approval failed" });
             }
 
-            // 4. Determine eligibility based on distance
             const eligibleStatus = distanceInt > 50;
 
-            // 5. Create new student entry
             const newstudent = new Student({
                 indexNo: getstudentwaiting.indexNo,
                 email: getstudentwaiting.email,
+                nic: getstudentwaiting.nic || '',
+                title: getstudentwaiting.title || '',
+                firstName: getstudentwaiting.firstName || '',
+                surname: getstudentwaiting.surname || '',
+                initials: getstudentwaiting.initials || '',
+                gender: getstudentwaiting.gender || '',
+                phone: getstudentwaiting.phone1 || '',
+                address: getstudentwaiting.address || '',
                 distance: distanceInt,
-                eligible: eligibleStatus,
-                gender: getstudentwaiting.gender
+                eligible: eligibleStatus
             });
 
             const resultnewstudent = await newstudent.save();
@@ -261,14 +144,13 @@ const StudentController = {
                 return res.json({ Error: "Failed to save student data" });
             }
 
-            // 6. Create user account for system access
             const createStdAccount = new User({
                 indexNo: getstudentwaiting.indexNo,
                 username: getstudentwaiting.username,
                 email: getstudentwaiting.email,
                 role: 'student',
                 faculty: getstudentwaiting.faculty,
-                password: getstudentwaiting.password, // assumes already hashed
+                password: getstudentwaiting.password,
                 isActive: true
             });
 
@@ -277,12 +159,139 @@ const StudentController = {
                 return res.json({ Error: "Failed to create student account" });
             }
 
-            // 7. Return success message
             return res.json({ Status: "Success", Message: "Student approved and account created successfully" });
 
         } catch (err) {
             console.log(err);
             return res.json({ Error: "Internal Server Error" });
+        }
+    },
+
+    currentstudetdata: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+
+            const email = decoded.user.email
+
+            // console.log(email)
+
+            const user = await User.findOne({ email: email });
+            const student = await Student.findOne({ email: email });
+            const stdwaiting = await StudentWaiting.findOne({ email: email })
+
+            const getstddata = {
+                ...user._doc,
+                student: student,
+                waitstd: stdwaiting
+            };
+
+            if (getstddata) {
+                return res.json({ Status: "Success", Result: getstddata })
+            }
+            else {
+                return res.json({ Error: "Internal Server Error" })
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    updatestdpersonaldata: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+
+            const email = decoded.user.email;
+
+            // console.log(email)
+
+            const {
+                nic,
+                title,
+                firstName,
+                surname,
+                initials,
+                phone
+            } = req.body;
+
+            const checkstd = await Student.findOne({ email: email });
+
+            if (!checkstd) {
+                return res.json({ Error: "Student not found" });
+            }
+
+            const updatedStdData = await Student.findOneAndUpdate(
+                { email: email },
+                {
+                    $set: {
+                        nic: nic,
+                        title: title,
+                        firstName: firstName,
+                        surname: surname,
+                        initials: initials,
+                        phone: phone
+                    }
+                },
+                { new: true }
+            );
+
+            if (updatedStdData) {
+                return res.json({ Status: "Success", Message: "Student data updated successfully" });
+            } else {
+                return res.json({ Error: "Internal server error while updating student data" });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            return res.json({ Error: "An error occurred" });
+        }
+    },
+
+    getcurrentstdhostlroom: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            if (!token) {
+                return res.status(401).json({ Error: "No token provided" });
+            }
+
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            const email = decoded?.user?.email;
+
+            if (!email) {
+                return res.status(401).json({ Error: "Invalid token data" });
+            }
+
+            const student = await Student.findOne({ email });
+            if (!student) {
+                return res.status(404).json({ Error: "Student not found" });
+            }
+
+            const roomAllocation = await RoomAllocation.findOne({ studentId: student._id })
+                .populate({
+                    path: 'studentId',
+                    model: 'Student'
+                })
+                .populate({
+                    path: 'roomId',
+                    model: 'Room',
+                    populate: {
+                        path: 'hostel',
+                        model: 'Hostel'
+                    }
+                });
+
+            if (!roomAllocation) {
+                return res.status(404).json({ Error: "Room allocation not found" });
+            }
+
+            return res.status(200).json({ Result: roomAllocation });
+        } catch (err) {
+            console.error("Error in getcurrentstdhostlroom:", err);
+            return res.status(500).json({ Error: "Internal Server Error" });
         }
     }
 

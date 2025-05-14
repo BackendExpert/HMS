@@ -1,7 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ViewMyData from './ViewMyData'
+import axios from 'axios'
 
 const StudentInfor = () => {
+    const [stddata, setstddata] = useState(null);
+    const [hosteldatastd, sethosteldatastd] = useState(null);
+    const token = localStorage.getItem('login');
+
+    useEffect(() => {
+        axios
+            .get(import.meta.env.VITE_APP_API + '/student/currentstudetdata', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                setstddata(res.data.Result);
+            })
+            .catch((err) => {
+                console.error("Error fetching data:", err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(import.meta.env.VITE_APP_API + '/student/getcurrentstdhostlroom', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                sethosteldatastd(res.data.Result);
+            })
+            .catch((err) => {
+                console.error("Error fetching data:", err);
+            });
+    }, []);
+
     return (
         <div className="min-h-screen">
             {/* Dashboard Container */}
@@ -21,18 +56,39 @@ const StudentInfor = () => {
                             {/* Text Part */}
                             <div>
                                 <h2 className="text-xl text-gray-600 font-medium mb-2">Welcome Back!</h2>
-                                <p className="text-3xl font-bold text-blue-600 mb-1">Jehan Weerasuriya</p>
-                                <p className="text-orange-500 font-semibold text-sm mb-6">Faculty of Science</p>
+                                <p className="text-3xl font-bold text-blue-600 mb-1">{stddata?.username}</p>
+                                <p className="text-orange-500 font-semibold text-sm mb-6">{stddata?.waitstd?.faculty}</p>
 
                                 <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <h3 className="text-lg text-gray-500 font-semibold">Hostel</h3>
-                                        <p className="text-base text-gray-700">New Male Hostel</p>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg text-gray-500 font-semibold">Room</h3>
-                                        <p className="text-base text-gray-700">125</p>
-                                    </div>
+                                    {
+                                        (() => {
+                                            const incompleteInfo = [
+                                                stddata?.student?.nic,
+                                                stddata?.student?.title,
+                                                stddata?.student?.firstName,
+                                                stddata?.student?.surname,
+                                                stddata?.student?.initials,
+                                                stddata?.student?.phone
+                                            ].some(field => !field); // checks for empty, null or undefined
+
+                                            return incompleteInfo ? (
+                                                <div>
+                                                    Please fill Personal Information to get Hostel and Room
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        <h3 className="text-lg text-gray-500 font-semibold">Hostel</h3>
+                                                        <p className="text-base m-2 text-emerald-600 font-semibold">{hosteldatastd?.roomId?.hostel?.name}</p>
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-lg text-gray-500 font-semibold">Room</h3>
+                                                        <p className="text-base m-2 text-blue-600 font-semibold">{hosteldatastd?.roomId?.roomNumber}</p>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()
+                                    }
                                 </div>
                             </div>
 
