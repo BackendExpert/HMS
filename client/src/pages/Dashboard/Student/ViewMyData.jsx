@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import StudentUpdateForm from './StudentUpdateForm';
 
 const ViewMyData = () => {
     const [stddata, setstddata] = useState(null);
@@ -55,10 +56,14 @@ const ViewMyData = () => {
             </div>
 
             <div className="w-full bg-white p-6 rounded-2xl shadow-lg">
-                <h1 className="text-2xl font-bold text-gray-700 mb-4">🗂️ Additional Info (Coming Soon)</h1>
-                <p className="text-gray-500 text-sm">
-                    This space can be used to show room history, complaint status, or upcoming payments.
+                <h1 className="text-2xl font-bold text-gray-700 mb-4">Update Personal Information</h1>
+                <p className="text-gray-500 text-sm text-red-500">
+                   This can only be updated for the first time. If a mistake is made, please contact the administrator
                 </p>
+
+                <div className="mt-4">
+                    <StudentUpdateForm />
+                </div>
             </div>
         </div>
     );

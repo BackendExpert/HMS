@@ -197,7 +197,58 @@ const StudentController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    updatestdpersonaldata: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            req.user = decoded;
+
+            const email = decoded.user.email;
+
+            const {
+                nic,
+                title,
+                firstName,
+                surname,
+                initials,
+                phone
+            } = req.body;
+
+            const checkstd = await Student.findOne({ email: email });
+
+            if (!checkstd) {
+                return res.json({ Error: "Student not found" });
+            }
+
+            const updatedStdData = await Student.findOneAndUpdate(
+                { email: email },
+                {
+                    $set: {
+                        nic: nic,
+                        title: title,
+                        firstName: firstName,
+                        surname: surname,
+                        initials: initials,
+                        phone: phone
+                    }
+                },
+                { new: true }
+            );
+
+            if (updatedStdData) {
+                return res.json({ Status: "Success", Message: "Student data updated successfully" });
+            } else {
+                return res.json({ Error: "Internal server error while updating student data" });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            return res.json({ Error: "An error occurred" });
+        }
     }
+
 };
 
 module.exports = StudentController;
