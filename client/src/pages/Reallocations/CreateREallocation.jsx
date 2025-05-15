@@ -21,8 +21,42 @@ const CreateREallocation = () => {
             });
     }, []);
 
+    const [reallocationdata, setreallocationdata] = useState({
+        currenthostal: '',
+        currentroom: '',
+        requesthostel: '',
+        requestroom: '',
+        reson: '',
+    })
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setsignupdata((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const headleSubmitReallocation = (e) => {
+        e.preventDefault()
+        try {
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
-        <div>CreateREallocation</div>
+        <div className='bg-white p-8 rounded-xl shadow-xl'>
+            <h1 className="text-xl font-semibold text-gray-500">Create New Reallocation</h1>
+
+            <div className="my-4">
+                <form action="" method="post">
+
+                </form>
+            </div>
+        </div>
     )
 }
 

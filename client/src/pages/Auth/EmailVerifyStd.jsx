@@ -21,7 +21,7 @@ const EmailVerifyStd = () => {
 
     const headleVerfiyEmail = async (e) => {        
         e.preventDefault()
-        console.log(verifystdemail)
+        // console.log(verifystdemail)
         try {
             const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/stdEmailVerfy', verifystdemail)
                 .then(res => {
