@@ -6,6 +6,7 @@ const CreateREallocation = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem('login')
     const [hosteldatastd, sethosteldatastd] = useState(null);
+
     useEffect(() => {
         axios
             .get(import.meta.env.VITE_APP_API + '/student/getcurrentstdhostlroom', {
@@ -31,16 +32,30 @@ const CreateREallocation = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setsignupdata((prevData) => ({
+        setreallocationdata((prevData) => ({
             ...prevData,
             [name]: value
         }));
     };
 
-    const headleSubmitReallocation = (e) => {
+    const headleSubmitReallocation = async (e) => {
         e.preventDefault()
         try {
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/reallocation/createReallocation', reallocationdata, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
 
+            .then(res => {
+                if(res.data.Status === "Success"){
+                    alert(res.data.Message)
+                    window.location.reload()
+                }
+                else{
+                    alert(res.data.Error)
+                }
+            })
         }
         catch (err) {
             console.log(err)
@@ -52,7 +67,7 @@ const CreateREallocation = () => {
             <h1 className="text-xl font-semibold text-gray-500">Create New Reallocation</h1>
 
             <div className="my-4">
-                <form action="" method="post">
+                <form onSubmit={headleSubmitReallocation} method="post">
 
                 </form>
             </div>
