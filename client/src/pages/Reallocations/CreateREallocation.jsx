@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const CreateREallocation = () => {
+    const navigate = useNavigate()
+    const token = localStorage.getItem('login')
     const [hosteldatastd, sethosteldatastd] = useState(null);
     useEffect(() => {
         axios

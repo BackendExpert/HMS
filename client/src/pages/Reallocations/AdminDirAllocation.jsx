@@ -19,22 +19,22 @@ const AdminDirAllocation = () => {
                 (() => {
                     if (valueclick === 'allreqeusts') {
                         return (
-                            <div className=""></div>
+                            <div className="">all</div>
                         )
                     }
                     else if (valueclick === "accepetd") {
                         return (
-                            <div className=""></div>
+                            <div className="">accepetd</div>
                         )
                     }
                     else if (valueclick === "rejected") {
                         return (
-                            <div className=""></div>
+                            <div className="">rejected</div>
                         )
                     }
                     else if (valueclick === "pending") {
                         return (
-                            <div className=""></div>
+                            <div className="">pending</div>
                         )
                     }
                 })()

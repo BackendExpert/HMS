@@ -5,40 +5,25 @@ import {
     FaTimesCircle,
     FaHourglassHalf,
 } from 'react-icons/fa';
+import { FaCirclePlus } from 'react-icons/fa6';
 
-const AllocationData = ({ btnclickvalue }) => {
+const StudentReallocationdata = ({ btnclickvalue }) => {
     const dataallocation = [
         {
             id: 1,
-            name: 'All Requests',
+            name: 'My Requests',
             value: 40,
             icon: <FaInbox className="text-white text-3xl" />,
             color: 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500',
-            cliclvalue: 'allreqeusts'
+            cliclvalue: 'mystdreqsut'
         },
         {
             id: 2,
-            name: 'Accepted',
-            value: 25,
-            icon: <FaCheckCircle className="text-white text-3xl" />,
-            color: 'bg-gradient-to-br from-green-400 via-emerald-500 to-teal-500',
-            cliclvalue: 'accepetd'
-        },
-        {
-            id: 3,
-            name: 'Rejected',
-            value: 10,
-            icon: <FaTimesCircle className="text-white text-3xl" />,
-            color: 'bg-gradient-to-br from-red-500 via-rose-500 to-pink-500',
-            cliclvalue: 'rejected'
-        },
-        {
-            id: 4,
-            name: 'Pending',
+            name: 'Create New',
             value: 5,
-            icon: <FaHourglassHalf className="text-white text-3xl" />,
+            icon: <FaCirclePlus className="text-white text-3xl" />,
             color: 'bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500',
-            cliclvalue: 'pending'
+            cliclvalue: 'createstdrequest'
         },
     ];
 
@@ -67,4 +52,4 @@ const AllocationData = ({ btnclickvalue }) => {
     );
 };
 
-export default AllocationData;
+export default StudentReallocationdata;
