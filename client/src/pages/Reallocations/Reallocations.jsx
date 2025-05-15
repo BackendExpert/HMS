@@ -1,7 +1,11 @@
 import React from 'react'
 import AllocationData from './AllocationData'
+import useRoleGuard from '../../hooks/useRoleGuard'
 
 const Reallocations = () => {
+    const isAllowed = useRoleGuard(['admin', 'director'])
+    if (!isAllowed) return null
+
     const [valueclick, setvalueclick] = useState('allreqeusts')
 
     const headleClick = (value) => {
