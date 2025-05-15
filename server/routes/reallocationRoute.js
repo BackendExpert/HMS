@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/createReallocation', authMiddleware, accessMiddleware(['student', 'admin', 'director']), ReallocationsController.createReAllocation)
 router.get('/allreqeusts', authMiddleware, accessMiddleware(['admin', 'director']), ReallocationsController.getallreqeusts)
-router.get('/getmyreqeusts', authMiddleware. accessMiddleware(['student', 'admin', 'director']), ReallocationsController.getmyreqeusts)
+router.get('/getmyreqeusts', authMiddleware, accessMiddleware(['student', 'admin', 'director']), ReallocationsController.getmyreqeusts)
 router.get('/onerequst/:id', authMiddleware, accessMiddleware(['admin', 'director']), ReallocationsController.getReqeustOne)
 
 router.post('/acceptrejectreqeust/:id', authMiddleware, accessMiddleware(['admin', 'director']), ReallocationsController.accpetrejectrequest)
