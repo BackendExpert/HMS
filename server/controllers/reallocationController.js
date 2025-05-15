@@ -135,6 +135,39 @@ const ReallocationsController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    accpetrejectrequest: async(req, res) => {
+        try{
+            const id = req.params.id
+
+            const {
+                requeststatus,
+            } = req.body
+            
+            const checkrecodes = await Reallocations.findById(id)
+
+            if(!checkrecodes){
+                return res.json({ Error: "No Recodes Found"})
+            }
+
+            const updateResuts = await Reallocations.findByIdAndUpdate(
+                id,
+                { $set: { status: requeststatus }},
+                { new: true}
+            )
+
+            if(updateResuts){
+                return res.json({ Status: "Success", Message: "Reqeust Updated Success"})
+            }
+            else{
+                return res.json({ Error: "Internal Server Error while Updating Reqeusts"})
+            }
+
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 
 

@@ -10,4 +10,6 @@ router.get('/allreqeusts', authMiddleware, accessMiddleware(['admin', 'director'
 router.get('/getmyreqeusts', authMiddleware. accessMiddleware(['student', 'admin', 'director']), ReallocationsController.getmyreqeusts)
 router.get('/onerequst/:id', authMiddleware, accessMiddleware(['admin', 'director']), ReallocationsController.getReqeustOne)
 
+router.post(['/acceptrejectreqeust'])
+
 module.exports = router;
