@@ -24,7 +24,7 @@ const UploadStdSheet = () => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            formData.append('sheet', uploadsheet.sheet); 
+            formData.append('file', uploadsheet.sheet); 
 
             const res = await axios.post(
                 import.meta.env.VITE_APP_API + '/student/uploadsheet',
